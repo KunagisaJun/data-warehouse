@@ -1,5 +1,17 @@
 <Solution>
-  <Project Path="data-warehouse-core/data-warehouse-core.sqlproj">
+  <Project Path="DWH/DWH.sqlproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="ETL/ETL.sqlproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="ODS/ODS.sqlproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Staging/Staging.sqlproj">
     <Build />
     <Deploy />
   </Project>
