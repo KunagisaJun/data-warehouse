@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="data-warehouse-core/data-warehouse-core.sqlproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>
