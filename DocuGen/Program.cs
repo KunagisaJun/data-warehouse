@@ -22,11 +22,11 @@ namespace DocuGen
                 var sqlprojs = SqlProjScanner.FindSqlProjects(root);
                 var sqlFilesByDb = SqlProjScanner.ReadSqlFiles(sqlprojs);
 
+                // Only enrich with direct parent refs (objects + columns). No closure.
                 ScriptDomColumnRefExtractor.Enrich(catalog, sqlFilesByDb);
 
                 if (Directory.Exists(outRoot))
                     Directory.Delete(outRoot, recursive: true);
-
                 Directory.CreateDirectory(outRoot);
 
                 MarkdownEmitter.Emit(outRoot, catalog);

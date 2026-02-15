@@ -15,6 +15,7 @@ namespace DocuGen
                 .OrderBy(p => p, StringComparer.OrdinalIgnoreCase)
                 .ToList();
 
+        // DB(project name) -> sql file list
         public static Dictionary<string, List<string>> ReadSqlFiles(List<string> sqlprojPaths)
         {
             var map = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
@@ -22,25 +23,28 @@ namespace DocuGen
             foreach (var sqlproj in sqlprojPaths)
             {
                 var db = Path.GetFileNameWithoutExtension(sqlproj);
-                var projDir = Path.GetDirectoryName(sqlproj);
-                if (string.IsNullOrWhiteSpace(db) || string.IsNullOrWhiteSpace(projDir))
-                    continue;
+                var projDir = Path.GetDirectoryName(sqlproj)!;
 
                 var includes = ReadBuildIncludes(sqlproj).ToList();
-
                 var files = includes.Count > 0
-                    ? includes.Select(p => Path.GetFullPath(Path.Combine(projDir, p))).Where(File.Exists).ToList()
+                    ? includes.Select(p => Path.GetFullPath(Path.Combine(projDir, p)))
+                             .Where(File.Exists)
+                             .ToList()
                     : EnumerateSqlFilesForSdkStyleProject(projDir).ToList();
 
                 if (!map.TryGetValue(db, out var list))
-                    map[db] = list = new List<string>();
+                {
+                    list = new List<string>();
+                    map[db] = list;
+                }
 
                 list.AddRange(files);
             }
 
-            foreach (var key in map.Keys.ToList())
+            // IMPORTANT: KeyValuePair.Value is read-only; reassign via map[key]
+            foreach (var db in map.Keys.ToList())
             {
-                map[key] = map[key]
+                map[db] = map[db]
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .OrderBy(p => p, StringComparer.OrdinalIgnoreCase)
                     .ToList();
@@ -54,6 +58,8 @@ namespace DocuGen
             try
             {
                 var doc = XDocument.Load(sqlprojPath);
+
+                // Match by LocalName (default namespace in sqlproj)
                 return doc.Descendants()
                     .Where(e => e.Name.LocalName == "Build")
                     .Select(e => (string?)e.Attribute("Include"))
@@ -87,6 +93,7 @@ namespace DocuGen
 
             var rel = path.Substring(root.Length);
             var prefix = folderName.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
+
             return rel.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);
         }
     }

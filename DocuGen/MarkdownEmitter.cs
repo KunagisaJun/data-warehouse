@@ -2,11 +2,14 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 
 namespace DocuGen
 {
     internal static class MarkdownEmitter
     {
+        const string ParentSectionTitle = "## zc-plugin-parent-node";
+
         public static void Emit(string outRoot, Catalog cat)
         {
             var dbDir = Path.Combine(outRoot, "database");
@@ -37,32 +40,58 @@ namespace DocuGen
                 Directory.CreateDirectory(folder);
                 Write(Path.Combine(folder, $"{NameNorm.SafeFile(o.Key)}.md"), RenderObject(o, cat));
             }
+        }
 
-            // Generate lineage "view" notes under .views/ (intended to be excluded from the main graph).
-            LineageViewEmitter.Emit(outRoot, cat);
+        static string Yaml(string key, string type, string db)
+        {
+            var tags = new[] { "sql", $"db/{db}", $"type/{type}" };
+
+            var sb = new StringBuilder();
+            sb.AppendLine("---");
+            sb.AppendLine($"tags: [{string.Join(", ", tags.Select(EscapeYamlTag))}]");
+            sb.AppendLine($"docugen_key: \"{key}\"");
+            sb.AppendLine($"docugen_type: \"{type}\"");
+            sb.AppendLine($"docugen_db: \"{db}\"");
+            sb.AppendLine("---");
+            sb.AppendLine();
+            return sb.ToString();
+        }
+
+        static string EscapeYamlTag(string t)
+        {
+            // YAML inline list: safest to quote if special chars exist.
+            if (t.Any(ch => char.IsWhiteSpace(ch) || ch == ':' || ch == '[' || ch == ']' || ch == ',' || ch == '"' || ch == '\''))
+                return $"\"{t.Replace("\"", "\\\"")}\"";
+            return t;
         }
 
         static string RenderDb(string db, Catalog cat)
         {
             var sb = new StringBuilder();
+            sb.Append(Yaml(db, "database", db));
             sb.AppendLine($"# {db}");
             sb.AppendLine();
             sb.AppendLine("## Schemas");
 
-            foreach (var s in cat.Schemas.Where(x => string.Equals(x.Db, db, StringComparison.OrdinalIgnoreCase))
+            foreach (var s in cat.Schemas.Where(x => db.Equals(x.Db, StringComparison.OrdinalIgnoreCase))
                                          .Select(x => x.Schema)
                                          .Distinct(StringComparer.OrdinalIgnoreCase)
                                          .OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
-            {
                 sb.AppendLine($"- [[{db}.{s}]]");
-            }
+
+            sb.AppendLine();
+            sb.AppendLine(ParentSectionTitle);
+            sb.AppendLine("- _(none)_");
+            sb.AppendLine();
 
             return sb.ToString();
         }
 
         static string RenderSchema(string db, string schema, Catalog cat)
         {
+            var key = $"{db}.{schema}";
             var sb = new StringBuilder();
+            sb.Append(Yaml(key, "schema", db));
             sb.AppendLine($"# {db}.{schema}");
             sb.AppendLine();
             sb.AppendLine($"- [[{db}]]");
@@ -70,20 +99,25 @@ namespace DocuGen
             sb.AppendLine("## Objects");
 
             foreach (var o in cat.Objects.Values.Where(o =>
-                         string.Equals(o.Db, db, StringComparison.OrdinalIgnoreCase) &&
-                         string.Equals(o.Schema, schema, StringComparison.OrdinalIgnoreCase))
+                         db.Equals(o.Db, StringComparison.OrdinalIgnoreCase) &&
+                         schema.Equals(o.Schema, StringComparison.OrdinalIgnoreCase))
                      .OrderBy(o => o.Type)
                      .ThenBy(o => o.Name, StringComparer.OrdinalIgnoreCase))
-            {
                 sb.AppendLine($"- [[{o.Key}]]");
-            }
+
+            sb.AppendLine();
+            sb.AppendLine(ParentSectionTitle);
+            sb.AppendLine("- _(none)_");
+            sb.AppendLine();
 
             return sb.ToString();
         }
 
         static string RenderObject(SqlObject o, Catalog cat)
         {
+            var typeTag = o.Type.ToString().ToLowerInvariant();
             var sb = new StringBuilder();
+            sb.Append(Yaml(o.Key, typeTag, o.Db));
             sb.AppendLine($"# {o.Key}");
             sb.AppendLine();
             sb.AppendLine($"- Schema: [[{o.Db}.{o.Schema}]]");
@@ -94,57 +128,58 @@ namespace DocuGen
             {
                 sb.AppendLine("## Columns");
                 foreach (var c in cat.Columns.Values.Where(c =>
-                             string.Equals(c.Db, o.Db, StringComparison.OrdinalIgnoreCase) &&
-                             string.Equals(c.Schema, o.Schema, StringComparison.OrdinalIgnoreCase) &&
-                             string.Equals(c.Table, o.Name, StringComparison.OrdinalIgnoreCase))
+                             o.Db.Equals(c.Db, StringComparison.OrdinalIgnoreCase) &&
+                             o.Schema.Equals(c.Schema, StringComparison.OrdinalIgnoreCase) &&
+                             o.Name.Equals(c.Table, StringComparison.OrdinalIgnoreCase))
                          .OrderBy(c => c.Name, StringComparer.OrdinalIgnoreCase))
-                {
                     sb.AppendLine($"- [[{c.Key}]]");
-                }
 
-                AppendViews(sb, o.Key);
+                sb.AppendLine();
+                sb.AppendLine(ParentSectionTitle);
+                sb.AppendLine("- _(none)_");
+                sb.AppendLine();
+
                 return sb.ToString();
             }
 
-            WriteSection(sb, "## Reads objects", o.ReadsObjects);
-            WriteSection(sb, "## Writes objects", o.WritesObjects);
-            WriteSection(sb, "## Calls objects", o.CallsObjects);
+            // Parent lineage = everything this object references directly.
+            var parents = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            parents.UnionWith(o.ReadsObjects);
+            parents.UnionWith(o.WritesObjects);
+            parents.UnionWith(o.CallsObjects);
+            parents.UnionWith(o.ReadsColumns);
+            parents.UnionWith(o.WritesColumns);
 
-            WriteSection(sb, "## Reads columns", o.ReadsColumns);
-            WriteSection(sb, "## Writes columns", o.WritesColumns);
-
-            AppendViews(sb, o.Key);
+            sb.AppendLine(ParentSectionTitle);
+            if (parents.Count == 0)
+            {
+                sb.AppendLine("- _(none detected)_");
+            }
+            else
+            {
+                foreach (var k in parents.OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
+                    sb.AppendLine($"- [[{k}]]");
+            }
+            sb.AppendLine();
 
             return sb.ToString();
-        }
-
-        static void AppendViews(StringBuilder sb, string key)
-        {
-            var safe = NameNorm.SafeFile(key);
-            sb.AppendLine("## Views");
-            sb.AppendLine($"- [[.views/upstream/{safe}|Upstream]]");
-            sb.AppendLine($"- [[.views/downstream/{safe}|Downstream]]");
-            sb.AppendLine();
-        }
-
-        static void WriteSection(StringBuilder sb, string title, System.Collections.Generic.HashSet<string> items)
-        {
-            sb.AppendLine(title);
-            if (items.Count == 0) { sb.AppendLine("- _(none detected)_"); sb.AppendLine(); return; }
-            foreach (var k in items.OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
-                sb.AppendLine($"- [[{k}]]");
-            sb.AppendLine();
         }
 
         static string RenderColumn(SqlColumn c)
         {
             var sb = new StringBuilder();
+            sb.Append(Yaml(c.Key, "column", c.Db));
             sb.AppendLine($"# {c.Key}");
             sb.AppendLine();
             sb.AppendLine($"- Table: [[{c.Db}.{c.Schema}.{c.Table}]]");
             sb.AppendLine();
-            AppendViews(sb, c.Key);
-            sb.AppendLine("> Use backlinks to see which procs/views/functions read/write this column.");
+
+            // Critical: make column -> table a "parent" edge so closure includes columns.
+            sb.AppendLine(ParentSectionTitle);
+            sb.AppendLine($"- [[{c.Db}.{c.Schema}.{c.Table}]]");
+            sb.AppendLine();
+
+            sb.AppendLine("> Use backlinks to see which procs/views/functions reference this column.");
             return sb.ToString();
         }
 

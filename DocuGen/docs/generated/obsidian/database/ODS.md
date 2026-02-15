@@ -1,4 +1,0 @@
-﻿# ODS
-
-## Schemas
-- [[ODS.dbo]]

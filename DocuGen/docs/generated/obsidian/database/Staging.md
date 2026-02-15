@@ -1,4 +1,0 @@
-﻿# Staging
-
-## Schemas
-- [[Staging.dbo]]
