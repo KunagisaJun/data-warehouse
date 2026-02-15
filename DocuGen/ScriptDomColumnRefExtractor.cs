@@ -1,94 +1,161 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace DocuGen
 {
-	internal static class ScriptDomColumnRefExtractor
-	{
-		public static void Enrich(Catalog cat, Dictionary<string, List<string>> sqlFilesByDb)
-		{
-			foreach (var (dbRaw, files) in sqlFilesByDb)
-			{
-				var db = NameNorm.NormalizeDb(dbRaw);
+    internal static class ScriptDomColumnRefExtractor
+    {
+        public static void Enrich(Catalog cat, Dictionary<string, List<string>> sqlFilesByDb)
+        {
+            // Build a per-DB lookup for resolving Table.Column uniquely across schemas
+            var byDbTableCol = BuildTableColumnIndex(cat);
 
-				foreach (var file in files)
-				{
-					var frag = Parse(file);
-					if (frag == null) continue;
+            foreach (var (dbRaw, files) in sqlFilesByDb)
+            {
+                var currentDb = NameNorm.NormalizeDb(dbRaw);
 
-					var def = new DefinitionVisitor(db);
-					frag.Accept(def);
-					if (def.DefinedObjectKeys.Count == 0) continue;
+                foreach (var file in files)
+                {
+                    var frag = Parse(file);
+                    if (frag == null) continue;
 
-					var refs = new ColumnRefVisitor(cat);
-					frag.Accept(refs);
+                    var def = new DefinitionVisitor(currentDb);
+                    frag.Accept(def);
+                    if (def.DefinedObjectKeys.Count == 0) continue;
 
-					foreach (var objKey in def.DefinedObjectKeys)
-					{
-						if (!cat.Objects.TryGetValue(objKey, out var obj)) continue;
-						if (obj.Type == SqlObjectType.Table) continue;
-						obj.ReferencedColumns.UnionWith(refs.ReferencedColumns);
-					}
-				}
-			}
-		}
+                    var refs = new ColumnRefVisitor(cat, byDbTableCol, currentDb);
+                    frag.Accept(refs);
 
-		static TSqlFragment? Parse(string path)
-		{
-			var parser = new TSql150Parser(true);
-			var frag = parser.Parse(new StringReader(File.ReadAllText(path)), out var errors);
-			return errors.Count == 0 ? frag : null;
-		}
+                    foreach (var objKey in def.DefinedObjectKeys)
+                    {
+                        if (!cat.Objects.TryGetValue(objKey, out var obj)) continue;
+                        if (obj.Type == SqlObjectType.Table) continue;
+                        obj.ReferencedColumns.UnionWith(refs.ReferencedColumns);
+                    }
+                }
+            }
+        }
 
-		sealed class DefinitionVisitor : TSqlFragmentVisitor
-		{
-			readonly string _db;
-			public HashSet<string> DefinedObjectKeys { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-			public DefinitionVisitor(string db) => _db = db;
+        static TSqlFragment? Parse(string path)
+        {
+            var parser = new TSql150Parser(true);
+            var frag = parser.Parse(new StringReader(File.ReadAllText(path)), out var errors);
+            return errors.Count == 0 ? frag : null;
+        }
 
-			public override void Visit(CreateProcedureStatement node) => Add(GetProcName(node));
-			public override void Visit(CreateViewStatement node) => Add(node.SchemaObjectName);
-			public override void Visit(CreateFunctionStatement node) => Add(node.Name);
-			public override void Visit(CreateTableStatement node) => Add(node.SchemaObjectName);
+        static Dictionary<(string Db, string Table, string Col), List<string>> BuildTableColumnIndex(Catalog cat)
+        {
+            var dict = new Dictionary<(string Db, string Table, string Col), List<string>>();
 
-			void Add(SchemaObjectName? son)
-			{
-				if (son == null) return;
-				var schema = son.SchemaIdentifier?.Value ?? "dbo";
-				var name = son.BaseIdentifier?.Value ?? "";
-				if (name.Length == 0) return;
-				DefinedObjectKeys.Add($"{_db}.{schema}.{name}");
-			}
+            foreach (var c in cat.Columns.Values)
+            {
+                var k = (c.Db, c.Table, c.Name);
+                if (!dict.TryGetValue(k, out var list))
+                    dict[k] = list = new List<string>();
+                list.Add(c.Key); // full key db.schema.table.col
+            }
+            return dict;
+        }
 
-			// If this doesn't compile in your ScriptDom version, tell me; I’ll swap to a reflection-based getter.
-			static SchemaObjectName? GetProcName(CreateProcedureStatement node)
-				=> node.ProcedureReference?.Name;
-		}
+        sealed class DefinitionVisitor : TSqlFragmentVisitor
+        {
+            readonly string _db;
+            public HashSet<string> DefinedObjectKeys { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            public DefinitionVisitor(string db) => _db = db;
 
-		sealed class ColumnRefVisitor : TSqlFragmentVisitor
-		{
-			readonly Catalog _cat;
-			public HashSet<string> ReferencedColumns { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-			public ColumnRefVisitor(Catalog cat) => _cat = cat;
+            public override void Visit(CreateProcedureStatement node) => Add(GetProcName(node));
+            public override void Visit(CreateViewStatement node) => Add(node.SchemaObjectName);
+            public override void Visit(CreateFunctionStatement node) => Add(node.Name);
+            public override void Visit(CreateTableStatement node) => Add(node.SchemaObjectName);
 
-			public override void Visit(ColumnReferenceExpression node)
-			{
-				var ids = node.MultiPartIdentifier?.Identifiers;
-				if (ids == null || ids.Count != 4) { base.Visit(node); return; }
+            void Add(SchemaObjectName? son)
+            {
+                if (son == null) return;
+                var schema = son.SchemaIdentifier?.Value ?? "dbo";
+                var name = son.BaseIdentifier?.Value ?? "";
+                if (name.Length == 0) return;
+                DefinedObjectKeys.Add($"{_db}.{schema}.{name}");
+            }
 
-				var db = NameNorm.NormalizeDb(ids[0].Value);
-				var schema = ids[1].Value;
-				var table = ids[2].Value;
-				var col = ids[3].Value;
+            static SchemaObjectName? GetProcName(CreateProcedureStatement node)
+                => node.ProcedureReference?.Name; // if this fails in your ScriptDom version, paste error and I’ll swap to reflection getter.
+        }
 
-				var key = $"{db}.{schema}.{table}.{col}";
-				if (_cat.Columns.ContainsKey(key))
-					ReferencedColumns.Add(key);
+        sealed class ColumnRefVisitor : TSqlFragmentVisitor
+        {
+            readonly Catalog _cat;
+            readonly Dictionary<(string Db, string Table, string Col), List<string>> _idx;
+            readonly string _currentDb;
 
-				base.Visit(node);
-			}
-		}
-	}
+            public HashSet<string> ReferencedColumns { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            public ColumnRefVisitor(
+                Catalog cat,
+                Dictionary<(string Db, string Table, string Col), List<string>> idx,
+                string currentDb)
+            {
+                _cat = cat;
+                _idx = idx;
+                _currentDb = currentDb;
+            }
+
+            public override void Visit(ColumnReferenceExpression node)
+            {
+                var ids = node.MultiPartIdentifier?.Identifiers;
+                if (ids == null) { base.Visit(node); return; }
+
+                // 1-part forbidden -> ignore
+                if (ids.Count == 1) { base.Visit(node); return; }
+
+                // 4-part: DB.Schema.Table.Col
+                if (ids.Count == 4)
+                {
+                    var db = NameNorm.NormalizeDb(ids[0].Value);
+                    var schema = ids[1].Value;
+                    var table = ids[2].Value;
+                    var col = ids[3].Value;
+
+                    var key = $"{db}.{schema}.{table}.{col}";
+                    if (_cat.Columns.ContainsKey(key))
+                        ReferencedColumns.Add(key);
+
+                    base.Visit(node);
+                    return;
+                }
+
+                // 3-part: Schema.Table.Col (DB inferred)
+                if (ids.Count == 3)
+                {
+                    var schema = ids[0].Value;
+                    var table = ids[1].Value;
+                    var col = ids[2].Value;
+
+                    var key = $"{_currentDb}.{schema}.{table}.{col}";
+                    if (_cat.Columns.ContainsKey(key))
+                        ReferencedColumns.Add(key);
+
+                    base.Visit(node);
+                    return;
+                }
+
+                // 2-part: Table.Col (bind only if unique within current DB)
+                if (ids.Count == 2)
+                {
+                    var table = ids[0].Value;
+                    var col = ids[1].Value;
+
+                    if (_idx.TryGetValue((_currentDb, table, col), out var matches) && matches.Count == 1)
+                        ReferencedColumns.Add(matches[0]);
+
+                    base.Visit(node);
+                    return;
+                }
+
+                base.Visit(node);
+            }
+        }
+    }
 }

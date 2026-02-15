@@ -22,7 +22,8 @@ namespace DocuGen
         public required SqlObjectType Type { get; init; }
         public required string Key { get; init; } // db.schema.name
 
-        public HashSet<string> ReferencedColumns { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase); // db.schema.table.col
+        // lineage-first: proc/view/function -> columns referenced anywhere
+        public HashSet<string> ReferencedColumns { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
     }
 
     internal sealed class SqlColumn

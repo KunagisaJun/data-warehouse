@@ -19,10 +19,11 @@ namespace DocuGen
                 var db = NameNorm.NormalizeDb(Path.GetFileNameWithoutExtension(dacpac));
                 cat.Databases.Add(db);
 
+                // Tables + Columns
                 foreach (var t in model.GetObjects(DacQueryScopes.All, ModelSchema.Table))
                 {
                     var (schema, table) = Split2(t.Name);
-                    if (table.Length == 0) continue;
+                    if (string.IsNullOrWhiteSpace(table)) continue;
 
                     cat.Schemas.Add((db, schema));
 
@@ -39,7 +40,7 @@ namespace DocuGen
                     foreach (var c in t.GetChildren(DacQueryScopes.All).Where(x => x.ObjectType == ModelSchema.Column))
                     {
                         var colName = c.Name.Parts.LastOrDefault() ?? "";
-                        if (colName.Length == 0) continue;
+                        if (string.IsNullOrWhiteSpace(colName)) continue;
 
                         var colKey = $"{db}.{schema}.{table}.{colName}";
                         cat.Columns.TryAdd(colKey, new SqlColumn
@@ -53,9 +54,13 @@ namespace DocuGen
                     }
                 }
 
+                // Views / Procs / Functions
                 AddObjects(model, db, ModelSchema.View, SqlObjectType.View, cat);
                 AddObjects(model, db, ModelSchema.Procedure, SqlObjectType.Proc, cat);
-                AddObjects(model, db, ModelSchema.Function, SqlObjectType.Function, cat);
+
+                // Functions are split in DacFx
+                AddObjects(model, db, ModelSchema.ScalarFunction, SqlObjectType.Function, cat);
+                AddObjects(model, db, ModelSchema.TableValuedFunction, SqlObjectType.Function, cat);
             }
 
             return cat;
@@ -66,7 +71,7 @@ namespace DocuGen
             foreach (var o in model.GetObjects(DacQueryScopes.All, tc))
             {
                 var (schema, name) = Split2(o.Name);
-                if (name.Length == 0) continue;
+                if (string.IsNullOrWhiteSpace(name)) continue;
 
                 cat.Schemas.Add((db, schema));
 
@@ -84,9 +89,14 @@ namespace DocuGen
 
         static (string Schema, string Name) Split2(ObjectIdentifier id)
         {
+            // Typically: [schema].[name]
+            // id.Parts is IList<string>
             var parts = id.Parts;
-            var schema = parts.Length >= 2 ? parts[^2] : "dbo";
-            var name = parts.Length >= 1 ? parts[^1] : "";
+            var n = parts?.Count ?? 0;
+
+            var schema = n >= 2 ? parts[n - 2] : "dbo";
+            var name = n >= 1 ? parts[n - 1] : "";
+
             return (schema, name);
         }
     }

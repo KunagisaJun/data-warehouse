@@ -24,6 +24,11 @@ namespace DocuGen
 
                 ScriptDomColumnRefExtractor.Enrich(catalog, sqlFilesByDb);
 
+                if (Directory.Exists(outRoot))
+                    Directory.Delete(outRoot, recursive: true);
+
+                Directory.CreateDirectory(outRoot);
+
                 MarkdownEmitter.Emit(outRoot, catalog);
 
                 Console.WriteLine($"Repo root: {root}");

@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "44e89f76ebdccb01",
+        "id": "f55ef5727252268e",
         "type": "tabs",
         "children": [
           {
-            "id": "950edf575bbeae4b",
+            "id": "b3677fa0affcc2b3",
             "type": "leaf",
             "state": {
-              "type": "empty",
+              "type": "graph",
               "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -176,9 +176,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "03c3877af6d8ef6b",
+  "active": "b3677fa0affcc2b3",
   "lastOpenFiles": [
+    "obsidian/database/DWH.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimAccount.md",
+    "obsidian/column",
+    "obsidian/object",
+    "obsidian/schema",
+    "obsidian/database/Staging.md",
+    "obsidian/database/ODS.md",
     "obsidian/database/ETL.md",
+    "obsidian/database",
     "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Transaction.md",
     "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Account.md",
     "obsidian/object/table/Staging.dbo.transaction.md",
@@ -201,15 +209,7 @@
     "obsidian/object/proc/ETL.ODSToDWH.usp_Load_FactTransaction.md",
     "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimDate.md",
     "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimCustomer.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimAccount.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_LoadAll_ODSToDWH.md",
     "obsidian/object/proc",
-    "obsidian/column/ODS.dbo.transaction.account_number.md",
-    "obsidian/column/ODS.dbo.customer.row_hash.md",
-    "obsidian/column",
-    "obsidian/object",
-    "obsidian/schema",
-    "obsidian/database",
     "obsidian/edges/write/ETL",
     "obsidian/edges/write",
     "obsidian/edges/call/ETL",
