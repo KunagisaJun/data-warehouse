@@ -44,19 +44,19 @@ BEGIN
 
     UPDATE [$(DWH)].[fact].[Transaction]
         SET
-            [$(DWH)].[fact].[Transaction].[transaction_date_sk] = @s.[transaction_date_sk],
-            [$(DWH)].[fact].[Transaction].[account_sk]          = @s.[account_sk],
-            [$(DWH)].[fact].[Transaction].[customer_sk]         = @s.[customer_sk],
-            [$(DWH)].[fact].[Transaction].[amount]              = @s.[amount],
-            [$(DWH)].[fact].[Transaction].[description]         = @s.[description],
-            [$(DWH)].[fact].[Transaction].[row_hash]            = @s.[row_hash]
+            [$(DWH)].[fact].[Transaction].[transaction_date_sk] = [tv_s].[transaction_date_sk],
+            [$(DWH)].[fact].[Transaction].[account_sk]          = [tv_s].[account_sk],
+            [$(DWH)].[fact].[Transaction].[customer_sk]         = [tv_s].[customer_sk],
+            [$(DWH)].[fact].[Transaction].[amount]              = [tv_s].[amount],
+            [$(DWH)].[fact].[Transaction].[description]         = [tv_s].[description],
+            [$(DWH)].[fact].[Transaction].[row_hash]            = [tv_s].[row_hash]
     FROM [$(DWH)].[fact].[Transaction]
-    INNER JOIN @s
-        ON @s.[transaction_number] = [$(DWH)].[fact].[Transaction].[transaction_number]
+    INNER JOIN @s AS [tv_s]
+        ON [tv_s].[transaction_number] = [$(DWH)].[fact].[Transaction].[transaction_number]
     WHERE
-            ([$(DWH)].[fact].[Transaction].[row_hash] <> @s.[row_hash])
-         OR ([$(DWH)].[fact].[Transaction].[row_hash] IS NULL AND @s.[row_hash] IS NOT NULL)
-         OR ([$(DWH)].[fact].[Transaction].[row_hash] IS NOT NULL AND @s.[row_hash] IS NULL);
+            ([$(DWH)].[fact].[Transaction].[row_hash] <> [tv_s].[row_hash])
+         OR ([$(DWH)].[fact].[Transaction].[row_hash] IS NULL AND [tv_s].[row_hash] IS NOT NULL)
+         OR ([$(DWH)].[fact].[Transaction].[row_hash] IS NOT NULL AND [tv_s].[row_hash] IS NULL);
 
     INSERT INTO [$(DWH)].[fact].[Transaction]
     (
@@ -69,16 +69,16 @@ BEGIN
         [row_hash]
     )
     SELECT
-        @s.[transaction_number],
-        @s.[transaction_date_sk],
-        @s.[account_sk],
-        @s.[customer_sk],
-        @s.[amount],
-        @s.[description],
-        @s.[row_hash]
-    FROM @s
+        [tv_s].[transaction_number],
+        [tv_s].[transaction_date_sk],
+        [tv_s].[account_sk],
+        [tv_s].[customer_sk],
+        [tv_s].[amount],
+        [tv_s].[description],
+        [tv_s].[row_hash]
+    FROM @s AS [tv_s]
     LEFT JOIN [$(DWH)].[fact].[Transaction]
-        ON [$(DWH)].[fact].[Transaction].[transaction_number] = @s.[transaction_number]
+        ON [$(DWH)].[fact].[Transaction].[transaction_number] = [tv_s].[transaction_number]
     WHERE [$(DWH)].[fact].[Transaction].[transaction_number] IS NULL;
 END
 GO

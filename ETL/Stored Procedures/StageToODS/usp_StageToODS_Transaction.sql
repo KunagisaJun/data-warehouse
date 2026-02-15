@@ -44,31 +44,31 @@ BEGIN
     FROM [$(ODS)].[dbo].[transaction]
     WHERE [$(ODS)].[dbo].[transaction].[is_current] = 1;
 
-    UPDATE [$(ODS)].[dbo].[transaction]
+    UPDATE [ods_transaction]
         SET
-            [$(ODS)].[dbo].[transaction].[effective_to] = @AsOfDts,
-            [$(ODS)].[dbo].[transaction].[is_current]   = 0
-    FROM [$(ODS)].[dbo].[transaction]
-    INNER JOIN [$(Staging)].[dbo].[transaction]
-        ON [$(Staging)].[dbo].[transaction].[transaction_number] = [$(ODS)].[dbo].[transaction].[transaction_number]
-    WHERE [$(ODS)].[dbo].[transaction].[is_current] = 1
+            [ods_transaction].[effective_to] = @AsOfDts,
+            [ods_transaction].[is_current]   = 0
+    FROM [$(ODS)].[dbo].[transaction] AS [ods_transaction]
+    INNER JOIN [$(Staging)].[dbo].[transaction] AS [stg_transaction]
+        ON [stg_transaction].[transaction_number] = [ods_transaction].[transaction_number]
+    WHERE [ods_transaction].[is_current] = 1
       AND
       (
-            ([$(ODS)].[dbo].[transaction].[row_hash] <> [$(Staging)].[dbo].[transaction].[row_hash])
-         OR ([$(ODS)].[dbo].[transaction].[row_hash] IS NULL AND [$(Staging)].[dbo].[transaction].[row_hash] IS NOT NULL)
-         OR ([$(ODS)].[dbo].[transaction].[row_hash] IS NOT NULL AND [$(Staging)].[dbo].[transaction].[row_hash] IS NULL)
-         OR ([$(ODS)].[dbo].[transaction].[is_deleted] = 1)
+            ([ods_transaction].[row_hash] <> [stg_transaction].[row_hash])
+         OR ([ods_transaction].[row_hash] IS NULL AND [stg_transaction].[row_hash] IS NOT NULL)
+         OR ([ods_transaction].[row_hash] IS NOT NULL AND [stg_transaction].[row_hash] IS NULL)
+         OR ([ods_transaction].[is_deleted] = 1)
       );
 
-    UPDATE [$(ODS)].[dbo].[transaction]
+    UPDATE [ods_transaction]
         SET
-            [$(ODS)].[dbo].[transaction].[effective_to] = @AsOfDts,
-            [$(ODS)].[dbo].[transaction].[is_current]   = 0
-    FROM [$(ODS)].[dbo].[transaction]
-    LEFT JOIN [$(Staging)].[dbo].[transaction]
-        ON [$(Staging)].[dbo].[transaction].[transaction_number] = [$(ODS)].[dbo].[transaction].[transaction_number]
-    WHERE [$(ODS)].[dbo].[transaction].[is_current] = 1
-      AND [$(Staging)].[dbo].[transaction].[transaction_number] IS NULL;
+            [ods_transaction].[effective_to] = @AsOfDts,
+            [ods_transaction].[is_current]   = 0
+    FROM [$(ODS)].[dbo].[transaction] AS [ods_transaction]
+    LEFT JOIN [$(Staging)].[dbo].[transaction] AS [stg_transaction]
+        ON [stg_transaction].[transaction_number] = [ods_transaction].[transaction_number]
+    WHERE [ods_transaction].[is_current] = 1
+      AND [stg_transaction].[transaction_number] IS NULL;
 
     INSERT INTO [$(ODS)].[dbo].[transaction]
     (
@@ -88,17 +88,17 @@ BEGIN
         @OpenEnded,
         1,
         1,
-        @cur.[row_hash],
-        @cur.[transaction_number],
-        @cur.[account_number],
-        @cur.[transaction_date],
-        @cur.[amount],
-        @cur.[description]
-    FROM @cur
-    LEFT JOIN [$(Staging)].[dbo].[transaction]
-        ON [$(Staging)].[dbo].[transaction].[transaction_number] = @cur.[transaction_number]
-    WHERE [$(Staging)].[dbo].[transaction].[transaction_number] IS NULL
-      AND @cur.[is_deleted] = 0;
+        [tv_cur].[row_hash],
+        [tv_cur].[transaction_number],
+        [tv_cur].[account_number],
+        [tv_cur].[transaction_date],
+        [tv_cur].[amount],
+        [tv_cur].[description]
+    FROM @cur AS [tv_cur]
+    LEFT JOIN [$(Staging)].[dbo].[transaction] AS [stg_transaction]
+        ON [stg_transaction].[transaction_number] = [tv_cur].[transaction_number]
+    WHERE [stg_transaction].[transaction_number] IS NULL
+      AND [tv_cur].[is_deleted] = 0;
 
     INSERT INTO [$(ODS)].[dbo].[transaction]
     (
@@ -118,22 +118,22 @@ BEGIN
         @OpenEnded,
         1,
         0,
-        [$(Staging)].[dbo].[transaction].[row_hash],
-        [$(Staging)].[dbo].[transaction].[transaction_number],
-        [$(Staging)].[dbo].[transaction].[account_number],
-        [$(Staging)].[dbo].[transaction].[transaction_date],
-        [$(Staging)].[dbo].[transaction].[amount],
-        [$(Staging)].[dbo].[transaction].[description]
-    FROM [$(Staging)].[dbo].[transaction]
-    LEFT JOIN @cur
-        ON @cur.[transaction_number] = [$(Staging)].[dbo].[transaction].[transaction_number]
-    WHERE @cur.[transaction_number] IS NULL
+        [stg_transaction].[row_hash],
+        [stg_transaction].[transaction_number],
+        [stg_transaction].[account_number],
+        [stg_transaction].[transaction_date],
+        [stg_transaction].[amount],
+        [stg_transaction].[description]
+    FROM [$(Staging)].[dbo].[transaction] AS [stg_transaction]
+    LEFT JOIN @cur AS [tv_cur]
+        ON [tv_cur].[transaction_number] = [stg_transaction].[transaction_number]
+    WHERE [tv_cur].[transaction_number] IS NULL
        OR
        (
-            (@cur.[row_hash] <> [$(Staging)].[dbo].[transaction].[row_hash])
-         OR (@cur.[row_hash] IS NULL AND [$(Staging)].[dbo].[transaction].[row_hash] IS NOT NULL)
-         OR (@cur.[row_hash] IS NOT NULL AND [$(Staging)].[dbo].[transaction].[row_hash] IS NULL)
-         OR (@cur.[is_deleted] = 1)
+            ([tv_cur].[row_hash] <> [stg_transaction].[row_hash])
+         OR ([tv_cur].[row_hash] IS NULL AND [stg_transaction].[row_hash] IS NOT NULL)
+         OR ([tv_cur].[row_hash] IS NOT NULL AND [stg_transaction].[row_hash] IS NULL)
+         OR ([tv_cur].[is_deleted] = 1)
        );
 END;
 GO

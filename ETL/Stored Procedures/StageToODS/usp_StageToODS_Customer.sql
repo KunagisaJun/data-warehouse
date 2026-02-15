@@ -14,12 +14,12 @@ BEGIN
 
     DECLARE @cur TABLE
     (
-        customer_number INT          NOT NULL PRIMARY KEY,
-        row_hash        VARBINARY(32) NULL,
-        is_deleted      BIT          NOT NULL,
-        customer_name   NVARCHAR(200) NULL,
-        email           NVARCHAR(320) NULL,
-        phone           NVARCHAR(50)  NULL
+        customer_number INT            NOT NULL PRIMARY KEY,
+        row_hash        VARBINARY(32)  NULL,
+        is_deleted      BIT            NOT NULL,
+        customer_name   NVARCHAR(200)  NULL,
+        email           NVARCHAR(320)  NULL,
+        phone           NVARCHAR(50)   NULL
     );
 
     INSERT INTO @cur
@@ -41,31 +41,31 @@ BEGIN
     FROM [$(ODS)].[dbo].[customer]
     WHERE [$(ODS)].[dbo].[customer].[is_current] = 1;
 
-    UPDATE [$(ODS)].[dbo].[customer]
+    UPDATE [ods_customer]
         SET
-            [$(ODS)].[dbo].[customer].[effective_to] = @AsOfDts,
-            [$(ODS)].[dbo].[customer].[is_current]   = 0
-    FROM [$(ODS)].[dbo].[customer]
-    INNER JOIN [$(Staging)].[dbo].[customer]
-        ON [$(Staging)].[dbo].[customer].[customer_number] = [$(ODS)].[dbo].[customer].[customer_number]
-    WHERE [$(ODS)].[dbo].[customer].[is_current] = 1
+            [ods_customer].[effective_to] = @AsOfDts,
+            [ods_customer].[is_current]   = 0
+    FROM [$(ODS)].[dbo].[customer] AS [ods_customer]
+    INNER JOIN [$(Staging)].[dbo].[customer] AS [stg_customer]
+        ON [stg_customer].[customer_number] = [ods_customer].[customer_number]
+    WHERE [ods_customer].[is_current] = 1
       AND
       (
-            ([$(ODS)].[dbo].[customer].[row_hash] <> [$(Staging)].[dbo].[customer].[row_hash])
-         OR ([$(ODS)].[dbo].[customer].[row_hash] IS NULL AND [$(Staging)].[dbo].[customer].[row_hash] IS NOT NULL)
-         OR ([$(ODS)].[dbo].[customer].[row_hash] IS NOT NULL AND [$(Staging)].[dbo].[customer].[row_hash] IS NULL)
-         OR ([$(ODS)].[dbo].[customer].[is_deleted] = 1)
+            ([ods_customer].[row_hash] <> [stg_customer].[row_hash])
+         OR ([ods_customer].[row_hash] IS NULL AND [stg_customer].[row_hash] IS NOT NULL)
+         OR ([ods_customer].[row_hash] IS NOT NULL AND [stg_customer].[row_hash] IS NULL)
+         OR ([ods_customer].[is_deleted] = 1)
       );
 
-    UPDATE [$(ODS)].[dbo].[customer]
+    UPDATE [ods_customer]
         SET
-            [$(ODS)].[dbo].[customer].[effective_to] = @AsOfDts,
-            [$(ODS)].[dbo].[customer].[is_current]   = 0
-    FROM [$(ODS)].[dbo].[customer]
-    LEFT JOIN [$(Staging)].[dbo].[customer]
-        ON [$(Staging)].[dbo].[customer].[customer_number] = [$(ODS)].[dbo].[customer].[customer_number]
-    WHERE [$(ODS)].[dbo].[customer].[is_current] = 1
-      AND [$(Staging)].[dbo].[customer].[customer_number] IS NULL;
+            [ods_customer].[effective_to] = @AsOfDts,
+            [ods_customer].[is_current]   = 0
+    FROM [$(ODS)].[dbo].[customer] AS [ods_customer]
+    LEFT JOIN [$(Staging)].[dbo].[customer] AS [stg_customer]
+        ON [stg_customer].[customer_number] = [ods_customer].[customer_number]
+    WHERE [ods_customer].[is_current] = 1
+      AND [stg_customer].[customer_number] IS NULL;
 
     INSERT INTO [$(ODS)].[dbo].[customer]
     (
@@ -84,16 +84,16 @@ BEGIN
         @OpenEnded,
         1,
         1,
-        @cur.[row_hash],
-        @cur.[customer_number],
-        @cur.[customer_name],
-        @cur.[email],
-        @cur.[phone]
-    FROM @cur
-    LEFT JOIN [$(Staging)].[dbo].[customer]
-        ON [$(Staging)].[dbo].[customer].[customer_number] = @cur.[customer_number]
-    WHERE [$(Staging)].[dbo].[customer].[customer_number] IS NULL
-      AND @cur.[is_deleted] = 0;
+        [tv_cur].[row_hash],
+        [tv_cur].[customer_number],
+        [tv_cur].[customer_name],
+        [tv_cur].[email],
+        [tv_cur].[phone]
+    FROM @cur AS [tv_cur]
+    LEFT JOIN [$(Staging)].[dbo].[customer] AS [stg_customer]
+        ON [stg_customer].[customer_number] = [tv_cur].[customer_number]
+    WHERE [stg_customer].[customer_number] IS NULL
+      AND [tv_cur].[is_deleted] = 0;
 
     INSERT INTO [$(ODS)].[dbo].[customer]
     (
@@ -112,21 +112,21 @@ BEGIN
         @OpenEnded,
         1,
         0,
-        [$(Staging)].[dbo].[customer].[row_hash],
-        [$(Staging)].[dbo].[customer].[customer_number],
-        [$(Staging)].[dbo].[customer].[customer_name],
-        [$(Staging)].[dbo].[customer].[email],
-        [$(Staging)].[dbo].[customer].[phone]
-    FROM [$(Staging)].[dbo].[customer]
-    LEFT JOIN @cur
-        ON @cur.[customer_number] = [$(Staging)].[dbo].[customer].[customer_number]
-    WHERE @cur.[customer_number] IS NULL
+        [stg_customer].[row_hash],
+        [stg_customer].[customer_number],
+        [stg_customer].[customer_name],
+        [stg_customer].[email],
+        [stg_customer].[phone]
+    FROM [$(Staging)].[dbo].[customer] AS [stg_customer]
+    LEFT JOIN @cur AS [tv_cur]
+        ON [tv_cur].[customer_number] = [stg_customer].[customer_number]
+    WHERE [tv_cur].[customer_number] IS NULL
        OR
        (
-            (@cur.[row_hash] <> [$(Staging)].[dbo].[customer].[row_hash])
-         OR (@cur.[row_hash] IS NULL AND [$(Staging)].[dbo].[customer].[row_hash] IS NOT NULL)
-         OR (@cur.[row_hash] IS NOT NULL AND [$(Staging)].[dbo].[customer].[row_hash] IS NULL)
-         OR (@cur.[is_deleted] = 1)
+            ([tv_cur].[row_hash] <> [stg_customer].[row_hash])
+         OR ([tv_cur].[row_hash] IS NULL AND [stg_customer].[row_hash] IS NOT NULL)
+         OR ([tv_cur].[row_hash] IS NOT NULL AND [stg_customer].[row_hash] IS NULL)
+         OR ([tv_cur].[is_deleted] = 1)
        );
 END;
 GO

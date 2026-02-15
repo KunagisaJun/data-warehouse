@@ -17,20 +17,20 @@ BEGIN
         [status]
     )
     SELECT
-        [$(ODS)].[dbo].[account].[account_number],
-        [$(ODS)].[dbo].[account].[customer_number],
-        [$(ODS)].[dbo].[account].[effective_from],
-        [$(ODS)].[dbo].[account].[effective_to],
-        [$(ODS)].[dbo].[account].[is_current],
-        [$(ODS)].[dbo].[account].[is_deleted],
-        [$(ODS)].[dbo].[account].[row_hash],
-        [$(ODS)].[dbo].[account].[account_type],
-        [$(ODS)].[dbo].[account].[opened_date],
-        [$(ODS)].[dbo].[account].[status]
-    FROM [$(ODS)].[dbo].[account]
-    LEFT JOIN [$(DWH)].[dim].[Account]
-        ON [$(DWH)].[dim].[Account].[account_number] = [$(ODS)].[dbo].[account].[account_number]
-       AND [$(DWH)].[dim].[Account].[effective_from]  = [$(ODS)].[dbo].[account].[effective_from]
-    WHERE [$(DWH)].[dim].[Account].[account_sk] IS NULL;
+        [ods_account].[account_number],
+        [ods_account].[customer_number],
+        [ods_account].[effective_from],
+        [ods_account].[effective_to],
+        [ods_account].[is_current],
+        [ods_account].[is_deleted],
+        [ods_account].[row_hash],
+        [ods_account].[account_type],
+        [ods_account].[opened_date],
+        [ods_account].[status]
+    FROM [$(ODS)].[dbo].[account] AS [ods_account]
+    LEFT JOIN [$(DWH)].[dim].[Account] AS [dwh_dim_account]
+        ON [dwh_dim_account].[account_number] = [ods_account].[account_number]
+       AND [dwh_dim_account].[effective_from] = [ods_account].[effective_from]
+    WHERE [dwh_dim_account].[account_sk] IS NULL;
 END
 GO

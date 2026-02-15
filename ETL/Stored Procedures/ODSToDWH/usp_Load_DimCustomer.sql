@@ -16,19 +16,19 @@ BEGIN
         [phone]
     )
     SELECT
-        [$(ODS)].[dbo].[customer].[customer_number],
-        [$(ODS)].[dbo].[customer].[effective_from],
-        [$(ODS)].[dbo].[customer].[effective_to],
-        [$(ODS)].[dbo].[customer].[is_current],
-        [$(ODS)].[dbo].[customer].[is_deleted],
-        [$(ODS)].[dbo].[customer].[row_hash],
-        [$(ODS)].[dbo].[customer].[customer_name],
-        [$(ODS)].[dbo].[customer].[email],
-        [$(ODS)].[dbo].[customer].[phone]
-    FROM [$(ODS)].[dbo].[customer]
-    LEFT JOIN [$(DWH)].[dim].[Customer]
-        ON [$(DWH)].[dim].[Customer].[customer_number] = [$(ODS)].[dbo].[customer].[customer_number]
-       AND [$(DWH)].[dim].[Customer].[effective_from]   = [$(ODS)].[dbo].[customer].[effective_from]
-    WHERE [$(DWH)].[dim].[Customer].[customer_sk] IS NULL;
+        [ods_customer].[customer_number],
+        [ods_customer].[effective_from],
+        [ods_customer].[effective_to],
+        [ods_customer].[is_current],
+        [ods_customer].[is_deleted],
+        [ods_customer].[row_hash],
+        [ods_customer].[customer_name],
+        [ods_customer].[email],
+        [ods_customer].[phone]
+    FROM [$(ODS)].[dbo].[customer] AS [ods_customer]
+    LEFT JOIN [$(DWH)].[dim].[Customer] AS [dwh_dim_customer]
+        ON [dwh_dim_customer].[customer_number] = [ods_customer].[customer_number]
+       AND [dwh_dim_customer].[effective_from]  = [ods_customer].[effective_from]
+    WHERE [dwh_dim_customer].[customer_sk] IS NULL;
 END
 GO
