@@ -1,0 +1,61 @@
+﻿CREATE PROCEDURE [SourceToStage].[usp_Load_Customer_FromXml]
+(
+    @FilePath NVARCHAR(4000),
+    @TruncateStage BIT = 1
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @TruncateStage = 1
+        TRUNCATE TABLE [$(Staging)].[dbo].[customer];
+
+    DECLARE @x XML;
+
+    DECLARE @sql NVARCHAR(MAX) =
+    N'SELECT @xOut = TRY_CONVERT(XML, BulkColumn)
+      FROM OPENROWSET(BULK ''' + REPLACE(@FilePath, '''', '''''') + ''', SINGLE_BLOB) AS [src];';
+
+EXEC sys.sp_executesql
+    @sql,
+    N'@xOut XML OUTPUT',
+    @xOut = @x OUTPUT;
+
+    ;WITH [rows] AS
+    (
+        SELECT
+            [r].[n].value('(customer_number/text())[1]', 'INT') AS [customer_number],
+            NULLIF([r].[n].value('(customer_name/text())[1]', 'NVARCHAR(200)'), N'') AS [customer_name],
+            NULLIF([r].[n].value('(email/text())[1]', 'NVARCHAR(320)'), N'') AS [email],
+            NULLIF([r].[n].value('(phone/text())[1]', 'NVARCHAR(50)'), N'') AS [phone]
+        FROM @x.nodes(N'/rows/row') AS [r]([n])
+    )
+    INSERT INTO [$(Staging)].[dbo].[customer]
+    (
+        [source_file_name],
+        [row_hash],
+        [customer_number],
+        [customer_name],
+        [email],
+        [phone]
+    )
+    SELECT
+        @FilePath,
+        HASHBYTES
+        (
+            N'SHA2_256',
+            CONVERT(VARBINARY(MAX),
+                CONCAT_WS(N'|',
+                    COALESCE(CONVERT(NVARCHAR(200), [customer_name]), N''),
+                    COALESCE(CONVERT(NVARCHAR(320), [email]), N''),
+                    COALESCE(CONVERT(NVARCHAR(50), [phone]), N'')
+                )
+            )
+        ),
+        [customer_number],
+        [customer_name],
+        [email],
+        [phone]
+    FROM [rows];
+END
+

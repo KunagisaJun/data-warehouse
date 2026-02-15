@@ -56,5 +56,29 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Schemas" />
+    <Folder Include="Stored Procedures" />
+    <Folder Include="Stored Procedures\ODSToDWH" />
+    <Folder Include="Stored Procedures\SourceToStage" />
+    <Folder Include="Stored Procedures\StageToODS" />
+    <Folder Include="Tables" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Schemas\ODSToDWH.sql" />
+    <Build Include="Schemas\SourceToStage.sql" />
+    <Build Include="Schemas\StageToODS.sql" />
+    <Build Include="Stored Procedures\ODSToDWH\usp_Load_DimAccount.sql" />
+    <Build Include="Stored Procedures\ODSToDWH\usp_Load_DimCustomer.sql" />
+    <Build Include="Stored Procedures\ODSToDWH\usp_Load_DimDate.sql" />
+    <Build Include="Stored Procedures\ODSToDWH\usp_Load_FactTransaction.sql" />
+    <Build Include="Stored Procedures\ODSToDWH\usp_LoadAll_ODSToDWH.sql" />
+    <Build Include="Stored Procedures\SourceToStage\usp_Load_Account_FromXml.sql" />
+    <Build Include="Stored Procedures\SourceToStage\usp_Load_Customer_FromXml.sql" />
+    <Build Include="Stored Procedures\SourceToStage\usp_Load_Transaction_FromXml.sql" />
+    <Build Include="Stored Procedures\SourceToStage\usp_LoadAll_FromVendor.sql" />
+    <Build Include="Stored Procedures\StageToODS\usp_StageToODS_Account.sql" />
+    <Build Include="Stored Procedures\StageToODS\usp_StageToODS_All.sql" />
+    <Build Include="Stored Procedures\StageToODS\usp_StageToODS_Customer.sql" />
+    <Build Include="Stored Procedures\StageToODS\usp_StageToODS_Transaction.sql" />
   </ItemGroup>
 </Project>

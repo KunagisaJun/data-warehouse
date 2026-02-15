@@ -1,4 +1,4 @@
-CREATE PROCEDURE [SourceToStage].[usp_Load_Customer_FromXml]
+﻿CREATE PROCEDURE [SourceToStage].[usp_Load_Customer_FromXml]
 (
     @FilePath NVARCHAR(4000),
     @TruncateStage BIT = 1
@@ -6,14 +6,60 @@ CREATE PROCEDURE [SourceToStage].[usp_Load_Customer_FromXml]
 AS
 BEGIN
     SET NOCOUNT ON;
+    SET XACT_ABORT ON;
 
-    IF @TruncateStage = 1
-        TRUNCATE TABLE [$(Staging)].[dbo].[customer];
+    ------------------------------------------------------------------------
+    -- Validate path (defensive)
+    ------------------------------------------------------------------------
+    IF @FilePath IS NULL OR LTRIM(RTRIM(@FilePath)) = N''
+        THROW 50000, 'Customer XML load: @FilePath is required.', 1;
 
+    -- Require .xml extension (simple guard)
+    IF RIGHT(LOWER(@FilePath), 4) <> N'.xml'
+        THROW 50000, 'Customer XML load: @FilePath must end with .xml', 1;
+
+    -- Block characters commonly used for injection or multi-statement tricks
+    IF @FilePath LIKE N'%''%' OR @FilePath LIKE N'%;%' OR @FilePath LIKE N'%--%' OR @FilePath LIKE N'%/*%' OR @FilePath LIKE N'%*/%'
+        THROW 50000, 'Customer XML load: @FilePath contains invalid characters.', 1;
+
+    ------------------------------------------------------------------------
+    -- Best-effort file existence check
+    ------------------------------------------------------------------------
+    DECLARE @fileExists INT = 0;
+    BEGIN TRY
+        DECLARE @t TABLE ([FileExists] INT, [IsDir] INT, [ParentExists] INT);
+        INSERT INTO @t EXEC master..xp_fileexist @FilePath;
+        SELECT @fileExists = COALESCE([FileExists], 0) FROM @t;
+    END TRY
+    BEGIN CATCH
+        -- If xp_fileexist is blocked, proceed (OPENROWSET will error anyway)
+        SET @fileExists = 0;
+    END CATCH;
+
+    IF @fileExists = 0
+        THROW 50000, 'Customer XML load: file does not exist (or SQL Server cannot access it).', 1;
+
+    ------------------------------------------------------------------------
+    -- Read XML from file
+    -- NOTE: OPENROWSET(BULK ...) requires a string literal, so minimal dynamic
+    ------------------------------------------------------------------------
     DECLARE @x XML;
+    DECLARE @sql NVARCHAR(MAX) =
+        N'SELECT @xOut = TRY_CONVERT(XML, BulkColumn)
+          FROM OPENROWSET(BULK ''' + REPLACE(@FilePath, N'''', N'''''') + N''', SINGLE_BLOB) AS [B];';
 
-    SELECT @x = TRY_CONVERT(XML, BulkColumn)
-    FROM OPENROWSET(BULK @FilePath, SINGLE_BLOB) AS [src];
+    BEGIN TRY
+        EXEC sys.sp_executesql
+            @sql,
+            N'@xOut XML OUTPUT',
+            @xOut = @x OUTPUT;
+    END TRY
+    BEGIN CATCH
+        THROW;
+    END CATCH;
+
+    IF @x IS NULL
+        THROW 50000, 'Customer XML load: file could not be parsed as XML.', 1;
 
     ;WITH [rows] AS
     (
@@ -41,8 +87,8 @@ BEGIN
             CONVERT(VARBINARY(MAX),
                 CONCAT_WS(N'|',
                     COALESCE(CONVERT(NVARCHAR(200), [customer_name]), N''),
-                    COALESCE(CONVERT(NVARCHAR(320), [email]), N''),
-                    COALESCE(CONVERT(NVARCHAR(50), [phone]), N'')
+                    COALESCE(CONVERT(NVARCHAR(320), [email]),         N''),
+                    COALESCE(CONVERT(NVARCHAR(50),  [phone]),         N'')
                 )
             )
         ),
@@ -51,4 +97,5 @@ BEGIN
         [email],
         [phone]
     FROM [rows];
-END
+END;
+GO
