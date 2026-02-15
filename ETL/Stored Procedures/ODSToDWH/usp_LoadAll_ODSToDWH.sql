@@ -8,3 +8,4 @@ BEGIN
     EXEC [ETL].[ODSToDWH].[usp_Load_DimAccount];
     EXEC [ETL].[ODSToDWH].[usp_Load_FactTransaction];
 END
+GO

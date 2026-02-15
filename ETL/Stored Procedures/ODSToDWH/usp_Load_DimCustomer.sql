@@ -3,8 +3,6 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @OpenEnded DATETIME2(3) = CONVERT(DATETIME2(3), '9999-12-31 23:59:59.997');
-
     INSERT INTO [$(DWH)].[dim].[Customer]
     (
         [customer_number],
@@ -18,20 +16,19 @@ BEGIN
         [phone]
     )
     SELECT
-        [o].[customer_number],
-        [o].[effective_from],
-        [o].[effective_to],
-        [o].[is_current],
-        [o].[is_deleted],
-        [o].[row_hash],
-        [o].[customer_name],
-        [o].[email],
-        [o].[phone]
-    FROM [$(ODS)].[dbo].[customer] AS [o]
-    LEFT JOIN [$(DWH)].[dim].[Customer] AS [d]
-        ON [d].[customer_number] = [o].[customer_number]
-       AND [d].[effective_from]  = [o].[effective_from]
-    WHERE [d].[customer_sk] IS NULL;
+        [$(ODS)].[dbo].[customer].[customer_number],
+        [$(ODS)].[dbo].[customer].[effective_from],
+        [$(ODS)].[dbo].[customer].[effective_to],
+        [$(ODS)].[dbo].[customer].[is_current],
+        [$(ODS)].[dbo].[customer].[is_deleted],
+        [$(ODS)].[dbo].[customer].[row_hash],
+        [$(ODS)].[dbo].[customer].[customer_name],
+        [$(ODS)].[dbo].[customer].[email],
+        [$(ODS)].[dbo].[customer].[phone]
+    FROM [$(ODS)].[dbo].[customer]
+    LEFT JOIN [$(DWH)].[dim].[Customer]
+        ON [$(DWH)].[dim].[Customer].[customer_number] = [$(ODS)].[dbo].[customer].[customer_number]
+       AND [$(DWH)].[dim].[Customer].[effective_from]   = [$(ODS)].[dbo].[customer].[effective_from]
+    WHERE [$(DWH)].[dim].[Customer].[customer_sk] IS NULL;
 END
-
-
+GO

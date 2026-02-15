@@ -17,21 +17,20 @@ BEGIN
         [status]
     )
     SELECT
-        [o].[account_number],
-        [o].[customer_number],
-        [o].[effective_from],
-        [o].[effective_to],
-        [o].[is_current],
-        [o].[is_deleted],
-        [o].[row_hash],
-        [o].[account_type],
-        [o].[opened_date],
-        [o].[status]
-    FROM [$(ODS)].[dbo].[account] AS [o]
-    LEFT JOIN [$(DWH)].[dim].[Account] AS [d]
-        ON [d].[account_number] = [o].[account_number]
-       AND [d].[effective_from] = [o].[effective_from]
-    WHERE [d].[account_sk] IS NULL;
+        [$(ODS)].[dbo].[account].[account_number],
+        [$(ODS)].[dbo].[account].[customer_number],
+        [$(ODS)].[dbo].[account].[effective_from],
+        [$(ODS)].[dbo].[account].[effective_to],
+        [$(ODS)].[dbo].[account].[is_current],
+        [$(ODS)].[dbo].[account].[is_deleted],
+        [$(ODS)].[dbo].[account].[row_hash],
+        [$(ODS)].[dbo].[account].[account_type],
+        [$(ODS)].[dbo].[account].[opened_date],
+        [$(ODS)].[dbo].[account].[status]
+    FROM [$(ODS)].[dbo].[account]
+    LEFT JOIN [$(DWH)].[dim].[Account]
+        ON [$(DWH)].[dim].[Account].[account_number] = [$(ODS)].[dbo].[account].[account_number]
+       AND [$(DWH)].[dim].[Account].[effective_from]  = [$(ODS)].[dbo].[account].[effective_from]
+    WHERE [$(DWH)].[dim].[Account].[account_sk] IS NULL;
 END
-
-
+GO

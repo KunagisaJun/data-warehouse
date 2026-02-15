@@ -3,49 +3,47 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    IF EXISTS (SELECT 1 FROM [$(DWH)].[dim].[Date])
+    DECLARE @HasAnyRow BIT = 0;
+    SELECT TOP (1) @HasAnyRow = 1
+    FROM [$(DWH)].[dim].[Date];
+
+    IF @HasAnyRow = 1
         RETURN;
 
     DECLARE @StartDate DATE = CONVERT(DATE, '2000-01-01');
     DECLARE @EndDate   DATE = CONVERT(DATE, '2035-12-31');
+    DECLARE @d DATE = @StartDate;
 
-    ;WITH [n] AS
-    (
-        SELECT TOP (DATEDIFF(DAY, @StartDate, DATEADD(DAY, 1, @EndDate)) )
-            ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS [i]
-        FROM [ETL].[sys].[all_objects] AS [a]
-        CROSS JOIN [ETL].[sys].[all_objects] AS [b]
-    ),
-    [d] AS
-    (
-        SELECT DATEADD(DAY, [i], @StartDate) AS [dt]
-        FROM [n]
-    )
-    INSERT INTO [$(DWH)].[dim].[Date]
-    (
-        [date_sk],
-        [date_value],
-        [year_number],
-        [month_number],
-        [day_number],
-        [day_of_week],
-        [day_name],
-        [month_name],
-        [quarter_number],
-        [is_weekend]
-    )
-    SELECT
-        CONVERT(INT, CONVERT(CHAR(8), [dt], 112)),
-        [dt],
-        DATEPART(YEAR, [dt]),
-        DATEPART(MONTH, [dt]),
-        DATEPART(DAY, [dt]),
-        DATEPART(WEEKDAY, [dt]),
-        DATENAME(WEEKDAY, [dt]),
-        DATENAME(MONTH, [dt]),
-        DATEPART(QUARTER, [dt]),
-        CASE WHEN DATENAME(WEEKDAY, [dt]) IN (N'Saturday', N'Sunday') THEN 1 ELSE 0 END
-    FROM [d];
+    WHILE @d <= @EndDate
+    BEGIN
+        INSERT INTO [$(DWH)].[dim].[Date]
+        (
+            [date_sk],
+            [date_value],
+            [year_number],
+            [month_number],
+            [day_number],
+            [day_of_week],
+            [day_name],
+            [month_name],
+            [quarter_number],
+            [is_weekend]
+        )
+        VALUES
+        (
+            CONVERT(INT, CONVERT(CHAR(8), @d, 112)),
+            @d,
+            DATEPART(YEAR, @d),
+            DATEPART(MONTH, @d),
+            DATEPART(DAY, @d),
+            DATEPART(WEEKDAY, @d),
+            DATENAME(WEEKDAY, @d),
+            DATENAME(MONTH, @d),
+            DATEPART(QUARTER, @d),
+            CASE WHEN DATENAME(WEEKDAY, @d) IN (N'Saturday', N'Sunday') THEN 1 ELSE 0 END
+        );
+
+        SET @d = DATEADD(DAY, 1, @d);
+    END
 END
-
-
+GO

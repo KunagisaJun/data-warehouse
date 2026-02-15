@@ -7,13 +7,14 @@ BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 
-    IF @AsOfDts IS NULL SET @AsOfDts = SYSUTCDATETIME();
+    IF @AsOfDts IS NULL
+        SET @AsOfDts = SYSUTCDATETIME();
 
     BEGIN TRY
         BEGIN TRAN;
 
-        EXEC [ETL].[StageToODS].[usp_StageToODS_Customer]   @AsOfDts = @AsOfDts;
-        EXEC [ETL].[StageToODS].[usp_StageToODS_Account]    @AsOfDts = @AsOfDts;
+        EXEC [ETL].[StageToODS].[usp_StageToODS_Customer]    @AsOfDts = @AsOfDts;
+        EXEC [ETL].[StageToODS].[usp_StageToODS_Account]     @AsOfDts = @AsOfDts;
         EXEC [ETL].[StageToODS].[usp_StageToODS_Transaction] @AsOfDts = @AsOfDts;
 
         COMMIT;
