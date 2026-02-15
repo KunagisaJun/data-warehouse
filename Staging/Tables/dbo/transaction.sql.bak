@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[transaction]
+CREATE TABLE [dbo].[transaction]
 (
     [rowid]              BIGINT IDENTITY(1,1) NOT NULL,
     [load_dts]           DATETIME2(3) NOT NULL CONSTRAINT [DF_stg_transaction_load_dts] DEFAULT (SYSUTCDATETIME()),
@@ -10,6 +10,5 @@
     [amount]             DECIMAL(19,4) NULL,
     [description]        NVARCHAR(400) NULL,
     CONSTRAINT [PK_stg_transaction] PRIMARY KEY CLUSTERED ([transaction_number] ASC),
-    CONSTRAINT [FK_stg_transaction_account] FOREIGN KEY ([account_number]) REFERENCES [dbo].[account]([account_number])
+    CONSTRAINT [FK_stg_transaction_account] FOREIGN KEY ([account_number]) REFERENCES [Staging].[dbo].[account]([account_number])
 );
-

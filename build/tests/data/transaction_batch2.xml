@@ -1,0 +1,30 @@
+<rows>
+  <row>
+    <transaction_number>3001</transaction_number>
+    <account_number>2001</account_number>
+    <transaction_date>2025-01-05</transaction_date>
+    <amount>12.34</amount>
+    <description>Coffee</description>
+  </row>
+  <row>
+    <transaction_number>3002</transaction_number>
+    <account_number>2001</account_number>
+    <transaction_date>2025-01-06</transaction_date>
+    <amount>100.00</amount>
+    <description>Deposit</description>
+  </row>
+  <row>
+    <transaction_number>3003</transaction_number>
+    <account_number>2002</account_number>
+    <transaction_date>2025-01-06</transaction_date>
+    <amount>-25.00</amount>
+    <description>Withdrawal</description>
+  </row>
+  <row>
+    <transaction_number>3004</transaction_number>
+    <account_number>2002</account_number>
+    <transaction_date>2025-01-07</transaction_date>
+    <amount>-250.00</amount>
+    <description>Withdrawal</description>
+  </row>
+</rows>

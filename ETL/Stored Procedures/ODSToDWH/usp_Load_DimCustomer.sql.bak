@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [ODSToDWH].[usp_Load_DimCustomer]
+CREATE PROCEDURE [ODSToDWH].[usp_Load_DimCustomer]
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -33,5 +33,3 @@ BEGIN
        AND [d].[effective_from]  = [o].[effective_from]
     WHERE [d].[customer_sk] IS NULL;
 END
-
-

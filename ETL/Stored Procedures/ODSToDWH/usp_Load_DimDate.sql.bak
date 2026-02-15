@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [ODSToDWH].[usp_Load_DimDate]
+CREATE PROCEDURE [ODSToDWH].[usp_Load_DimDate]
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -47,5 +47,3 @@ BEGIN
         CASE WHEN DATENAME(WEEKDAY, [dt]) IN (N'Saturday', N'Sunday') THEN 1 ELSE 0 END
     FROM [d];
 END
-
-

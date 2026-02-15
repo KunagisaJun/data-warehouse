@@ -1,0 +1,16 @@
+<rows>
+  <row>
+    <account_number>2001</account_number>
+    <customer_number>1001</customer_number>
+    <account_type>Checking</account_type>
+    <opened_date>2024-01-15</opened_date>
+    <status>Open</status>
+  </row>
+  <row>
+    <account_number>2002</account_number>
+    <customer_number>1002</customer_number>
+    <account_type>Savings</account_type>
+    <opened_date>2024-02-20</opened_date>
+    <status>Closed</status>
+  </row>
+</rows>

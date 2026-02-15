@@ -1,9 +1,9 @@
-﻿CREATE PROCEDURE [ODSToDWH].[usp_Load_FactTransaction]
+CREATE PROCEDURE [ODSToDWH].[usp_Load_FactTransaction]
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    MERGE INTO [$(DWH)].[fact].[Transaction] AS [t]
+    MERGE [$(DWH)].[fact].[Transaction] AS [t]
     USING
     (
         SELECT
@@ -55,5 +55,3 @@ BEGIN
             [s].[row_hash]
         );
 END
-
-

@@ -1,0 +1,15 @@
+{
+  "server": "(localdb)\\MSSQLLocalDB",
+  "auth": { "mode": "integrated" },
+  "databases": {
+    "Staging": "Staging",
+    "ODS": "ODS",
+    "DWH": "DWH",
+    "ETL": "ETL"
+  },
+  "sqlcmd": {
+    "Staging": "Staging",
+    "ODS": "ODS",
+    "DWH": "DWH"
+  }
+}

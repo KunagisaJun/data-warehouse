@@ -1,0 +1,15 @@
+{
+  "server": "UAT-SQL-SERVER-NAME",
+  "auth": { "mode": "integrated" },
+  "databases": {
+    "Staging": "Staging_UAT",
+    "ODS": "ODS_UAT",
+    "DWH": "DWH_UAT",
+    "ETL": "ETL_UAT"
+  },
+  "sqlcmd": {
+    "Staging": "Staging_UAT",
+    "ODS": "ODS_UAT",
+    "DWH": "DWH_UAT"
+  }
+}

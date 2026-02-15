@@ -1,0 +1,3519 @@
+﻿REPO DUMP
+ROOT: X:\repos\data-warehouse
+UTC: 2026-02-14T20:26:36Z
+
+=== TREE (filtered) ===
+[FILE] .git\ms-persist.xml
+[FILE] .vs\data-warehouse.slnx\v18\DocumentLayout.backup.json
+[FILE] .vs\data-warehouse.slnx\v18\DocumentLayout.json
+[FILE] .vs\VSWorkspaceState.json
+[DIR]  build
+[DIR]  build\config
+[FILE] build\config\local.json
+[FILE] build\config\uat.json
+[FILE] build\deploy.ps1
+[FILE] build\localdb-reset.ps1
+[DIR]  build\tests
+[FILE] build\tests\smoke.sql
+[FILE] data-warehouse.slnx
+[DIR]  DWH
+[FILE] DWH\obj\Debug\DWH.sqlproj.FileListAbsolute.txt
+[FILE] DWH\obj\Debug\Model.xml
+[DIR]  DWH\Schemas
+[FILE] DWH\Schemas\dim.sql
+[FILE] DWH\Schemas\fact.sql
+[DIR]  DWH\Stored Procedures
+[DIR]  DWH\Tables
+[DIR]  DWH\Tables\dim
+[FILE] DWH\Tables\dim\Account.sql
+[FILE] DWH\Tables\dim\Customer.sql
+[FILE] DWH\Tables\dim\Date.sql
+[DIR]  DWH\Tables\fact
+[FILE] DWH\Tables\fact\Transaction.sql
+[DIR]  ETL
+[FILE] ETL\obj\Debug\ETL.sqlproj.FileListAbsolute.txt
+[FILE] ETL\obj\Debug\Model.xml
+[DIR]  ETL\Schemas
+[FILE] ETL\Schemas\ODSToDWH.sql
+[FILE] ETL\Schemas\SourceToStage.sql
+[FILE] ETL\Schemas\StageToODS.sql
+[DIR]  ETL\Stored Procedures
+[DIR]  ETL\Stored Procedures\ODSToDWH
+[FILE] ETL\Stored Procedures\ODSToDWH\usp_Load_DimAccount.sql
+[FILE] ETL\Stored Procedures\ODSToDWH\usp_Load_DimCustomer.sql
+[FILE] ETL\Stored Procedures\ODSToDWH\usp_Load_DimDate.sql
+[FILE] ETL\Stored Procedures\ODSToDWH\usp_Load_FactTransaction.sql
+[FILE] ETL\Stored Procedures\ODSToDWH\usp_LoadAll_ODSToDWH.sql
+[DIR]  ETL\Stored Procedures\SourceToStage
+[FILE] ETL\Stored Procedures\SourceToStage\usp_Load_Account_FromXml.sql
+[FILE] ETL\Stored Procedures\SourceToStage\usp_Load_Customer_FromXml.sql
+[FILE] ETL\Stored Procedures\SourceToStage\usp_Load_Transaction_FromXml.sql
+[FILE] ETL\Stored Procedures\SourceToStage\usp_LoadAll_FromVendor.sql
+[DIR]  ETL\Stored Procedures\StageToODS
+[FILE] ETL\Stored Procedures\StageToODS\usp_StageToODS_Account.sql
+[FILE] ETL\Stored Procedures\StageToODS\usp_StageToODS_All.sql
+[FILE] ETL\Stored Procedures\StageToODS\usp_StageToODS_Customer.sql
+[FILE] ETL\Stored Procedures\StageToODS\usp_StageToODS_Transaction.sql
+[DIR]  ETL\Tables
+[DIR]  ODS
+[FILE] ODS\obj\Debug\ODS.sqlproj.FileListAbsolute.txt
+[DIR]  ODS\Schemas
+[DIR]  ODS\Stored Procedures
+[DIR]  ODS\Tables
+[DIR]  ODS\Tables\dbo
+[FILE] ODS\Tables\dbo\account.sql
+[FILE] ODS\Tables\dbo\customer.sql
+[FILE] ODS\Tables\dbo\transaction.sql
+[DIR]  Staging
+[FILE] Staging\obj\Debug\Staging.sqlproj.FileListAbsolute.txt
+[DIR]  Staging\Schemas
+[DIR]  Staging\Stored Procedures
+[DIR]  Staging\Tables
+[DIR]  Staging\Tables\dbo
+[FILE] Staging\Tables\dbo\account.sql
+[FILE] Staging\Tables\dbo\customer.sql
+[FILE] Staging\Tables\dbo\transaction.sql
+
+=== CONTENTS (filtered) ===
+
+----- BEGIN FILE: .git\ms-persist.xml -----
+<?xml version="1.0" encoding="utf-8"?>
+<PendingCommit>
+  <CommitComment />
+  <PinnedBranches />
+  <PublishPrompt Enabled="True" />
+  <ActiveAccountPrompt Enabled="True" />
+  <RepositorySorts />
+  <CreatePullRequest_DefaultTargetBranch />
+</PendingCommit>
+
+----- END FILE: .git\ms-persist.xml -----
+
+----- BEGIN FILE: .vs\data-warehouse.slnx\v18\DocumentLayout.backup.json -----
+{
+  "Version": 1,
+  "WorkspaceRootPath": "X:\\repos\\data-warehouse\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|X:\\repos\\data-warehouse\\build\\deploy.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:build\\deploy.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|X:\\repos\\data-warehouse\\build\\localdb-reset.ps1||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:build\\localdb-reset.ps1||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "localdb-reset.ps1",
+              "DocumentMoniker": "X:\\repos\\data-warehouse\\build\\localdb-reset.ps1",
+              "RelativeDocumentMoniker": "build\\localdb-reset.ps1",
+              "ToolTip": "X:\\repos\\data-warehouse\\build\\localdb-reset.ps1",
+              "RelativeToolTip": "build\\localdb-reset.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-02-14T19:37:53.181Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "deploy.ps1",
+              "DocumentMoniker": "X:\\repos\\data-warehouse\\build\\deploy.ps1",
+              "RelativeDocumentMoniker": "build\\deploy.ps1",
+              "ToolTip": "X:\\repos\\data-warehouse\\build\\deploy.ps1",
+              "RelativeToolTip": "build\\deploy.ps1",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAcwG4AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-02-14T19:05:11.206Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+----- END FILE: .vs\data-warehouse.slnx\v18\DocumentLayout.backup.json -----
+
+----- BEGIN FILE: .vs\data-warehouse.slnx\v18\DocumentLayout.json -----
+{
+  "Version": 1,
+  "WorkspaceRootPath": "X:\\repos\\data-warehouse\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|X:\\repos\\data-warehouse\\build\\deploy.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:build\\deploy.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|X:\\repos\\data-warehouse\\build\\localdb-reset.ps1||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:build\\localdb-reset.ps1||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "localdb-reset.ps1",
+              "DocumentMoniker": "X:\\repos\\data-warehouse\\build\\localdb-reset.ps1",
+              "RelativeDocumentMoniker": "build\\localdb-reset.ps1",
+              "ToolTip": "X:\\repos\\data-warehouse\\build\\localdb-reset.ps1",
+              "RelativeToolTip": "build\\localdb-reset.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-02-14T19:37:53.181Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "deploy.ps1",
+              "DocumentMoniker": "X:\\repos\\data-warehouse\\build\\deploy.ps1",
+              "RelativeDocumentMoniker": "build\\deploy.ps1",
+              "ToolTip": "X:\\repos\\data-warehouse\\build\\deploy.ps1",
+              "RelativeToolTip": "build\\deploy.ps1",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAcwG8AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-02-14T19:05:11.206Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+----- END FILE: .vs\data-warehouse.slnx\v18\DocumentLayout.json -----
+
+----- BEGIN FILE: .vs\VSWorkspaceState.json -----
+{
+  "ExpandedNodes": [
+    ""
+  ],
+  "SelectedNode": "\\data-warehouse.slnx",
+  "PreviewInSolutionExplorer": false
+}
+
+----- END FILE: .vs\VSWorkspaceState.json -----
+
+----- BEGIN FILE: build\config\local.json -----
+{
+  "server": "(localdb)\\MSSQLLocalDB",
+  "auth": { "mode": "integrated" },
+  "databases": {
+    "Staging": "Staging",
+    "ODS": "ODS",
+    "DWH": "DWH",
+    "ETL": "ETL"
+  },
+  "sqlcmd": {
+    "Staging": "Staging",
+    "ODS": "ODS",
+    "DWH": "DWH"
+  }
+}
+
+----- END FILE: build\config\local.json -----
+
+----- BEGIN FILE: build\config\uat.json -----
+{
+  "server": "UAT-SQL-SERVER-NAME",
+  "auth": { "mode": "integrated" },
+  "databases": {
+    "Staging": "Staging_UAT",
+    "ODS": "ODS_UAT",
+    "DWH": "DWH_UAT",
+    "ETL": "ETL_UAT"
+  },
+  "sqlcmd": {
+    "Staging": "Staging_UAT",
+    "ODS": "ODS_UAT",
+    "DWH": "DWH_UAT"
+  }
+}
+
+----- END FILE: build\config\uat.json -----
+
+----- BEGIN FILE: build\deploy.ps1 -----
+param(
+    [Parameter(Mandatory = $true)]
+    [string]$Config
+)
+
+$ErrorActionPreference = "Stop"
+
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
+
+$configPath = (Resolve-Path (Join-Path $repoRoot $Config)).Path
+$cfg = Get-Content -Raw -LiteralPath $configPath | ConvertFrom-Json
+
+$deployOrder = @("Staging", "ODS", "DWH", "ETL")
+
+$solution = Join-Path $repoRoot "data-warehouse.slnx"
+if (-not (Test-Path -LiteralPath $solution)) {
+    throw "Solution not found at: $solution"
+}
+
+$msbuild = Get-ChildItem -LiteralPath "C:\Program Files\Microsoft Visual Studio" -Recurse -Filter "MSBuild.exe" -File |
+    Sort-Object FullName -Descending |
+    Select-Object -First 1 -ExpandProperty FullName
+if (-not $msbuild) { throw "MSBuild.exe not found under Visual Studio install." }
+
+# SqlPackage (dotnet global tool / PATH)
+$sqlPackageCmd = Get-Command sqlpackage -ErrorAction SilentlyContinue
+if (-not $sqlPackageCmd) { throw "sqlpackage not found on PATH. Ensure dotnet global tools are installed and on PATH." }
+$sqlPackage = $sqlPackageCmd.Source
+
+$sqlcmdExe = Get-Command sqlcmd -ErrorAction SilentlyContinue
+if (-not $sqlcmdExe) { throw "sqlcmd not found on PATH. Install SQLCMD utilities or add to PATH." }
+
+function Assert-LocalOnly([string]$server) {
+    if ($server -notlike "(localdb)\*") {
+        throw "LocalDB reset requested but server is not LocalDB: $server"
+    }
+}
+
+function Invoke-LocalDbReset([bool]$recreateAndStart) {
+    $resetScript = Join-Path $repoRoot "build\localdb-reset.ps1"
+    if (-not (Test-Path -LiteralPath $resetScript)) { throw "LocalDB reset script not found: $resetScript" }
+
+    $instanceName = $cfg.localdb.instanceName
+    if (-not $instanceName) { throw "Missing cfg.localdb.instanceName" }
+
+    Assert-LocalOnly -server $cfg.server
+
+    & powershell -ExecutionPolicy Bypass -File $resetScript -InstanceName $instanceName -RecreateAndStart $recreateAndStart
+    if ($LASTEXITCODE -ne 0) { throw "LocalDB reset failed." }
+}
+
+if ($cfg.environment -eq "local" -and $cfg.localdb -and $cfg.localdb.resetAtStart -eq $true) {
+    Invoke-LocalDbReset -recreateAndStart $true
+}
+
+& $msbuild $solution /t:Build /p:Configuration=Debug /m
+if ($LASTEXITCODE -ne 0) { throw "Build failed." }
+
+function Get-DacpacPath([string]$projectName) {
+    $p = Join-Path $repoRoot "$projectName\bin\Debug\$projectName.dacpac"
+    if (-not (Test-Path -LiteralPath $p)) { throw "DACPAC not found: $p" }
+    return $p
+}
+
+function Publish-Dacpac([string]$projectName, [string]$targetDb, [hashtable]$sqlcmdVars) {
+    $dacpac = Get-DacpacPath $projectName
+
+    $varsArgs = @()
+    foreach ($k in $sqlcmdVars.Keys) {
+        $varsArgs += "/v:$k=$($sqlcmdVars[$k])"
+    }
+
+    $server = $cfg.server
+
+    if ($cfg.auth.mode -eq "integrated") {
+        $targetArgs = @("/TargetServerName:$server", "/TargetDatabaseName:$targetDb")
+    }
+    elseif ($cfg.auth.mode -eq "sql") {
+        $user = $cfg.auth.user
+        $pwd  = [Environment]::GetEnvironmentVariable([string]$cfg.auth.passwordEnv)
+        if (-not $pwd) { throw "Missing env var for password: $($cfg.auth.passwordEnv)" }
+        $targetArgs = @("/TargetServerName:$server", "/TargetDatabaseName:$targetDb", "/TargetUser:$user", "/TargetPassword:$pwd")
+    }
+    else {
+        throw "Unsupported auth.mode in config: $($cfg.auth.mode)"
+    }
+
+    & $script:sqlPackage `
+        /Action:Publish `
+        /SourceFile:$dacpac `
+        @targetArgs `
+        /p:BlockOnPossibleDataLoss=False `
+        /p:DropObjectsNotInSource=False `
+        @varsArgs
+
+    if ($LASTEXITCODE -ne 0) { throw "Publish failed: $projectName -> $targetDb" }
+}
+
+$sqlcmdVars = @{}
+$cfg.sqlcmd.PSObject.Properties | ForEach-Object {
+    $sqlcmdVars[$_.Name] = $_.Value
+}
+
+foreach ($p in $deployOrder) {
+    $targetDb = $cfg.databases.$p
+    if (-not $targetDb) { throw "Missing target database name for '$p' in config." }
+    Publish-Dacpac -projectName $p -targetDb $targetDb -sqlcmdVars $sqlcmdVars
+}
+
+$smokeSql = Join-Path $repoRoot "build\tests\smoke.sql"
+& sqlcmd -S $cfg.server -d $cfg.databases.DWH -b -i $smokeSql
+if ($LASTEXITCODE -ne 0) { throw "Smoke tests failed." }
+
+if ($cfg.environment -eq "local" -and $cfg.localdb -and $cfg.localdb.resetAtEnd -eq $true) {
+    Invoke-LocalDbReset -recreateAndStart $false
+}
+
+"Deploy complete: $($cfg.server)"
+
+----- END FILE: build\deploy.ps1 -----
+
+----- BEGIN FILE: build\localdb-reset.ps1 -----
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$InstanceName,
+
+    [Parameter(Mandatory=$false)]
+    [bool]$RecreateAndStart = $true
+)
+
+$ErrorActionPreference = "Stop"
+
+$exe = Get-Command sqllocaldb -ErrorAction SilentlyContinue
+if (-not $exe) { throw "sqllocaldb not found. Install SQL LocalDB (or ensure it's on PATH)." }
+
+# Always stop + delete (scorched earth)
+& sqllocaldb stop $InstanceName -k 2>$null | Out-Null
+& sqllocaldb delete $InstanceName 2>$null | Out-Null
+
+# Optional recreate + start
+if ($RecreateAndStart -eq $true) {
+    & sqllocaldb create $InstanceName | Out-Null
+    & sqllocaldb start $InstanceName | Out-Null
+}
+
+----- END FILE: build\localdb-reset.ps1 -----
+
+----- BEGIN FILE: build\tests\smoke.sql -----
+SELECT DB_NAME() AS [db_name];
+
+SELECT 'tables' AS [check_name], COUNT_BIG(1) AS [value]
+FROM sys.tables;
+
+SELECT 'procs' AS [check_name], COUNT_BIG(1) AS [value]
+FROM sys.procedures;
+
+----- END FILE: build\tests\smoke.sql -----
+
+----- BEGIN FILE: data-warehouse.slnx -----
+<Solution>
+  <Project Path="DWH/DWH.sqlproj" Id="cc17ad95-2368-4301-8868-7ff335a3b050">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="ETL/ETL.sqlproj" Id="67e3cdc7-34b1-4ab3-bba2-1fcfcbfba6e7">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="ODS/ODS.sqlproj" Id="f8ce6323-9a5c-446b-ad59-1cfc08012455">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Staging/Staging.sqlproj" Id="16ae56a5-3018-47e0-80a8-89c5e90a72ce">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>
+
+----- END FILE: data-warehouse.slnx -----
+
+----- BEGIN FILE: DWH\obj\Debug\DWH.sqlproj.FileListAbsolute.txt -----
+X:\repos\data-warehouse\DWH\bin\Debug\DWH.dacpac
+X:\repos\data-warehouse\DWH\bin\Debug\DWH.dll
+X:\repos\data-warehouse\DWH\bin\Debug\DWH.pdb
+X:\repos\data-warehouse\DWH\obj\Debug\DWH.sqlproj.AssemblyReference.cache
+X:\repos\data-warehouse\DWH\obj\Debug\Model.xml
+X:\repos\data-warehouse\DWH\obj\Debug\refactor.xml
+X:\repos\data-warehouse\DWH\obj\Debug\postdeploy.sql
+X:\repos\data-warehouse\DWH\obj\Debug\predeploy.sql
+X:\repos\data-warehouse\DWH\obj\Debug\DWH.dll
+X:\repos\data-warehouse\DWH\obj\Debug\DWH.pdb
+
+----- END FILE: DWH\obj\Debug\DWH.sqlproj.FileListAbsolute.txt -----
+
+----- BEGIN FILE: DWH\obj\Debug\Model.xml -----
+<?xml version="1.0" encoding="utf-8"?>
+<DataSchemaModel FileFormatVersion="1.2" SchemaVersion="2.9" DspName="Microsoft.Data.Tools.Schema.Sql.Sql170DatabaseSchemaProvider" CollationLcid="1033" CollationCaseSensitive="False" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+	<Header>
+		<CustomData Category="AnsiNulls">
+			<Metadata Name="AnsiNulls" Value="True" />
+		</CustomData>
+		<CustomData Category="QuotedIdentifier">
+			<Metadata Name="QuotedIdentifier" Value="True" />
+		</CustomData>
+		<CustomData Category="CompatibilityMode">
+			<Metadata Name="CompatibilityMode" Value="170" />
+		</CustomData>
+		<CustomData Category="Reference" Type="Assembly">
+			<Metadata Name="LogicalName" Value="DWH.dll" />
+			<Metadata Name="FileName" Value="X:\REPOS\DATA-WAREHOUSE\DWH\OBJ\DEBUG\DWH.DLL" />
+			<Metadata Name="AssemblyName" Value="DWH" />
+			<Metadata Name="PermissionSet" Value="SAFE" />
+			<Metadata Name="Owner" Value="" />
+			<Metadata Name="GenerateSqlClrDdl" Value="True" />
+			<Metadata Name="IsVisible" Value="True" />
+			<Metadata Name="IsModelAware" Value="True" />
+			<Metadata Name="SkipCreationIfEmpty" Value="True" />
+			<Metadata Name="AssemblySymbolsName" Value="X:\repos\data-warehouse\DWH\obj\Debug\DWH.pdb" />
+		</CustomData>
+		<CustomData Category="SqlCmdVariables" Type="SqlCmdVariable" />
+	</Header>
+	<Model>
+		<Element Type="SqlDatabaseOptions">
+			<Property Name="Collation" Value="SQL_Latin1_General_CP1_CI_AS" />
+			<Property Name="IsAnsiNullDefaultOn" Value="True" />
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Property Name="IsAnsiWarningsOn" Value="True" />
+			<Property Name="IsArithAbortOn" Value="True" />
+			<Property Name="IsConcatNullYieldsNullOn" Value="True" />
+			<Property Name="IsTornPageProtectionOn" Value="False" />
+			<Property Name="IsFullTextEnabled" Value="True" />
+			<Property Name="PageVerifyMode" Value="3" />
+			<Property Name="DefaultLanguage" Value="" />
+			<Property Name="DefaultFullTextLanguage" Value="" />
+			<Property Name="QueryStoreStaleQueryThreshold" Value="367" />
+			<Relationship Name="DefaultFilegroup">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[PRIMARY]" />
+				</Entry>
+			</Relationship>
+		</Element>
+	</Model>
+</DataSchemaModel>
+
+----- END FILE: DWH\obj\Debug\Model.xml -----
+
+----- BEGIN FILE: DWH\Schemas\dim.sql -----
+CREATE SCHEMA [dim];
+
+----- END FILE: DWH\Schemas\dim.sql -----
+
+----- BEGIN FILE: DWH\Schemas\fact.sql -----
+CREATE SCHEMA [fact];
+
+----- END FILE: DWH\Schemas\fact.sql -----
+
+----- BEGIN FILE: DWH\Tables\dim\Account.sql -----
+CREATE TABLE [dim].[Account]
+(
+    [account_sk]      INT IDENTITY(1,1) NOT NULL,
+    [account_number]  INT NOT NULL,
+    [customer_number] INT NOT NULL,
+    [effective_from]  DATETIME2(3) NOT NULL,
+    [effective_to]    DATETIME2(3) NOT NULL,
+    [is_current]      BIT NOT NULL,
+    [is_deleted]      BIT NOT NULL,
+    [row_hash]        VARBINARY(32) NULL,
+    [account_type]    NVARCHAR(50) NULL,
+    [opened_date]     DATE NULL,
+    [status]          NVARCHAR(20) NULL,
+    CONSTRAINT [PK_DWH_dim_Account] PRIMARY KEY CLUSTERED ([account_sk] ASC)
+);
+
+----- END FILE: DWH\Tables\dim\Account.sql -----
+
+----- BEGIN FILE: DWH\Tables\dim\Customer.sql -----
+CREATE TABLE [dim].[Customer]
+(
+    [customer_sk]     INT IDENTITY(1,1) NOT NULL,
+    [customer_number] INT NOT NULL,
+    [effective_from]  DATETIME2(3) NOT NULL,
+    [effective_to]    DATETIME2(3) NOT NULL,
+    [is_current]      BIT NOT NULL,
+    [is_deleted]      BIT NOT NULL,
+    [row_hash]        VARBINARY(32) NULL,
+    [customer_name]   NVARCHAR(200) NULL,
+    [email]           NVARCHAR(320) NULL,
+    [phone]           NVARCHAR(50) NULL,
+    CONSTRAINT [PK_DWH_dim_Customer] PRIMARY KEY CLUSTERED ([customer_sk] ASC)
+);
+
+----- END FILE: DWH\Tables\dim\Customer.sql -----
+
+----- BEGIN FILE: DWH\Tables\dim\Date.sql -----
+CREATE TABLE [dim].[Date]
+(
+    [date_sk]        INT NOT NULL,
+    [date_value]     DATE NOT NULL,
+    [year_number]    INT NOT NULL,
+    [month_number]   INT NOT NULL,
+    [day_number]     INT NOT NULL,
+    [day_of_week]    INT NOT NULL,
+    [day_name]       NVARCHAR(20) NOT NULL,
+    [month_name]     NVARCHAR(20) NOT NULL,
+    [quarter_number] INT NOT NULL,
+    [is_weekend]     BIT NOT NULL,
+    CONSTRAINT [PK_DWH_dim_Date] PRIMARY KEY CLUSTERED ([date_sk] ASC)
+);
+
+----- END FILE: DWH\Tables\dim\Date.sql -----
+
+----- BEGIN FILE: DWH\Tables\fact\Transaction.sql -----
+CREATE TABLE [fact].[Transaction]
+(
+    [transaction_number]  INT NOT NULL,
+    [transaction_date_sk] INT NOT NULL,
+    [account_sk]          INT NOT NULL,
+    [customer_sk]         INT NOT NULL,
+    [amount]              DECIMAL(19,4) NULL,
+    [description]         NVARCHAR(400) NULL,
+    [row_hash]            VARBINARY(32) NULL,
+    CONSTRAINT [PK_DWH_fact_Transaction] PRIMARY KEY CLUSTERED ([transaction_number] ASC)
+);
+
+----- END FILE: DWH\Tables\fact\Transaction.sql -----
+
+----- BEGIN FILE: ETL\obj\Debug\ETL.sqlproj.FileListAbsolute.txt -----
+X:\repos\data-warehouse\ETL\bin\Debug\ETL.dacpac
+X:\repos\data-warehouse\ETL\bin\Debug\ETL.dll
+X:\repos\data-warehouse\ETL\bin\Debug\ETL.pdb
+X:\repos\data-warehouse\ETL\obj\Debug\ETL.sqlproj.AssemblyReference.cache
+X:\repos\data-warehouse\ETL\obj\Debug\Model.xml
+X:\repos\data-warehouse\ETL\obj\Debug\refactor.xml
+X:\repos\data-warehouse\ETL\obj\Debug\postdeploy.sql
+X:\repos\data-warehouse\ETL\obj\Debug\predeploy.sql
+X:\repos\data-warehouse\ETL\obj\Debug\ETL.dll
+X:\repos\data-warehouse\ETL\obj\Debug\ETL.pdb
+
+----- END FILE: ETL\obj\Debug\ETL.sqlproj.FileListAbsolute.txt -----
+
+----- BEGIN FILE: ETL\obj\Debug\Model.xml -----
+<?xml version="1.0" encoding="utf-8"?>
+<DataSchemaModel FileFormatVersion="1.2" SchemaVersion="2.9" DspName="Microsoft.Data.Tools.Schema.Sql.Sql170DatabaseSchemaProvider" CollationLcid="1033" CollationCaseSensitive="False" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+	<Header>
+		<CustomData Category="AnsiNulls">
+			<Metadata Name="AnsiNulls" Value="True" />
+		</CustomData>
+		<CustomData Category="QuotedIdentifier">
+			<Metadata Name="QuotedIdentifier" Value="True" />
+		</CustomData>
+		<CustomData Category="CompatibilityMode">
+			<Metadata Name="CompatibilityMode" Value="170" />
+		</CustomData>
+		<CustomData Category="Reference" Type="Assembly">
+			<Metadata Name="LogicalName" Value="ETL.dll" />
+			<Metadata Name="FileName" Value="X:\REPOS\DATA-WAREHOUSE\ETL\OBJ\DEBUG\ETL.DLL" />
+			<Metadata Name="AssemblyName" Value="ETL" />
+			<Metadata Name="PermissionSet" Value="SAFE" />
+			<Metadata Name="Owner" Value="" />
+			<Metadata Name="GenerateSqlClrDdl" Value="True" />
+			<Metadata Name="IsVisible" Value="True" />
+			<Metadata Name="IsModelAware" Value="True" />
+			<Metadata Name="SkipCreationIfEmpty" Value="True" />
+			<Metadata Name="AssemblySymbolsName" Value="X:\repos\data-warehouse\ETL\obj\Debug\ETL.pdb" />
+		</CustomData>
+		<CustomData Category="SqlCmdVariables" Type="SqlCmdVariable" />
+	</Header>
+	<Model>
+		<Element Type="SqlDatabaseOptions">
+			<Property Name="Collation" Value="SQL_Latin1_General_CP1_CI_AS" />
+			<Property Name="IsAnsiNullDefaultOn" Value="True" />
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Property Name="IsAnsiWarningsOn" Value="True" />
+			<Property Name="IsArithAbortOn" Value="True" />
+			<Property Name="IsConcatNullYieldsNullOn" Value="True" />
+			<Property Name="IsTornPageProtectionOn" Value="False" />
+			<Property Name="IsFullTextEnabled" Value="True" />
+			<Property Name="PageVerifyMode" Value="3" />
+			<Property Name="DefaultLanguage" Value="" />
+			<Property Name="DefaultFullTextLanguage" Value="" />
+			<Property Name="QueryStoreStaleQueryThreshold" Value="367" />
+			<Relationship Name="DefaultFilegroup">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[PRIMARY]" />
+				</Entry>
+			</Relationship>
+		</Element>
+		<Element Type="SqlSchema" Name="[ODSToDWH]">
+			<Relationship Name="Authorizer">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+		</Element>
+		<Element Type="SqlProcedure" Name="[ODSToDWH].[usp_Load_DimAccount]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO [`$(DWH)].[`$(DWHDIMSchema)].[Account]
+    (
+        [account_number],
+        [customer_number],
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [account_type],
+        [opened_date],
+        [status]
+    )
+    SELECT
+        [o].[account_number],
+        [o].[customer_number],
+        [o].[effective_from],
+        [o].[effective_to],
+        [o].[is_current],
+        [o].[is_deleted],
+        [o].[row_hash],
+        [o].[account_type],
+        [o].[opened_date],
+        [o].[status]
+    FROM [`$(ODS)].[`$(ODSSchema)].[account] AS [o]
+    LEFT JOIN [`$(DWH)].[`$(DWHDIMSchema)].[Account] AS [d]
+        ON [d].[account_number] = [o].[account_number]
+       AND [d].[effective_from] = [o].[effective_from]
+    WHERE [d].[account_sk] IS NULL;
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[ODSToDWH]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="921" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [ODSToDWH].[usp_Load_DimAccount]&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[ODSToDWH].[usp_Load_DimCustomer]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @OpenEnded DATETIME2(3) = CONVERT(DATETIME2(3), '9999-12-31 23:59:59.997');
+
+    INSERT INTO [`$(DWH)].[`$(DWHDIMSchema)].[Customer]
+    (
+        [customer_number],
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [customer_name],
+        [email],
+        [phone]
+    )
+    SELECT
+        [o].[customer_number],
+        [o].[effective_from],
+        [o].[effective_to],
+        [o].[is_current],
+        [o].[is_deleted],
+        [o].[row_hash],
+        [o].[customer_name],
+        [o].[email],
+        [o].[phone]
+    FROM [`$(ODS)].[`$(ODSSchema)].[customer] AS [o]
+    LEFT JOIN [`$(DWH)].[`$(DWHDIMSchema)].[Customer] AS [d]
+        ON [d].[customer_number] = [o].[customer_number]
+       AND [d].[effective_from]  = [o].[effective_from]
+    WHERE [d].[customer_sk] IS NULL;
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[ODSToDWH]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="950" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [ODSToDWH].[usp_Load_DimCustomer]&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[ODSToDWH].[usp_Load_DimDate]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    IF EXISTS (SELECT 1 FROM [`$(DWH)].[`$(DWHDIMSchema)].[Date])
+        RETURN;
+
+    DECLARE @StartDate DATE = CONVERT(DATE, '2000-01-01');
+    DECLARE @EndDate   DATE = CONVERT(DATE, '2035-12-31');
+
+    ;WITH [n] AS
+    (
+        SELECT TOP (DATEDIFF(DAY, @StartDate, DATEADD(DAY, 1, @EndDate)) )
+            ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS [i]
+        FROM [ETL].[sys].[all_objects] AS [a]
+        CROSS JOIN [ETL].[sys].[all_objects] AS [b]
+    ),
+    [d] AS
+    (
+        SELECT DATEADD(DAY, [i], @StartDate) AS [dt]
+        FROM [n]
+    )
+    INSERT INTO [`$(DWH)].[`$(DWHDIMSchema)].[Date]
+    (
+        [date_sk],
+        [date_value],
+        [year_number],
+        [month_number],
+        [day_number],
+        [day_of_week],
+        [day_name],
+        [month_name],
+        [quarter_number],
+        [is_weekend]
+    )
+    SELECT
+        CONVERT(INT, CONVERT(CHAR(8), [dt], 112)),
+        [dt],
+        DATEPART(YEAR, [dt]),
+        DATEPART(MONTH, [dt]),
+        DATEPART(DAY, [dt]),
+        DATEPART(WEEKDAY, [dt]),
+        DATENAME(WEEKDAY, [dt]),
+        DATENAME(MONTH, [dt]),
+        DATEPART(QUARTER, [dt]),
+        CASE WHEN DATENAME(WEEKDAY, [dt]) IN (N'Saturday', N'Sunday') THEN 1 ELSE 0 END
+    FROM [d];
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[date]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[date]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[date]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[date]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[int]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[char]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[ODSToDWH].[usp_Load_DimDate].[CTE1].[n]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[ODSToDWH].[usp_Load_DimDate].[CTE1].[n].[i]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[ODSToDWH].[usp_Load_DimDate].[CTE1].[d]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[ODSToDWH].[usp_Load_DimDate].[CTE1].[d].[dt]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[ODSToDWH]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="1328" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [ODSToDWH].[usp_Load_DimDate]&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[ODSToDWH].[usp_Load_FactTransaction]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    MERGE [`$(DWH)].[`$(DWHFACTSchema)].[Transaction] AS [t]
+    USING
+    (
+        SELECT
+            [o].[transaction_number],
+            CONVERT(INT, CONVERT(CHAR(8), [o].[transaction_date], 112)) AS [transaction_date_sk],
+            [da].[account_sk],
+            [dc].[customer_sk],
+            [o].[amount],
+            [o].[description],
+            [o].[row_hash]
+        FROM [`$(ODS)].[`$(ODSSchema)].[transaction] AS [o]
+        INNER JOIN [`$(DWH)].[`$(DWHDIMSchema)].[Account] AS [da]
+            ON [da].[account_number] = [o].[account_number]
+           AND [o].[transaction_date] >= CONVERT(DATE, [da].[effective_from])
+           AND [o].[transaction_date] <  CONVERT(DATE, [da].[effective_to])
+        INNER JOIN [`$(DWH)].[`$(DWHDIMSchema)].[Customer] AS [dc]
+            ON [dc].[customer_number] = [da].[customer_number]
+           AND [o].[transaction_date] >= CONVERT(DATE, [dc].[effective_from])
+           AND [o].[transaction_date] <  CONVERT(DATE, [dc].[effective_to])
+    ) AS [s]
+        ON [t].[transaction_number] = [s].[transaction_number]
+    WHEN MATCHED AND ( [t].[row_hash] <> [s].[row_hash] OR ([t].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([t].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) )
+        THEN UPDATE SET
+            [t].[transaction_date_sk] = [s].[transaction_date_sk],
+            [t].[account_sk]          = [s].[account_sk],
+            [t].[customer_sk]         = [s].[customer_sk],
+            [t].[amount]              = [s].[amount],
+            [t].[description]         = [s].[description],
+            [t].[row_hash]            = [s].[row_hash]
+    WHEN NOT MATCHED BY TARGET
+        THEN INSERT
+        (
+            [transaction_number],
+            [transaction_date_sk],
+            [account_sk],
+            [customer_sk],
+            [amount],
+            [description],
+            [row_hash]
+        )
+        VALUES
+        (
+            [s].[transaction_number],
+            [s].[transaction_date_sk],
+            [s].[account_sk],
+            [s].[customer_sk],
+            [s].[amount],
+            [s].[description],
+            [s].[row_hash]
+        );
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[date]" />
+				</Entry>
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[date]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[date]" />
+				</Entry>
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[date]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[int]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[char]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[ODSToDWH]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="2238" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [ODSToDWH].[usp_Load_FactTransaction]&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[ODSToDWH].[usp_LoadAll_ODSToDWH]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    EXEC [ETL].[ODSToDWH].[usp_Load_DimDate];
+    EXEC [ETL].[ODSToDWH].[usp_Load_DimCustomer];
+    EXEC [ETL].[ODSToDWH].[usp_Load_DimAccount];
+    EXEC [ETL].[ODSToDWH].[usp_Load_FactTransaction];
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[ODSToDWH]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="283" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [ODSToDWH].[usp_LoadAll_ODSToDWH]&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlSchema" Name="[SourceToStage]">
+			<Relationship Name="Authorizer">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+		</Element>
+		<Element Type="SqlProcedure" Name="[SourceToStage].[usp_Load_Account_FromXml]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @TruncateStage = 1
+        TRUNCATE TABLE [`$(Staging)].[`$(StagingSchema)].[account];
+
+    DECLARE @x XML;
+
+    DECLARE @sql NVARCHAR(MAX) =
+    N'SELECT @xOut = TRY_CONVERT(XML, BulkColumn)
+      FROM OPENROWSET(BULK ''' + REPLACE(@FilePath, '''', '''''') + ''', SINGLE_BLOB) AS [src];';
+
+EXEC sys.sp_executesql
+    @sql,
+    N'@xOut XML OUTPUT',
+    @xOut = @x OUTPUT;
+
+    ;WITH [rows] AS
+    (
+        SELECT
+            [r].[n].value('(account_number/text())[1]', 'INT') AS [account_number],
+            [r].[n].value('(customer_number/text())[1]', 'INT') AS [customer_number],
+            NULLIF([r].[n].value('(account_type/text())[1]', 'NVARCHAR(50)'), N'') AS [account_type],
+            TRY_CONVERT(DATE, [r].[n].value('(opened_date/text())[1]', 'NVARCHAR(30)')) AS [opened_date],
+            NULLIF([r].[n].value('(status/text())[1]', 'NVARCHAR(20)'), N'') AS [status]
+        FROM @x.nodes(N'/rows/row') AS [r]([n])
+    )
+    INSERT INTO [`$(Staging)].[`$(StagingSchema)].[account]
+    (
+        [source_file_name],
+        [row_hash],
+        [account_number],
+        [customer_number],
+        [account_type],
+        [opened_date],
+        [status]
+    )
+    SELECT
+        @FilePath,
+        HASHBYTES
+        (
+            N'SHA2_256',
+            CONVERT(VARBINARY(MAX),
+                CONCAT_WS(N'|',
+                    COALESCE(CONVERT(NVARCHAR(20), [customer_number]), N''),
+                    COALESCE(CONVERT(NVARCHAR(50), [account_type]), N''),
+                    COALESCE(CONVERT(NVARCHAR(30), [opened_date], 126), N''),
+                    COALESCE(CONVERT(NVARCHAR(20), [status]), N'')
+                )
+            )
+        ),
+        [account_number],
+        [customer_number],
+        [account_type],
+        [opened_date],
+        [status]
+    FROM [rows];
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[xml]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[SourceToStage].[usp_Load_Account_FromXml].[@FilePath]" />
+				</Entry>
+				<Entry>
+					<References Name="[SourceToStage].[usp_Load_Account_FromXml].[@TruncateStage]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varbinary]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry />
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[SourceToStage].[usp_Load_Account_FromXml].[CTE1].[rows]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Account_FromXml].[CTE1].[rows].[account_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Account_FromXml].[CTE1].[rows].[customer_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Account_FromXml].[CTE1].[rows].[account_type]" />
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Account_FromXml].[CTE1].[rows].[opened_date]" />
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Account_FromXml].[CTE1].[rows].[status]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[SourceToStage].[usp_Load_Account_FromXml].[@FilePath]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="4000" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[SourceToStage].[usp_Load_Account_FromXml].[@TruncateStage]">
+						<Property Name="DefaultExpressionScript">
+							<Value><![CDATA[1]]></Value>
+						</Property>
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[bit]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[SourceToStage]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="1957" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [SourceToStage].[usp_Load_Account_FromXml]&#xA;(&#xA;    @FilePath NVARCHAR(4000),&#xA;    @TruncateStage BIT = 1&#xA;)&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[SourceToStage].[usp_Load_Customer_FromXml]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @TruncateStage = 1
+        TRUNCATE TABLE [`$(Staging)].[`$(StagingSchema)].[customer];
+
+    DECLARE @x XML;
+
+    DECLARE @sql NVARCHAR(MAX) =
+    N'SELECT @xOut = TRY_CONVERT(XML, BulkColumn)
+      FROM OPENROWSET(BULK ''' + REPLACE(@FilePath, '''', '''''') + ''', SINGLE_BLOB) AS [src];';
+
+EXEC sys.sp_executesql
+    @sql,
+    N'@xOut XML OUTPUT',
+    @xOut = @x OUTPUT;
+
+    ;WITH [rows] AS
+    (
+        SELECT
+            [r].[n].value('(customer_number/text())[1]', 'INT') AS [customer_number],
+            NULLIF([r].[n].value('(customer_name/text())[1]', 'NVARCHAR(200)'), N'') AS [customer_name],
+            NULLIF([r].[n].value('(email/text())[1]', 'NVARCHAR(320)'), N'') AS [email],
+            NULLIF([r].[n].value('(phone/text())[1]', 'NVARCHAR(50)'), N'') AS [phone]
+        FROM @x.nodes(N'/rows/row') AS [r]([n])
+    )
+    INSERT INTO [`$(Staging)].[`$(StagingSchema)].[customer]
+    (
+        [source_file_name],
+        [row_hash],
+        [customer_number],
+        [customer_name],
+        [email],
+        [phone]
+    )
+    SELECT
+        @FilePath,
+        HASHBYTES
+        (
+            N'SHA2_256',
+            CONVERT(VARBINARY(MAX),
+                CONCAT_WS(N'|',
+                    COALESCE(CONVERT(NVARCHAR(200), [customer_name]), N''),
+                    COALESCE(CONVERT(NVARCHAR(320), [email]), N''),
+                    COALESCE(CONVERT(NVARCHAR(50), [phone]), N'')
+                )
+            )
+        ),
+        [customer_number],
+        [customer_name],
+        [email],
+        [phone]
+    FROM [rows];
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[xml]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[SourceToStage].[usp_Load_Customer_FromXml].[@FilePath]" />
+				</Entry>
+				<Entry>
+					<References Name="[SourceToStage].[usp_Load_Customer_FromXml].[@TruncateStage]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varbinary]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry />
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[SourceToStage].[usp_Load_Customer_FromXml].[CTE1].[rows]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Customer_FromXml].[CTE1].[rows].[customer_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Customer_FromXml].[CTE1].[rows].[customer_name]" />
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Customer_FromXml].[CTE1].[rows].[email]" />
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Customer_FromXml].[CTE1].[rows].[phone]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[SourceToStage].[usp_Load_Customer_FromXml].[@FilePath]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="4000" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[SourceToStage].[usp_Load_Customer_FromXml].[@TruncateStage]">
+						<Property Name="DefaultExpressionScript">
+							<Value><![CDATA[1]]></Value>
+						</Property>
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[bit]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[SourceToStage]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="1710" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [SourceToStage].[usp_Load_Customer_FromXml]&#xA;(&#xA;    @FilePath NVARCHAR(4000),&#xA;    @TruncateStage BIT = 1&#xA;)&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[SourceToStage].[usp_Load_Transaction_FromXml]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @TruncateStage = 1
+        TRUNCATE TABLE [`$(Staging)].[`$(StagingSchema)].[transaction];
+
+    DECLARE @x XML;
+
+    DECLARE @sql NVARCHAR(MAX) =
+    N'SELECT @xOut = TRY_CONVERT(XML, BulkColumn)
+      FROM OPENROWSET(BULK ''' + REPLACE(@FilePath, '''', '''''') + ''', SINGLE_BLOB) AS [src];';
+
+EXEC sys.sp_executesql
+    @sql,
+    N'@xOut XML OUTPUT',
+    @xOut = @x OUTPUT;
+
+    ;WITH [rows] AS
+    (
+        SELECT
+            [r].[n].value('(transaction_number/text())[1]', 'INT') AS [transaction_number],
+            [r].[n].value('(account_number/text())[1]', 'INT') AS [account_number],
+            TRY_CONVERT(DATE, [r].[n].value('(transaction_date/text())[1]', 'NVARCHAR(30)')) AS [transaction_date],
+            TRY_CONVERT(DECIMAL(19,4), [r].[n].value('(amount/text())[1]', 'NVARCHAR(60)')) AS [amount],
+            NULLIF([r].[n].value('(description/text())[1]', 'NVARCHAR(400)'), N'') AS [description]
+        FROM @x.nodes(N'/rows/row') AS [r]([n])
+    )
+    INSERT INTO [`$(Staging)].[`$(StagingSchema)].[transaction]
+    (
+        [source_file_name],
+        [row_hash],
+        [transaction_number],
+        [account_number],
+        [transaction_date],
+        [amount],
+        [description]
+    )
+    SELECT
+        @FilePath,
+        HASHBYTES
+        (
+            N'SHA2_256',
+            CONVERT(VARBINARY(MAX),
+                CONCAT_WS(N'|',
+                    COALESCE(CONVERT(NVARCHAR(20), [account_number]), N''),
+                    COALESCE(CONVERT(NVARCHAR(30), [transaction_date], 126), N''),
+                    COALESCE(CONVERT(NVARCHAR(60), [amount]), N''),
+                    COALESCE(CONVERT(NVARCHAR(400), [description]), N'')
+                )
+            )
+        ),
+        [transaction_number],
+        [account_number],
+        [transaction_date],
+        [amount],
+        [description]
+    FROM [rows];
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[xml]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[SourceToStage].[usp_Load_Transaction_FromXml].[@FilePath]" />
+				</Entry>
+				<Entry>
+					<References Name="[SourceToStage].[usp_Load_Transaction_FromXml].[@TruncateStage]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varbinary]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry />
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[SourceToStage].[usp_Load_Transaction_FromXml].[CTE1].[rows]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Transaction_FromXml].[CTE1].[rows].[transaction_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Transaction_FromXml].[CTE1].[rows].[account_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Transaction_FromXml].[CTE1].[rows].[transaction_date]" />
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Transaction_FromXml].[CTE1].[rows].[amount]" />
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[SourceToStage].[usp_Load_Transaction_FromXml].[CTE1].[rows].[description]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[SourceToStage].[usp_Load_Transaction_FromXml].[@FilePath]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="4000" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[SourceToStage].[usp_Load_Transaction_FromXml].[@TruncateStage]">
+						<Property Name="DefaultExpressionScript">
+							<Value><![CDATA[1]]></Value>
+						</Property>
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[bit]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[SourceToStage]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="2017" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [SourceToStage].[usp_Load_Transaction_FromXml]&#xA;(&#xA;    @FilePath NVARCHAR(4000),&#xA;    @TruncateStage BIT = 1&#xA;)&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[SourceToStage].[usp_LoadAll_FromVendor]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    BEGIN TRY
+        BEGIN TRAN;
+
+        EXEC [ETL].[SourceToStage].[usp_Load_Customer_FromXml]
+            @FilePath = @CustomerXmlPath,
+            @TruncateStage = 1;
+
+        EXEC [ETL].[SourceToStage].[usp_Load_Account_FromXml]
+            @FilePath = @AccountXmlPath,
+            @TruncateStage = 1;
+
+        EXEC [ETL].[SourceToStage].[usp_Load_Transaction_FromXml]
+            @FilePath = @TransactionXmlPath,
+            @TruncateStage = 1;
+
+        EXEC [ETL].[StageToODS].[usp_StageToODS_All];
+        EXEC [ETL].[ODSToDWH].[usp_LoadAll_ODSToDWH];
+
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK;
+
+        DECLARE
+            @ErrMsg NVARCHAR(2048) = ERROR_MESSAGE(),
+            @ErrNum INT = ERROR_NUMBER(),
+            @ErrState INT = ERROR_STATE(),
+            @ErrSeverity INT = ERROR_SEVERITY(),
+            @ErrLine INT = ERROR_LINE(),
+            @ErrProc NVARCHAR(256) = ERROR_PROCEDURE();
+
+        RAISERROR(
+            N'Load failed. Number=%d, Severity=%d, State=%d, Line=%d, Proc=%s, Message=%s',
+            @ErrSeverity, 1,
+            @ErrNum, @ErrSeverity, @ErrState, @ErrLine, @ErrProc, @ErrMsg
+        );
+    END CATCH
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[int]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[int]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[int]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[int]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry>
+					<References Name="[SourceToStage].[usp_LoadAll_FromVendor].[@CustomerXmlPath]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry>
+					<References Name="[SourceToStage].[usp_LoadAll_FromVendor].[@AccountXmlPath]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry>
+					<References Name="[SourceToStage].[usp_LoadAll_FromVendor].[@TransactionXmlPath]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[SourceToStage].[usp_LoadAll_FromVendor].[@AccountXmlPath]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="4000" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[SourceToStage].[usp_LoadAll_FromVendor].[@CustomerXmlPath]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="4000" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[SourceToStage].[usp_LoadAll_FromVendor].[@TransactionXmlPath]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="4000" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[SourceToStage]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="1422" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [SourceToStage].[usp_LoadAll_FromVendor]&#xA;(&#xA;    @AccountXmlPath     NVARCHAR(4000),&#xA;    @CustomerXmlPath    NVARCHAR(4000),&#xA;    @TransactionXmlPath NVARCHAR(4000)&#xA;)&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlSchema" Name="[StageToODS]">
+			<Relationship Name="Authorizer">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+		</Element>
+		<Element Type="SqlProcedure" Name="[StageToODS].[usp_StageToODS_Account]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @AsOfDts DATETIME2(3) =
+        (SELECT MAX([load_dts]) FROM [`$(Staging)].[`$(StagingSchema)].[account]);
+
+    IF @AsOfDts IS NULL
+        RETURN;
+
+    DECLARE @OpenEnded DATETIME2(3) = CONVERT(DATETIME2(3), '9999-12-31 23:59:59.997');
+
+    ;WITH [src] AS
+    (
+        SELECT
+            [account_number],
+            [row_hash],
+            [customer_number],
+            [account_type],
+            [opened_date],
+            [status]
+        FROM [`$(Staging)].[`$(StagingSchema)].[account]
+    ),
+    [cur] AS
+    (
+        SELECT
+            [account_number],
+            [row_hash]
+        FROM [`$(ODS)].[`$(ODSSchema)].[account]
+        WHERE [is_current] = 1
+    )
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [`$(ODS)].[`$(ODSSchema)].[account] AS [t]
+    INNER JOIN [src] AS [s]
+        ON [s].[account_number] = [t].[account_number]
+    WHERE [t].[is_current] = 1
+      AND ( [t].[row_hash] <> [s].[row_hash] OR ([t].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([t].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    INSERT INTO [`$(ODS)].[`$(ODSSchema)].[account]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [account_number],
+        [customer_number],
+        [account_type],
+        [opened_date],
+        [status]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        0,
+        [s].[row_hash],
+        [s].[account_number],
+        [s].[customer_number],
+        [s].[account_type],
+        [s].[opened_date],
+        [s].[status]
+    FROM [src] AS [s]
+    LEFT JOIN [cur] AS [c]
+        ON [c].[account_number] = [s].[account_number]
+    WHERE [c].[account_number] IS NULL
+       OR ( [c].[row_hash] <> [s].[row_hash] OR ([c].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([c].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [`$(ODS)].[`$(ODSSchema)].[account] AS [t]
+    LEFT JOIN [`$(Staging)].[`$(StagingSchema)].[account] AS [s]
+        ON [s].[account_number] = [t].[account_number]
+    WHERE [t].[is_current] = 1
+      AND [t].[is_deleted] = 0
+      AND [s].[account_number] IS NULL;
+
+    INSERT INTO [`$(ODS)].[`$(ODSSchema)].[account]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [account_number],
+        [customer_number],
+        [account_type],
+        [opened_date],
+        [status]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        1,
+        [t].[row_hash],
+        [t].[account_number],
+        [t].[customer_number],
+        [t].[account_type],
+        [t].[opened_date],
+        [t].[status]
+    FROM [`$(ODS)].[`$(ODSSchema)].[account] AS [t]
+    LEFT JOIN [`$(Staging)].[`$(StagingSchema)].[account] AS [s]
+        ON [s].[account_number] = [t].[account_number]
+    WHERE [t].[effective_to] = @AsOfDts
+      AND [t].[is_current] = 0
+      AND [t].[is_deleted] = 0
+      AND [s].[account_number] IS NULL;
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[StageToODS].[usp_StageToODS_Account].[CTE1].[src]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Account].[CTE1].[src].[account_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Account].[CTE1].[src].[row_hash]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Account].[CTE1].[src].[customer_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Account].[CTE1].[src].[account_type]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Account].[CTE1].[src].[opened_date]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Account].[CTE1].[src].[status]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[StageToODS].[usp_StageToODS_Account].[CTE1].[cur]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Account].[CTE1].[cur].[account_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Account].[CTE1].[cur].[row_hash]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[StageToODS]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="3248" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [StageToODS].[usp_StageToODS_Account]&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[StageToODS].[usp_StageToODS_All]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    -- order is still sensible: account first for lineage clarity
+    EXEC [ETL].[StageToODS].[usp_StageToODS_Account];
+    EXEC [ETL].[StageToODS].[usp_StageToODS_Customer];
+    EXEC [ETL].[StageToODS].[usp_StageToODS_Transaction];
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry />
+				<Entry />
+				<Entry />
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[StageToODS]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="317" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [StageToODS].[usp_StageToODS_All]&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[StageToODS].[usp_StageToODS_Customer]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @AsOfDts DATETIME2(3) =
+        (SELECT MAX([load_dts]) FROM [`$(Staging)].[`$(StagingSchema)].[customer]);
+
+    IF @AsOfDts IS NULL
+        RETURN;
+
+    DECLARE @OpenEnded DATETIME2(3) = CONVERT(DATETIME2(3), '9999-12-31 23:59:59.997');
+
+    ;WITH [src] AS
+    (
+        SELECT
+            [customer_number],
+            [row_hash],
+            [customer_name],
+            [email],
+            [phone]
+        FROM [`$(Staging)].[`$(StagingSchema)].[customer]
+    ),
+    [cur] AS
+    (
+        SELECT
+            [customer_number],
+            [row_hash]
+        FROM [`$(ODS)].[`$(ODSSchema)].[customer]
+        WHERE [is_current] = 1
+    )
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [`$(ODS)].[`$(ODSSchema)].[customer] AS [t]
+    INNER JOIN [src] AS [s]
+        ON [s].[customer_number] = [t].[customer_number]
+    WHERE [t].[is_current] = 1
+      AND ( [t].[row_hash] <> [s].[row_hash] OR ([t].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([t].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    INSERT INTO [`$(ODS)].[`$(ODSSchema)].[customer]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [customer_number],
+        [customer_name],
+        [email],
+        [phone]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        0,
+        [s].[row_hash],
+        [s].[customer_number],
+        [s].[customer_name],
+        [s].[email],
+        [s].[phone]
+    FROM [src] AS [s]
+    LEFT JOIN [cur] AS [c]
+        ON [c].[customer_number] = [s].[customer_number]
+    WHERE [c].[customer_number] IS NULL
+       OR ( [c].[row_hash] <> [s].[row_hash] OR ([c].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([c].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [`$(ODS)].[`$(ODSSchema)].[customer] AS [t]
+    LEFT JOIN [`$(Staging)].[`$(StagingSchema)].[customer] AS [s]
+        ON [s].[customer_number] = [t].[customer_number]
+    WHERE [t].[is_current] = 1
+      AND [t].[is_deleted] = 0
+      AND [s].[customer_number] IS NULL;
+
+    INSERT INTO [`$(ODS)].[`$(ODSSchema)].[customer]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [customer_number],
+        [customer_name],
+        [email],
+        [phone]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        1,
+        [t].[row_hash],
+        [t].[customer_number],
+        [t].[customer_name],
+        [t].[email],
+        [t].[phone]
+    FROM [`$(ODS)].[`$(ODSSchema)].[customer] AS [t]
+    LEFT JOIN [`$(Staging)].[`$(StagingSchema)].[customer] AS [s]
+        ON [s].[customer_number] = [t].[customer_number]
+    WHERE [t].[effective_to] = @AsOfDts
+      AND [t].[is_current] = 0
+      AND [t].[is_deleted] = 0
+      AND [s].[customer_number] IS NULL;
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[StageToODS].[usp_StageToODS_Customer].[CTE1].[src]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Customer].[CTE1].[src].[customer_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Customer].[CTE1].[src].[row_hash]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Customer].[CTE1].[src].[customer_name]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Customer].[CTE1].[src].[email]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Customer].[CTE1].[src].[phone]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[StageToODS].[usp_StageToODS_Customer].[CTE1].[cur]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Customer].[CTE1].[cur].[customer_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Customer].[CTE1].[cur].[row_hash]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[StageToODS]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="3099" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [StageToODS].[usp_StageToODS_Customer]&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[StageToODS].[usp_StageToODS_Transaction]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @AsOfDts DATETIME2(3) =
+        (SELECT MAX([load_dts]) FROM [`$(Staging)].[`$(StagingSchema)].[transaction]);
+
+    IF @AsOfDts IS NULL
+        RETURN;
+
+    DECLARE @OpenEnded DATETIME2(3) = CONVERT(DATETIME2(3), '9999-12-31 23:59:59.997');
+
+    ;WITH [src] AS
+    (
+        SELECT
+            [transaction_number],
+            [row_hash],
+            [account_number],
+            [transaction_date],
+            [amount],
+            [description]
+        FROM [`$(Staging)].[`$(StagingSchema)].[transaction]
+    ),
+    [cur] AS
+    (
+        SELECT
+            [transaction_number],
+            [row_hash]
+        FROM [`$(ODS)].[`$(ODSSchema)].[transaction]
+        WHERE [is_current] = 1
+    )
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [`$(ODS)].[`$(ODSSchema)].[transaction] AS [t]
+    INNER JOIN [src] AS [s]
+        ON [s].[transaction_number] = [t].[transaction_number]
+    WHERE [t].[is_current] = 1
+      AND ( [t].[row_hash] <> [s].[row_hash] OR ([t].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([t].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    INSERT INTO [`$(ODS)].[`$(ODSSchema)].[transaction]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [transaction_number],
+        [account_number],
+        [transaction_date],
+        [amount],
+        [description]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        0,
+        [s].[row_hash],
+        [s].[transaction_number],
+        [s].[account_number],
+        [s].[transaction_date],
+        [s].[amount],
+        [s].[description]
+    FROM [src] AS [s]
+    LEFT JOIN [cur] AS [c]
+        ON [c].[transaction_number] = [s].[transaction_number]
+    WHERE [c].[transaction_number] IS NULL
+       OR ( [c].[row_hash] <> [s].[row_hash] OR ([c].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([c].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [`$(ODS)].[`$(ODSSchema)].[transaction] AS [t]
+    LEFT JOIN [`$(Staging)].[`$(StagingSchema)].[transaction] AS [s]
+        ON [s].[transaction_number] = [t].[transaction_number]
+    WHERE [t].[is_current] = 1
+      AND [t].[is_deleted] = 0
+      AND [s].[transaction_number] IS NULL;
+
+    INSERT INTO [`$(ODS)].[`$(ODSSchema)].[transaction]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [transaction_number],
+        [account_number],
+        [transaction_date],
+        [amount],
+        [description]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        1,
+        [t].[row_hash],
+        [t].[transaction_number],
+        [t].[account_number],
+        [t].[transaction_date],
+        [t].[amount],
+        [t].[description]
+    FROM [`$(ODS)].[`$(ODSSchema)].[transaction] AS [t]
+    LEFT JOIN [`$(Staging)].[`$(StagingSchema)].[transaction] AS [s]
+        ON [s].[transaction_number] = [t].[transaction_number]
+    WHERE [t].[effective_to] = @AsOfDts
+      AND [t].[is_current] = 0
+      AND [t].[is_deleted] = 0
+      AND [s].[transaction_number] IS NULL;
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[datetime2]" />
+				</Entry>
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+				<Entry />
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[StageToODS].[usp_StageToODS_Transaction].[CTE1].[src]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Transaction].[CTE1].[src].[transaction_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Transaction].[CTE1].[src].[row_hash]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Transaction].[CTE1].[src].[account_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Transaction].[CTE1].[src].[transaction_date]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Transaction].[CTE1].[src].[amount]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Transaction].[CTE1].[src].[description]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[StageToODS].[usp_StageToODS_Transaction].[CTE1].[cur]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Transaction].[CTE1].[cur].[transaction_number]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlComputedColumn" Name="[StageToODS].[usp_StageToODS_Transaction].[CTE1].[cur].[row_hash]">
+									<Relationship Name="ExpressionDependencies">
+										<Entry />
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References Name="[StageToODS]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="3375" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [StageToODS].[usp_StageToODS_Transaction]&#xA;AS" />
+			</Annotation>
+		</Element>
+	</Model>
+</DataSchemaModel>
+
+----- END FILE: ETL\obj\Debug\Model.xml -----
+
+----- BEGIN FILE: ETL\Schemas\ODSToDWH.sql -----
+CREATE SCHEMA [ODSToDWH];
+
+----- END FILE: ETL\Schemas\ODSToDWH.sql -----
+
+----- BEGIN FILE: ETL\Schemas\SourceToStage.sql -----
+CREATE SCHEMA [SourceToStage];
+
+----- END FILE: ETL\Schemas\SourceToStage.sql -----
+
+----- BEGIN FILE: ETL\Schemas\StageToODS.sql -----
+CREATE SCHEMA [StageToODS];
+
+----- END FILE: ETL\Schemas\StageToODS.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\ODSToDWH\usp_Load_DimAccount.sql -----
+CREATE PROCEDURE [ODSToDWH].[usp_Load_DimAccount]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO [$(DWH)].[$(DWHDIMSchema)].[Account]
+    (
+        [account_number],
+        [customer_number],
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [account_type],
+        [opened_date],
+        [status]
+    )
+    SELECT
+        [o].[account_number],
+        [o].[customer_number],
+        [o].[effective_from],
+        [o].[effective_to],
+        [o].[is_current],
+        [o].[is_deleted],
+        [o].[row_hash],
+        [o].[account_type],
+        [o].[opened_date],
+        [o].[status]
+    FROM [$(ODS)].[$(ODSSchema)].[account] AS [o]
+    LEFT JOIN [$(DWH)].[$(DWHDIMSchema)].[Account] AS [d]
+        ON [d].[account_number] = [o].[account_number]
+       AND [d].[effective_from] = [o].[effective_from]
+    WHERE [d].[account_sk] IS NULL;
+END
+
+----- END FILE: ETL\Stored Procedures\ODSToDWH\usp_Load_DimAccount.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\ODSToDWH\usp_Load_DimCustomer.sql -----
+CREATE PROCEDURE [ODSToDWH].[usp_Load_DimCustomer]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @OpenEnded DATETIME2(3) = CONVERT(DATETIME2(3), '9999-12-31 23:59:59.997');
+
+    INSERT INTO [$(DWH)].[$(DWHDIMSchema)].[Customer]
+    (
+        [customer_number],
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [customer_name],
+        [email],
+        [phone]
+    )
+    SELECT
+        [o].[customer_number],
+        [o].[effective_from],
+        [o].[effective_to],
+        [o].[is_current],
+        [o].[is_deleted],
+        [o].[row_hash],
+        [o].[customer_name],
+        [o].[email],
+        [o].[phone]
+    FROM [$(ODS)].[$(ODSSchema)].[customer] AS [o]
+    LEFT JOIN [$(DWH)].[$(DWHDIMSchema)].[Customer] AS [d]
+        ON [d].[customer_number] = [o].[customer_number]
+       AND [d].[effective_from]  = [o].[effective_from]
+    WHERE [d].[customer_sk] IS NULL;
+END
+
+----- END FILE: ETL\Stored Procedures\ODSToDWH\usp_Load_DimCustomer.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\ODSToDWH\usp_Load_DimDate.sql -----
+CREATE PROCEDURE [ODSToDWH].[usp_Load_DimDate]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF EXISTS (SELECT 1 FROM [$(DWH)].[$(DWHDIMSchema)].[Date])
+        RETURN;
+
+    DECLARE @StartDate DATE = CONVERT(DATE, '2000-01-01');
+    DECLARE @EndDate   DATE = CONVERT(DATE, '2035-12-31');
+
+    ;WITH [n] AS
+    (
+        SELECT TOP (DATEDIFF(DAY, @StartDate, DATEADD(DAY, 1, @EndDate)) )
+            ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS [i]
+        FROM [ETL].[sys].[all_objects] AS [a]
+        CROSS JOIN [ETL].[sys].[all_objects] AS [b]
+    ),
+    [d] AS
+    (
+        SELECT DATEADD(DAY, [i], @StartDate) AS [dt]
+        FROM [n]
+    )
+    INSERT INTO [$(DWH)].[$(DWHDIMSchema)].[Date]
+    (
+        [date_sk],
+        [date_value],
+        [year_number],
+        [month_number],
+        [day_number],
+        [day_of_week],
+        [day_name],
+        [month_name],
+        [quarter_number],
+        [is_weekend]
+    )
+    SELECT
+        CONVERT(INT, CONVERT(CHAR(8), [dt], 112)),
+        [dt],
+        DATEPART(YEAR, [dt]),
+        DATEPART(MONTH, [dt]),
+        DATEPART(DAY, [dt]),
+        DATEPART(WEEKDAY, [dt]),
+        DATENAME(WEEKDAY, [dt]),
+        DATENAME(MONTH, [dt]),
+        DATEPART(QUARTER, [dt]),
+        CASE WHEN DATENAME(WEEKDAY, [dt]) IN (N'Saturday', N'Sunday') THEN 1 ELSE 0 END
+    FROM [d];
+END
+
+----- END FILE: ETL\Stored Procedures\ODSToDWH\usp_Load_DimDate.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\ODSToDWH\usp_Load_FactTransaction.sql -----
+CREATE PROCEDURE [ODSToDWH].[usp_Load_FactTransaction]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    MERGE [$(DWH)].[$(DWHFACTSchema)].[Transaction] AS [t]
+    USING
+    (
+        SELECT
+            [o].[transaction_number],
+            CONVERT(INT, CONVERT(CHAR(8), [o].[transaction_date], 112)) AS [transaction_date_sk],
+            [da].[account_sk],
+            [dc].[customer_sk],
+            [o].[amount],
+            [o].[description],
+            [o].[row_hash]
+        FROM [$(ODS)].[$(ODSSchema)].[transaction] AS [o]
+        INNER JOIN [$(DWH)].[$(DWHDIMSchema)].[Account] AS [da]
+            ON [da].[account_number] = [o].[account_number]
+           AND [o].[transaction_date] >= CONVERT(DATE, [da].[effective_from])
+           AND [o].[transaction_date] <  CONVERT(DATE, [da].[effective_to])
+        INNER JOIN [$(DWH)].[$(DWHDIMSchema)].[Customer] AS [dc]
+            ON [dc].[customer_number] = [da].[customer_number]
+           AND [o].[transaction_date] >= CONVERT(DATE, [dc].[effective_from])
+           AND [o].[transaction_date] <  CONVERT(DATE, [dc].[effective_to])
+    ) AS [s]
+        ON [t].[transaction_number] = [s].[transaction_number]
+    WHEN MATCHED AND ( [t].[row_hash] <> [s].[row_hash] OR ([t].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([t].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) )
+        THEN UPDATE SET
+            [t].[transaction_date_sk] = [s].[transaction_date_sk],
+            [t].[account_sk]          = [s].[account_sk],
+            [t].[customer_sk]         = [s].[customer_sk],
+            [t].[amount]              = [s].[amount],
+            [t].[description]         = [s].[description],
+            [t].[row_hash]            = [s].[row_hash]
+    WHEN NOT MATCHED BY TARGET
+        THEN INSERT
+        (
+            [transaction_number],
+            [transaction_date_sk],
+            [account_sk],
+            [customer_sk],
+            [amount],
+            [description],
+            [row_hash]
+        )
+        VALUES
+        (
+            [s].[transaction_number],
+            [s].[transaction_date_sk],
+            [s].[account_sk],
+            [s].[customer_sk],
+            [s].[amount],
+            [s].[description],
+            [s].[row_hash]
+        );
+END
+
+----- END FILE: ETL\Stored Procedures\ODSToDWH\usp_Load_FactTransaction.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\ODSToDWH\usp_LoadAll_ODSToDWH.sql -----
+CREATE PROCEDURE [ODSToDWH].[usp_LoadAll_ODSToDWH]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    EXEC [ETL].[ODSToDWH].[usp_Load_DimDate];
+    EXEC [ETL].[ODSToDWH].[usp_Load_DimCustomer];
+    EXEC [ETL].[ODSToDWH].[usp_Load_DimAccount];
+    EXEC [ETL].[ODSToDWH].[usp_Load_FactTransaction];
+END
+
+----- END FILE: ETL\Stored Procedures\ODSToDWH\usp_LoadAll_ODSToDWH.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\SourceToStage\usp_Load_Account_FromXml.sql -----
+CREATE PROCEDURE [SourceToStage].[usp_Load_Account_FromXml]
+(
+    @FilePath NVARCHAR(4000),
+    @TruncateStage BIT = 1
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @TruncateStage = 1
+        TRUNCATE TABLE [$(Staging)].[$(StagingSchema)].[account];
+
+    DECLARE @x XML;
+
+    DECLARE @sql NVARCHAR(MAX) =
+    N'SELECT @xOut = TRY_CONVERT(XML, BulkColumn)
+      FROM OPENROWSET(BULK ''' + REPLACE(@FilePath, '''', '''''') + ''', SINGLE_BLOB) AS [src];';
+
+EXEC sys.sp_executesql
+    @sql,
+    N'@xOut XML OUTPUT',
+    @xOut = @x OUTPUT;
+
+    ;WITH [rows] AS
+    (
+        SELECT
+            [r].[n].value('(account_number/text())[1]', 'INT') AS [account_number],
+            [r].[n].value('(customer_number/text())[1]', 'INT') AS [customer_number],
+            NULLIF([r].[n].value('(account_type/text())[1]', 'NVARCHAR(50)'), N'') AS [account_type],
+            TRY_CONVERT(DATE, [r].[n].value('(opened_date/text())[1]', 'NVARCHAR(30)')) AS [opened_date],
+            NULLIF([r].[n].value('(status/text())[1]', 'NVARCHAR(20)'), N'') AS [status]
+        FROM @x.nodes(N'/rows/row') AS [r]([n])
+    )
+    INSERT INTO [$(Staging)].[$(StagingSchema)].[account]
+    (
+        [source_file_name],
+        [row_hash],
+        [account_number],
+        [customer_number],
+        [account_type],
+        [opened_date],
+        [status]
+    )
+    SELECT
+        @FilePath,
+        HASHBYTES
+        (
+            N'SHA2_256',
+            CONVERT(VARBINARY(MAX),
+                CONCAT_WS(N'|',
+                    COALESCE(CONVERT(NVARCHAR(20), [customer_number]), N''),
+                    COALESCE(CONVERT(NVARCHAR(50), [account_type]), N''),
+                    COALESCE(CONVERT(NVARCHAR(30), [opened_date], 126), N''),
+                    COALESCE(CONVERT(NVARCHAR(20), [status]), N'')
+                )
+            )
+        ),
+        [account_number],
+        [customer_number],
+        [account_type],
+        [opened_date],
+        [status]
+    FROM [rows];
+END
+
+----- END FILE: ETL\Stored Procedures\SourceToStage\usp_Load_Account_FromXml.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\SourceToStage\usp_Load_Customer_FromXml.sql -----
+CREATE PROCEDURE [SourceToStage].[usp_Load_Customer_FromXml]
+(
+    @FilePath NVARCHAR(4000),
+    @TruncateStage BIT = 1
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @TruncateStage = 1
+        TRUNCATE TABLE [$(Staging)].[$(StagingSchema)].[customer];
+
+    DECLARE @x XML;
+
+    DECLARE @sql NVARCHAR(MAX) =
+    N'SELECT @xOut = TRY_CONVERT(XML, BulkColumn)
+      FROM OPENROWSET(BULK ''' + REPLACE(@FilePath, '''', '''''') + ''', SINGLE_BLOB) AS [src];';
+
+EXEC sys.sp_executesql
+    @sql,
+    N'@xOut XML OUTPUT',
+    @xOut = @x OUTPUT;
+
+    ;WITH [rows] AS
+    (
+        SELECT
+            [r].[n].value('(customer_number/text())[1]', 'INT') AS [customer_number],
+            NULLIF([r].[n].value('(customer_name/text())[1]', 'NVARCHAR(200)'), N'') AS [customer_name],
+            NULLIF([r].[n].value('(email/text())[1]', 'NVARCHAR(320)'), N'') AS [email],
+            NULLIF([r].[n].value('(phone/text())[1]', 'NVARCHAR(50)'), N'') AS [phone]
+        FROM @x.nodes(N'/rows/row') AS [r]([n])
+    )
+    INSERT INTO [$(Staging)].[$(StagingSchema)].[customer]
+    (
+        [source_file_name],
+        [row_hash],
+        [customer_number],
+        [customer_name],
+        [email],
+        [phone]
+    )
+    SELECT
+        @FilePath,
+        HASHBYTES
+        (
+            N'SHA2_256',
+            CONVERT(VARBINARY(MAX),
+                CONCAT_WS(N'|',
+                    COALESCE(CONVERT(NVARCHAR(200), [customer_name]), N''),
+                    COALESCE(CONVERT(NVARCHAR(320), [email]), N''),
+                    COALESCE(CONVERT(NVARCHAR(50), [phone]), N'')
+                )
+            )
+        ),
+        [customer_number],
+        [customer_name],
+        [email],
+        [phone]
+    FROM [rows];
+END
+
+----- END FILE: ETL\Stored Procedures\SourceToStage\usp_Load_Customer_FromXml.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\SourceToStage\usp_Load_Transaction_FromXml.sql -----
+CREATE PROCEDURE [SourceToStage].[usp_Load_Transaction_FromXml]
+(
+    @FilePath NVARCHAR(4000),
+    @TruncateStage BIT = 1
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @TruncateStage = 1
+        TRUNCATE TABLE [$(Staging)].[$(StagingSchema)].[transaction];
+
+    DECLARE @x XML;
+
+    DECLARE @sql NVARCHAR(MAX) =
+    N'SELECT @xOut = TRY_CONVERT(XML, BulkColumn)
+      FROM OPENROWSET(BULK ''' + REPLACE(@FilePath, '''', '''''') + ''', SINGLE_BLOB) AS [src];';
+
+EXEC sys.sp_executesql
+    @sql,
+    N'@xOut XML OUTPUT',
+    @xOut = @x OUTPUT;
+
+    ;WITH [rows] AS
+    (
+        SELECT
+            [r].[n].value('(transaction_number/text())[1]', 'INT') AS [transaction_number],
+            [r].[n].value('(account_number/text())[1]', 'INT') AS [account_number],
+            TRY_CONVERT(DATE, [r].[n].value('(transaction_date/text())[1]', 'NVARCHAR(30)')) AS [transaction_date],
+            TRY_CONVERT(DECIMAL(19,4), [r].[n].value('(amount/text())[1]', 'NVARCHAR(60)')) AS [amount],
+            NULLIF([r].[n].value('(description/text())[1]', 'NVARCHAR(400)'), N'') AS [description]
+        FROM @x.nodes(N'/rows/row') AS [r]([n])
+    )
+    INSERT INTO [$(Staging)].[$(StagingSchema)].[transaction]
+    (
+        [source_file_name],
+        [row_hash],
+        [transaction_number],
+        [account_number],
+        [transaction_date],
+        [amount],
+        [description]
+    )
+    SELECT
+        @FilePath,
+        HASHBYTES
+        (
+            N'SHA2_256',
+            CONVERT(VARBINARY(MAX),
+                CONCAT_WS(N'|',
+                    COALESCE(CONVERT(NVARCHAR(20), [account_number]), N''),
+                    COALESCE(CONVERT(NVARCHAR(30), [transaction_date], 126), N''),
+                    COALESCE(CONVERT(NVARCHAR(60), [amount]), N''),
+                    COALESCE(CONVERT(NVARCHAR(400), [description]), N'')
+                )
+            )
+        ),
+        [transaction_number],
+        [account_number],
+        [transaction_date],
+        [amount],
+        [description]
+    FROM [rows];
+END
+
+----- END FILE: ETL\Stored Procedures\SourceToStage\usp_Load_Transaction_FromXml.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\SourceToStage\usp_LoadAll_FromVendor.sql -----
+CREATE PROCEDURE [SourceToStage].[usp_LoadAll_FromVendor]
+(
+    @AccountXmlPath     NVARCHAR(4000),
+    @CustomerXmlPath    NVARCHAR(4000),
+    @TransactionXmlPath NVARCHAR(4000)
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    BEGIN TRY
+        BEGIN TRAN;
+
+        EXEC [ETL].[SourceToStage].[usp_Load_Customer_FromXml]
+            @FilePath = @CustomerXmlPath,
+            @TruncateStage = 1;
+
+        EXEC [ETL].[SourceToStage].[usp_Load_Account_FromXml]
+            @FilePath = @AccountXmlPath,
+            @TruncateStage = 1;
+
+        EXEC [ETL].[SourceToStage].[usp_Load_Transaction_FromXml]
+            @FilePath = @TransactionXmlPath,
+            @TruncateStage = 1;
+
+        EXEC [ETL].[StageToODS].[usp_StageToODS_All];
+        EXEC [ETL].[ODSToDWH].[usp_LoadAll_ODSToDWH];
+
+        COMMIT;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK;
+
+        DECLARE
+            @ErrMsg NVARCHAR(2048) = ERROR_MESSAGE(),
+            @ErrNum INT = ERROR_NUMBER(),
+            @ErrState INT = ERROR_STATE(),
+            @ErrSeverity INT = ERROR_SEVERITY(),
+            @ErrLine INT = ERROR_LINE(),
+            @ErrProc NVARCHAR(256) = ERROR_PROCEDURE();
+
+        RAISERROR(
+            N'Load failed. Number=%d, Severity=%d, State=%d, Line=%d, Proc=%s, Message=%s',
+            @ErrSeverity, 1,
+            @ErrNum, @ErrSeverity, @ErrState, @ErrLine, @ErrProc, @ErrMsg
+        );
+    END CATCH
+END
+
+----- END FILE: ETL\Stored Procedures\SourceToStage\usp_LoadAll_FromVendor.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\StageToODS\usp_StageToODS_Account.sql -----
+CREATE PROCEDURE [StageToODS].[usp_StageToODS_Account]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @AsOfDts DATETIME2(3) =
+        (SELECT MAX([load_dts]) FROM [$(Staging)].[$(StagingSchema)].[account]);
+
+    IF @AsOfDts IS NULL
+        RETURN;
+
+    DECLARE @OpenEnded DATETIME2(3) = CONVERT(DATETIME2(3), '9999-12-31 23:59:59.997');
+
+    ;WITH [src] AS
+    (
+        SELECT
+            [account_number],
+            [row_hash],
+            [customer_number],
+            [account_type],
+            [opened_date],
+            [status]
+        FROM [$(Staging)].[$(StagingSchema)].[account]
+    ),
+    [cur] AS
+    (
+        SELECT
+            [account_number],
+            [row_hash]
+        FROM [$(ODS)].[$(ODSSchema)].[account]
+        WHERE [is_current] = 1
+    )
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [$(ODS)].[$(ODSSchema)].[account] AS [t]
+    INNER JOIN [src] AS [s]
+        ON [s].[account_number] = [t].[account_number]
+    WHERE [t].[is_current] = 1
+      AND ( [t].[row_hash] <> [s].[row_hash] OR ([t].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([t].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    INSERT INTO [$(ODS)].[$(ODSSchema)].[account]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [account_number],
+        [customer_number],
+        [account_type],
+        [opened_date],
+        [status]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        0,
+        [s].[row_hash],
+        [s].[account_number],
+        [s].[customer_number],
+        [s].[account_type],
+        [s].[opened_date],
+        [s].[status]
+    FROM [src] AS [s]
+    LEFT JOIN [cur] AS [c]
+        ON [c].[account_number] = [s].[account_number]
+    WHERE [c].[account_number] IS NULL
+       OR ( [c].[row_hash] <> [s].[row_hash] OR ([c].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([c].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [$(ODS)].[$(ODSSchema)].[account] AS [t]
+    LEFT JOIN [$(Staging)].[$(StagingSchema)].[account] AS [s]
+        ON [s].[account_number] = [t].[account_number]
+    WHERE [t].[is_current] = 1
+      AND [t].[is_deleted] = 0
+      AND [s].[account_number] IS NULL;
+
+    INSERT INTO [$(ODS)].[$(ODSSchema)].[account]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [account_number],
+        [customer_number],
+        [account_type],
+        [opened_date],
+        [status]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        1,
+        [t].[row_hash],
+        [t].[account_number],
+        [t].[customer_number],
+        [t].[account_type],
+        [t].[opened_date],
+        [t].[status]
+    FROM [$(ODS)].[$(ODSSchema)].[account] AS [t]
+    LEFT JOIN [$(Staging)].[$(StagingSchema)].[account] AS [s]
+        ON [s].[account_number] = [t].[account_number]
+    WHERE [t].[effective_to] = @AsOfDts
+      AND [t].[is_current] = 0
+      AND [t].[is_deleted] = 0
+      AND [s].[account_number] IS NULL;
+END
+
+----- END FILE: ETL\Stored Procedures\StageToODS\usp_StageToODS_Account.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\StageToODS\usp_StageToODS_All.sql -----
+CREATE PROCEDURE [StageToODS].[usp_StageToODS_All]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- order is still sensible: account first for lineage clarity
+    EXEC [ETL].[StageToODS].[usp_StageToODS_Account];
+    EXEC [ETL].[StageToODS].[usp_StageToODS_Customer];
+    EXEC [ETL].[StageToODS].[usp_StageToODS_Transaction];
+END
+
+----- END FILE: ETL\Stored Procedures\StageToODS\usp_StageToODS_All.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\StageToODS\usp_StageToODS_Customer.sql -----
+CREATE PROCEDURE [StageToODS].[usp_StageToODS_Customer]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @AsOfDts DATETIME2(3) =
+        (SELECT MAX([load_dts]) FROM [$(Staging)].[$(StagingSchema)].[customer]);
+
+    IF @AsOfDts IS NULL
+        RETURN;
+
+    DECLARE @OpenEnded DATETIME2(3) = CONVERT(DATETIME2(3), '9999-12-31 23:59:59.997');
+
+    ;WITH [src] AS
+    (
+        SELECT
+            [customer_number],
+            [row_hash],
+            [customer_name],
+            [email],
+            [phone]
+        FROM [$(Staging)].[$(StagingSchema)].[customer]
+    ),
+    [cur] AS
+    (
+        SELECT
+            [customer_number],
+            [row_hash]
+        FROM [$(ODS)].[$(ODSSchema)].[customer]
+        WHERE [is_current] = 1
+    )
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [$(ODS)].[$(ODSSchema)].[customer] AS [t]
+    INNER JOIN [src] AS [s]
+        ON [s].[customer_number] = [t].[customer_number]
+    WHERE [t].[is_current] = 1
+      AND ( [t].[row_hash] <> [s].[row_hash] OR ([t].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([t].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    INSERT INTO [$(ODS)].[$(ODSSchema)].[customer]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [customer_number],
+        [customer_name],
+        [email],
+        [phone]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        0,
+        [s].[row_hash],
+        [s].[customer_number],
+        [s].[customer_name],
+        [s].[email],
+        [s].[phone]
+    FROM [src] AS [s]
+    LEFT JOIN [cur] AS [c]
+        ON [c].[customer_number] = [s].[customer_number]
+    WHERE [c].[customer_number] IS NULL
+       OR ( [c].[row_hash] <> [s].[row_hash] OR ([c].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([c].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [$(ODS)].[$(ODSSchema)].[customer] AS [t]
+    LEFT JOIN [$(Staging)].[$(StagingSchema)].[customer] AS [s]
+        ON [s].[customer_number] = [t].[customer_number]
+    WHERE [t].[is_current] = 1
+      AND [t].[is_deleted] = 0
+      AND [s].[customer_number] IS NULL;
+
+    INSERT INTO [$(ODS)].[$(ODSSchema)].[customer]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [customer_number],
+        [customer_name],
+        [email],
+        [phone]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        1,
+        [t].[row_hash],
+        [t].[customer_number],
+        [t].[customer_name],
+        [t].[email],
+        [t].[phone]
+    FROM [$(ODS)].[$(ODSSchema)].[customer] AS [t]
+    LEFT JOIN [$(Staging)].[$(StagingSchema)].[customer] AS [s]
+        ON [s].[customer_number] = [t].[customer_number]
+    WHERE [t].[effective_to] = @AsOfDts
+      AND [t].[is_current] = 0
+      AND [t].[is_deleted] = 0
+      AND [s].[customer_number] IS NULL;
+END
+
+----- END FILE: ETL\Stored Procedures\StageToODS\usp_StageToODS_Customer.sql -----
+
+----- BEGIN FILE: ETL\Stored Procedures\StageToODS\usp_StageToODS_Transaction.sql -----
+CREATE PROCEDURE [StageToODS].[usp_StageToODS_Transaction]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @AsOfDts DATETIME2(3) =
+        (SELECT MAX([load_dts]) FROM [$(Staging)].[$(StagingSchema)].[transaction]);
+
+    IF @AsOfDts IS NULL
+        RETURN;
+
+    DECLARE @OpenEnded DATETIME2(3) = CONVERT(DATETIME2(3), '9999-12-31 23:59:59.997');
+
+    ;WITH [src] AS
+    (
+        SELECT
+            [transaction_number],
+            [row_hash],
+            [account_number],
+            [transaction_date],
+            [amount],
+            [description]
+        FROM [$(Staging)].[$(StagingSchema)].[transaction]
+    ),
+    [cur] AS
+    (
+        SELECT
+            [transaction_number],
+            [row_hash]
+        FROM [$(ODS)].[$(ODSSchema)].[transaction]
+        WHERE [is_current] = 1
+    )
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [$(ODS)].[$(ODSSchema)].[transaction] AS [t]
+    INNER JOIN [src] AS [s]
+        ON [s].[transaction_number] = [t].[transaction_number]
+    WHERE [t].[is_current] = 1
+      AND ( [t].[row_hash] <> [s].[row_hash] OR ([t].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([t].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    INSERT INTO [$(ODS)].[$(ODSSchema)].[transaction]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [transaction_number],
+        [account_number],
+        [transaction_date],
+        [amount],
+        [description]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        0,
+        [s].[row_hash],
+        [s].[transaction_number],
+        [s].[account_number],
+        [s].[transaction_date],
+        [s].[amount],
+        [s].[description]
+    FROM [src] AS [s]
+    LEFT JOIN [cur] AS [c]
+        ON [c].[transaction_number] = [s].[transaction_number]
+    WHERE [c].[transaction_number] IS NULL
+       OR ( [c].[row_hash] <> [s].[row_hash] OR ([c].[row_hash] IS NULL AND [s].[row_hash] IS NOT NULL) OR ([c].[row_hash] IS NOT NULL AND [s].[row_hash] IS NULL) );
+
+    UPDATE [t]
+        SET [t].[effective_to] = @AsOfDts,
+            [t].[is_current]   = 0
+    FROM [$(ODS)].[$(ODSSchema)].[transaction] AS [t]
+    LEFT JOIN [$(Staging)].[$(StagingSchema)].[transaction] AS [s]
+        ON [s].[transaction_number] = [t].[transaction_number]
+    WHERE [t].[is_current] = 1
+      AND [t].[is_deleted] = 0
+      AND [s].[transaction_number] IS NULL;
+
+    INSERT INTO [$(ODS)].[$(ODSSchema)].[transaction]
+    (
+        [effective_from],
+        [effective_to],
+        [is_current],
+        [is_deleted],
+        [row_hash],
+        [transaction_number],
+        [account_number],
+        [transaction_date],
+        [amount],
+        [description]
+    )
+    SELECT
+        @AsOfDts,
+        @OpenEnded,
+        1,
+        1,
+        [t].[row_hash],
+        [t].[transaction_number],
+        [t].[account_number],
+        [t].[transaction_date],
+        [t].[amount],
+        [t].[description]
+    FROM [$(ODS)].[$(ODSSchema)].[transaction] AS [t]
+    LEFT JOIN [$(Staging)].[$(StagingSchema)].[transaction] AS [s]
+        ON [s].[transaction_number] = [t].[transaction_number]
+    WHERE [t].[effective_to] = @AsOfDts
+      AND [t].[is_current] = 0
+      AND [t].[is_deleted] = 0
+      AND [s].[transaction_number] IS NULL;
+END
+
+----- END FILE: ETL\Stored Procedures\StageToODS\usp_StageToODS_Transaction.sql -----
+
+----- BEGIN FILE: ODS\obj\Debug\ODS.sqlproj.FileListAbsolute.txt -----
+X:\repos\data-warehouse\ODS\bin\Debug\ODS.dacpac
+X:\repos\data-warehouse\ODS\obj\Debug\ODS.sqlproj.AssemblyReference.cache
+X:\repos\data-warehouse\ODS\obj\Debug\Model.xml
+X:\repos\data-warehouse\ODS\obj\Debug\refactor.xml
+X:\repos\data-warehouse\ODS\obj\Debug\postdeploy.sql
+X:\repos\data-warehouse\ODS\obj\Debug\predeploy.sql
+X:\repos\data-warehouse\ODS\obj\Debug\ODS.dll
+X:\repos\data-warehouse\ODS\obj\Debug\ODS.pdb
+
+----- END FILE: ODS\obj\Debug\ODS.sqlproj.FileListAbsolute.txt -----
+
+----- BEGIN FILE: ODS\Tables\dbo\account.sql -----
+CREATE TABLE [dbo].[account]
+(
+    [ods_rowid]        BIGINT IDENTITY(1,1) NOT NULL,
+    [effective_from]   DATETIME2(3) NOT NULL,
+    [effective_to]     DATETIME2(3) NOT NULL,
+    [is_current]       BIT NOT NULL,
+    [is_deleted]       BIT NOT NULL,
+    [row_hash]         VARBINARY(32) NULL,
+    [account_number]   INT NOT NULL,
+    [customer_number]  INT NOT NULL,
+    [account_type]     NVARCHAR(50) NULL,
+    [opened_date]      DATE NULL,
+    [status]           NVARCHAR(20) NULL,
+    CONSTRAINT [PK_ods_account] PRIMARY KEY CLUSTERED ([ods_rowid] ASC)
+);
+
+----- END FILE: ODS\Tables\dbo\account.sql -----
+
+----- BEGIN FILE: ODS\Tables\dbo\customer.sql -----
+CREATE TABLE [dbo].[customer]
+(
+    [ods_rowid]        BIGINT IDENTITY(1,1) NOT NULL,
+    [effective_from]   DATETIME2(3) NOT NULL,
+    [effective_to]     DATETIME2(3) NOT NULL,
+    [is_current]       BIT NOT NULL,
+    [is_deleted]       BIT NOT NULL,
+    [row_hash]         VARBINARY(32) NULL,
+    [customer_number]  INT NOT NULL,
+    [customer_name]    NVARCHAR(200) NULL,
+    [email]            NVARCHAR(320) NULL,
+    [phone]            NVARCHAR(50) NULL,
+    CONSTRAINT [PK_ods_customer] PRIMARY KEY CLUSTERED ([ods_rowid] ASC)
+);
+
+----- END FILE: ODS\Tables\dbo\customer.sql -----
+
+----- BEGIN FILE: ODS\Tables\dbo\transaction.sql -----
+CREATE TABLE [dbo].[transaction]
+(
+    [ods_rowid]          BIGINT IDENTITY(1,1) NOT NULL,
+    [effective_from]     DATETIME2(3) NOT NULL,
+    [effective_to]       DATETIME2(3) NOT NULL,
+    [is_current]         BIT NOT NULL,
+    [is_deleted]         BIT NOT NULL,
+
+    [row_hash]           VARBINARY(32) NULL,
+
+    [transaction_number] INT NOT NULL,
+    [account_number]     INT NOT NULL,
+    [transaction_date]   DATE NULL,
+    [amount]             DECIMAL(19,4) NULL,
+    [description]        NVARCHAR(400) NULL,
+
+    CONSTRAINT [PK_ods_transaction] PRIMARY KEY CLUSTERED ([ods_rowid] ASC)
+);
+
+----- END FILE: ODS\Tables\dbo\transaction.sql -----
+
+----- BEGIN FILE: Staging\obj\Debug\Staging.sqlproj.FileListAbsolute.txt -----
+X:\repos\data-warehouse\Staging\bin\Debug\Staging.dacpac
+X:\repos\data-warehouse\Staging\obj\Debug\Staging.sqlproj.AssemblyReference.cache
+X:\repos\data-warehouse\Staging\obj\Debug\Model.xml
+X:\repos\data-warehouse\Staging\obj\Debug\refactor.xml
+X:\repos\data-warehouse\Staging\obj\Debug\postdeploy.sql
+X:\repos\data-warehouse\Staging\obj\Debug\predeploy.sql
+X:\repos\data-warehouse\Staging\obj\Debug\Staging.dll
+X:\repos\data-warehouse\Staging\obj\Debug\Staging.pdb
+
+----- END FILE: Staging\obj\Debug\Staging.sqlproj.FileListAbsolute.txt -----
+
+----- BEGIN FILE: Staging\Tables\dbo\account.sql -----
+CREATE TABLE [dbo].[account]
+(
+    [rowid]            BIGINT IDENTITY(1,1) NOT NULL,
+    [load_dts]         DATETIME2(3) NOT NULL CONSTRAINT [DF_stg_account_load_dts] DEFAULT (SYSUTCDATETIME()),
+    [source_file_name] NVARCHAR(260) NULL,
+    [row_hash]         VARBINARY(32) NULL,
+    [account_number]   INT NOT NULL,
+    [customer_number]  INT NOT NULL,
+    [account_type]     NVARCHAR(50) NULL,
+    [opened_date]      DATE NULL,
+    [status]           NVARCHAR(20) NULL,
+    CONSTRAINT [PK_stg_account] PRIMARY KEY CLUSTERED ([account_number] ASC),
+    CONSTRAINT [FK_stg_account_customer] FOREIGN KEY ([customer_number]) REFERENCES [dbo].[customer]([customer_number])
+);
+
+----- END FILE: Staging\Tables\dbo\account.sql -----
+
+----- BEGIN FILE: Staging\Tables\dbo\customer.sql -----
+CREATE TABLE [dbo].[customer]
+(
+    [rowid]            BIGINT IDENTITY(1,1) NOT NULL,
+    [load_dts]         DATETIME2(3) NOT NULL CONSTRAINT [DF_stg_customer_load_dts] DEFAULT (SYSUTCDATETIME()),
+    [source_file_name] NVARCHAR(260) NULL,
+    [row_hash]         VARBINARY(32) NULL,
+    [customer_number]  INT NOT NULL,
+    [customer_name]    NVARCHAR(200) NULL,
+    [email]            NVARCHAR(320) NULL,
+    [phone]            NVARCHAR(50) NULL,
+    CONSTRAINT [PK_stg_customer] PRIMARY KEY CLUSTERED ([customer_number] ASC)
+);
+
+----- END FILE: Staging\Tables\dbo\customer.sql -----
+
+----- BEGIN FILE: Staging\Tables\dbo\transaction.sql -----
+CREATE TABLE [dbo].[transaction]
+(
+    [rowid]              BIGINT IDENTITY(1,1) NOT NULL,
+    [load_dts]           DATETIME2(3) NOT NULL CONSTRAINT [DF_stg_transaction_load_dts] DEFAULT (SYSUTCDATETIME()),
+    [source_file_name]   NVARCHAR(260) NULL,
+    [row_hash]           VARBINARY(32) NULL,
+    [transaction_number] INT NOT NULL,
+    [account_number]     INT NOT NULL,
+    [transaction_date]   DATE NULL,
+    [amount]             DECIMAL(19,4) NULL,
+    [description]        NVARCHAR(400) NULL,
+    CONSTRAINT [PK_stg_transaction] PRIMARY KEY CLUSTERED ([transaction_number] ASC),
+    CONSTRAINT [FK_stg_transaction_account] FOREIGN KEY ([account_number]) REFERENCES [dbo].[account]([account_number])
+);
+
+----- END FILE: Staging\Tables\dbo\transaction.sql -----
+

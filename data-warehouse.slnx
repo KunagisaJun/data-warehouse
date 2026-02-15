@@ -1,17 +1,17 @@
 <Solution>
-  <Project Path="DWH/DWH.sqlproj">
+  <Project Path="DWH/DWH.sqlproj" Id="cc17ad95-2368-4301-8868-7ff335a3b050">
     <Build />
     <Deploy />
   </Project>
-  <Project Path="ETL/ETL.sqlproj">
+  <Project Path="ETL/ETL.sqlproj" Id="67e3cdc7-34b1-4ab3-bba2-1fcfcbfba6e7">
     <Build />
     <Deploy />
   </Project>
-  <Project Path="ODS/ODS.sqlproj">
+  <Project Path="ODS/ODS.sqlproj" Id="f8ce6323-9a5c-446b-ad59-1cfc08012455">
     <Build />
     <Deploy />
   </Project>
-  <Project Path="Staging/Staging.sqlproj">
+  <Project Path="Staging/Staging.sqlproj" Id="16ae56a5-3018-47e0-80a8-89c5e90a72ce">
     <Build />
     <Deploy />
   </Project>
