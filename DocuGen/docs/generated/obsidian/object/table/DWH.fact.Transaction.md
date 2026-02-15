@@ -11,3 +11,7 @@
 - [[DWH.fact.Transaction.row_hash]]
 - [[DWH.fact.Transaction.transaction_date_sk]]
 - [[DWH.fact.Transaction.transaction_number]]
+## Views
+- [[.views/upstream/DWH.fact.Transaction|Upstream]]
+- [[.views/downstream/DWH.fact.Transaction|Downstream]]
+

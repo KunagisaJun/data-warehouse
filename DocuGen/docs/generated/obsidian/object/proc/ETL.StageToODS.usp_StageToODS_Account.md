@@ -35,3 +35,7 @@
 - [[ODS.dbo.account.row_hash]]
 - [[ODS.dbo.account.status]]
 
+## Views
+- [[.views/upstream/ETL.StageToODS.usp_StageToODS_Account|Upstream]]
+- [[.views/downstream/ETL.StageToODS.usp_StageToODS_Account|Downstream]]
+

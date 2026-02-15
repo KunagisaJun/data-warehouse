@@ -27,3 +27,7 @@
 - [[DWH.dim.Customer.phone]]
 - [[DWH.dim.Customer.row_hash]]
 
+## Views
+- [[.views/upstream/ETL.ODSToDWH.usp_Load_DimCustomer|Upstream]]
+- [[.views/downstream/ETL.ODSToDWH.usp_Load_DimCustomer|Downstream]]
+

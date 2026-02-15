@@ -1,4 +1,4 @@
-﻿# Staging.dbo.customer
+# Staging.dbo.customer
 
 - Schema: [[Staging.dbo]]
 - Type: `Table`
@@ -12,3 +12,7 @@
 - [[Staging.dbo.customer.rowid]]
 - [[Staging.dbo.customer.row_hash]]
 - [[Staging.dbo.customer.source_file_name]]
+## Views
+- [[.views/upstream/Staging.dbo.customer|Upstream]]
+- [[.views/downstream/Staging.dbo.customer|Downstream]]
+

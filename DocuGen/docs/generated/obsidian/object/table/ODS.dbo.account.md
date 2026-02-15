@@ -15,3 +15,7 @@
 - [[ODS.dbo.account.opened_date]]
 - [[ODS.dbo.account.row_hash]]
 - [[ODS.dbo.account.status]]
+## Views
+- [[.views/upstream/ODS.dbo.account|Upstream]]
+- [[.views/downstream/ODS.dbo.account|Downstream]]
+

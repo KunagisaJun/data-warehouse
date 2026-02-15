@@ -1,0 +1,76 @@
+﻿# Downstream: Staging.dbo.transaction
+
+Start: [[Staging.dbo.transaction]]
+
+## Hop 1
+- [[ETL.SourceToStage.usp_Load_Transaction_FromXml]] (read)
+- [[ETL.StageToODS.usp_StageToODS_Transaction]] (read)
+- [[Staging.dbo.transaction.account_number]] (contains)
+- [[Staging.dbo.transaction.amount]] (contains)
+- [[Staging.dbo.transaction.description]] (contains)
+- [[Staging.dbo.transaction.load_dts]] (contains)
+- [[Staging.dbo.transaction.rowid]] (contains)
+- [[Staging.dbo.transaction.row_hash]] (contains)
+- [[Staging.dbo.transaction.source_file_name]] (contains)
+- [[Staging.dbo.transaction.transaction_date]] (contains)
+- [[Staging.dbo.transaction.transaction_number]] (contains)
+
+## Hop 2
+- [[Staging.dbo.transaction]] (write)
+- [[Staging.dbo.transaction.account_number]] (write-col)
+- [[Staging.dbo.transaction.amount]] (write-col)
+- [[Staging.dbo.transaction.description]] (write-col)
+- [[Staging.dbo.transaction.row_hash]] (write-col)
+- [[Staging.dbo.transaction.source_file_name]] (write-col)
+- [[Staging.dbo.transaction.transaction_date]] (write-col)
+- [[Staging.dbo.transaction.transaction_number]] (write-col)
+- [[ODS.dbo.transaction]] (write)
+- [[ODS.dbo.transaction.account_number]] (write-col)
+- [[ODS.dbo.transaction.amount]] (write-col)
+- [[ODS.dbo.transaction.description]] (write-col)
+- [[ODS.dbo.transaction.effective_from]] (write-col)
+- [[ODS.dbo.transaction.effective_to]] (write-col)
+- [[ODS.dbo.transaction.is_current]] (write-col)
+- [[ODS.dbo.transaction.is_deleted]] (write-col)
+- [[ODS.dbo.transaction.row_hash]] (write-col)
+- [[ODS.dbo.transaction.transaction_date]] (write-col)
+- [[ODS.dbo.transaction.transaction_number]] (write-col)
+
+## Hop 3
+- [[ETL.ODSToDWH.usp_Load_FactTransaction]] (read)
+- [[ETL.StageToODS.usp_StageToODS_Transaction]] (read)
+- [[ODS.dbo.transaction.account_number]] (contains)
+- [[ODS.dbo.transaction.amount]] (contains)
+- [[ODS.dbo.transaction.description]] (contains)
+- [[ODS.dbo.transaction.effective_from]] (contains)
+- [[ODS.dbo.transaction.effective_to]] (contains)
+- [[ODS.dbo.transaction.is_current]] (contains)
+- [[ODS.dbo.transaction.is_deleted]] (contains)
+- [[ODS.dbo.transaction.ods_rowid]] (contains)
+- [[ODS.dbo.transaction.row_hash]] (contains)
+- [[ODS.dbo.transaction.transaction_date]] (contains)
+- [[ODS.dbo.transaction.transaction_number]] (contains)
+- [[ETL.ODSToDWH.usp_Load_FactTransaction]] (read-col)
+- [[ETL.StageToODS.usp_StageToODS_Transaction]] (read-col)
+
+## Hop 4
+- [[DWH.fact.Transaction]] (write)
+- [[DWH.fact.Transaction.account_sk]] (write-col)
+- [[DWH.fact.Transaction.amount]] (write-col)
+- [[DWH.fact.Transaction.customer_sk]] (write-col)
+- [[DWH.fact.Transaction.description]] (write-col)
+- [[DWH.fact.Transaction.row_hash]] (write-col)
+- [[DWH.fact.Transaction.transaction_date_sk]] (write-col)
+- [[DWH.fact.Transaction.transaction_number]] (write-col)
+
+## Hop 5
+- [[DWH.fact.Transaction.account_sk]] (contains)
+- [[DWH.fact.Transaction.amount]] (contains)
+- [[DWH.fact.Transaction.customer_sk]] (contains)
+- [[DWH.fact.Transaction.description]] (contains)
+- [[DWH.fact.Transaction.row_hash]] (contains)
+- [[DWH.fact.Transaction.transaction_date_sk]] (contains)
+- [[DWH.fact.Transaction.transaction_number]] (contains)
+- [[ETL.ODSToDWH.usp_Load_FactTransaction]] (read)
+- [[ETL.ODSToDWH.usp_Load_FactTransaction]] (read-col)
+

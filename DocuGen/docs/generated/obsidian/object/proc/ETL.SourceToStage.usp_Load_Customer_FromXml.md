@@ -23,3 +23,7 @@
 - [[Staging.dbo.customer.row_hash]]
 - [[Staging.dbo.customer.source_file_name]]
 
+## Views
+- [[.views/upstream/ETL.SourceToStage.usp_Load_Customer_FromXml|Upstream]]
+- [[.views/downstream/ETL.SourceToStage.usp_Load_Customer_FromXml|Downstream]]
+

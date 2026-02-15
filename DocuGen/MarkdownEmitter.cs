@@ -37,6 +37,9 @@ namespace DocuGen
                 Directory.CreateDirectory(folder);
                 Write(Path.Combine(folder, $"{NameNorm.SafeFile(o.Key)}.md"), RenderObject(o, cat));
             }
+
+            // Generate lineage "view" notes under .views/ (intended to be excluded from the main graph).
+            LineageViewEmitter.Emit(outRoot, cat);
         }
 
         static string RenderDb(string db, Catalog cat)
@@ -98,6 +101,8 @@ namespace DocuGen
                 {
                     sb.AppendLine($"- [[{c.Key}]]");
                 }
+
+                AppendViews(sb, o.Key);
                 return sb.ToString();
             }
 
@@ -108,7 +113,18 @@ namespace DocuGen
             WriteSection(sb, "## Reads columns", o.ReadsColumns);
             WriteSection(sb, "## Writes columns", o.WritesColumns);
 
+            AppendViews(sb, o.Key);
+
             return sb.ToString();
+        }
+
+        static void AppendViews(StringBuilder sb, string key)
+        {
+            var safe = NameNorm.SafeFile(key);
+            sb.AppendLine("## Views");
+            sb.AppendLine($"- [[.views/upstream/{safe}|Upstream]]");
+            sb.AppendLine($"- [[.views/downstream/{safe}|Downstream]]");
+            sb.AppendLine();
         }
 
         static void WriteSection(StringBuilder sb, string title, System.Collections.Generic.HashSet<string> items)
@@ -127,6 +143,7 @@ namespace DocuGen
             sb.AppendLine();
             sb.AppendLine($"- Table: [[{c.Db}.{c.Schema}.{c.Table}]]");
             sb.AppendLine();
+            AppendViews(sb, c.Key);
             sb.AppendLine("> Use backlinks to see which procs/views/functions read/write this column.");
             return sb.ToString();
         }

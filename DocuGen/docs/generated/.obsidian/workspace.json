@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "a2aab811673481f6",
+        "id": "a42dace1050edd03",
         "type": "tabs",
         "children": [
           {
-            "id": "f19535a2aecc3b79",
+            "id": "ee9f558d20c0849f",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "obsidian/object/table/Staging.dbo.customer.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Staging.dbo.customer"
             }
           }
         ]
@@ -90,8 +94,9 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "obsidian/object/table/Staging.dbo.customer.md",
                 "collapseAll": false,
-                "extraContext": false,
+                "extraContext": true,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
@@ -99,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for Staging.dbo.customer"
             }
           },
           {
@@ -108,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "obsidian/object/table/Staging.dbo.customer.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from Staging.dbo.customer"
             }
           },
           {
@@ -158,12 +164,12 @@
               "title": "Outline"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -176,8 +182,11 @@
       "bases:Create new base": false
     }
   },
-  "active": "f19535a2aecc3b79",
+  "active": "cc5689e3f0a833d0",
   "lastOpenFiles": [
+    "obsidian/column/Staging.dbo.customer.load_dts.md",
+    "obsidian/object/table/Staging.dbo.customer.md",
+    "2026-02-15.md",
     "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_All.md",
     "Untitled 1.canvas",
     "Untitled.canvas",
@@ -196,7 +205,6 @@
     "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Transaction.md",
     "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Account.md",
     "obsidian/object/table/Staging.dbo.transaction.md",
-    "obsidian/object/table/Staging.dbo.customer.md",
     "obsidian/object/table/Staging.dbo.account.md",
     "obsidian/object/table/ODS.dbo.transaction.md",
     "obsidian/object/table/ODS.dbo.customer.md",
@@ -210,7 +218,6 @@
     "obsidian/object/proc/ETL.SourceToStage.usp_Load_Customer_FromXml.md",
     "obsidian/object/proc/ETL.SourceToStage.usp_Load_Account_FromXml.md",
     "obsidian/object/proc/ETL.SourceToStage.usp_LoadAll_FromVendor.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_FactTransaction.md",
     "obsidian/object/proc",
     "obsidian/edges/write/ETL",
     "obsidian/edges/write",

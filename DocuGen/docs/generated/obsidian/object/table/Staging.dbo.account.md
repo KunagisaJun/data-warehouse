@@ -13,3 +13,7 @@
 - [[Staging.dbo.account.row_hash]]
 - [[Staging.dbo.account.source_file_name]]
 - [[Staging.dbo.account.status]]
+## Views
+- [[.views/upstream/Staging.dbo.account|Upstream]]
+- [[.views/downstream/Staging.dbo.account|Downstream]]
+

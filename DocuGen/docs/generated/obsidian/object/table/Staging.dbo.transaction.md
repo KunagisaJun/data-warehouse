@@ -13,3 +13,7 @@
 - [[Staging.dbo.transaction.source_file_name]]
 - [[Staging.dbo.transaction.transaction_date]]
 - [[Staging.dbo.transaction.transaction_number]]
+## Views
+- [[.views/upstream/Staging.dbo.transaction|Upstream]]
+- [[.views/downstream/Staging.dbo.transaction|Downstream]]
+

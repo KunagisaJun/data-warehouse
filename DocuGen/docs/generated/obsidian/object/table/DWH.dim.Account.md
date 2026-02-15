@@ -15,3 +15,7 @@
 - [[DWH.dim.Account.opened_date]]
 - [[DWH.dim.Account.row_hash]]
 - [[DWH.dim.Account.status]]
+## Views
+- [[.views/upstream/DWH.dim.Account|Upstream]]
+- [[.views/downstream/DWH.dim.Account|Downstream]]
+

@@ -33,3 +33,7 @@
 - [[ODS.dbo.customer.phone]]
 - [[ODS.dbo.customer.row_hash]]
 
+## Views
+- [[.views/upstream/ETL.StageToODS.usp_StageToODS_Customer|Upstream]]
+- [[.views/downstream/ETL.StageToODS.usp_StageToODS_Customer|Downstream]]
+

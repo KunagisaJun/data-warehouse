@@ -48,3 +48,7 @@
 - [[DWH.fact.Transaction.transaction_date_sk]]
 - [[DWH.fact.Transaction.transaction_number]]
 
+## Views
+- [[.views/upstream/ETL.ODSToDWH.usp_Load_FactTransaction|Upstream]]
+- [[.views/downstream/ETL.ODSToDWH.usp_Load_FactTransaction|Downstream]]
+

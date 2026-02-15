@@ -14,3 +14,7 @@
 - [[DWH.dim.Customer.is_deleted]]
 - [[DWH.dim.Customer.phone]]
 - [[DWH.dim.Customer.row_hash]]
+## Views
+- [[.views/upstream/DWH.dim.Customer|Upstream]]
+- [[.views/downstream/DWH.dim.Customer|Downstream]]
+

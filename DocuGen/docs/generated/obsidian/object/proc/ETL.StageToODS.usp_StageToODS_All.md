@@ -1,4 +1,4 @@
-# ETL.StageToODS.usp_StageToODS_All
+﻿# ETL.StageToODS.usp_StageToODS_All
 
 - Schema: [[ETL.StageToODS]]
 - Type: `Proc`
@@ -19,4 +19,8 @@
 
 ## Writes columns
 - _(none detected)_
+
+## Views
+- [[.views/upstream/ETL.StageToODS.usp_StageToODS_All|Upstream]]
+- [[.views/downstream/ETL.StageToODS.usp_StageToODS_All|Downstream]]
 

@@ -89,8 +89,6 @@ namespace DocuGen
 
         static (string Schema, string Name) Split2(ObjectIdentifier id)
         {
-            // Typically: [schema].[name]
-            // id.Parts is IList<string>
             var parts = id.Parts;
             var n = parts?.Count ?? 0;
 

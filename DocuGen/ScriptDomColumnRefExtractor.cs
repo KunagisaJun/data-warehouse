@@ -156,7 +156,6 @@ namespace DocuGen
 
             public override void Visit(NamedTableReference node)
             {
-                // tables in FROM/JOIN are reads
                 var t = ParseTableName(node.SchemaObject);
                 if (t != null) AddObj(ReadObjects, t.Value.Db, t.Value.Schema, t.Value.Table);
                 base.Visit(node);
@@ -164,7 +163,6 @@ namespace DocuGen
 
             public override void Visit(SetClause node)
             {
-                // LHS column refs inside SET are writes
                 _inWriteColumns = true;
                 base.Visit(node);
                 _inWriteColumns = false;
@@ -175,17 +173,14 @@ namespace DocuGen
                 var ids = node.MultiPartIdentifier?.Identifiers;
                 if (ids == null || ids.Count == 0) { base.Visit(node); return; }
 
-                // writes: INSERT column list or UPDATE SET lhs
                 if (_writeTarget != null && _inWriteColumns)
                 {
-                    // INSERT list gives 1-part; UPDATE lhs is often 2-part alias.col
                     var col = ids.Count == 1 ? ids[0].Value : ids[^1].Value;
                     AddCol(WriteColumns, _writeTarget.Value.Db, _writeTarget.Value.Schema, _writeTarget.Value.Table, col);
                     base.Visit(node);
                     return;
                 }
 
-                // reads
                 if (ids.Count == 4)
                 {
                     AddCol(ReadColumns,

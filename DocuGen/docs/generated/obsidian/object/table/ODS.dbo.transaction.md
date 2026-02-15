@@ -15,3 +15,7 @@
 - [[ODS.dbo.transaction.row_hash]]
 - [[ODS.dbo.transaction.transaction_date]]
 - [[ODS.dbo.transaction.transaction_number]]
+## Views
+- [[.views/upstream/ODS.dbo.transaction|Upstream]]
+- [[.views/downstream/ODS.dbo.transaction|Downstream]]
+

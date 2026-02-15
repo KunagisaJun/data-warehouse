@@ -27,3 +27,7 @@
 - [[DWH.dim.Date.quarter_number]]
 - [[DWH.dim.Date.year_number]]
 
+## Views
+- [[.views/upstream/ETL.ODSToDWH.usp_Load_DimDate|Upstream]]
+- [[.views/downstream/ETL.ODSToDWH.usp_Load_DimDate|Downstream]]
+

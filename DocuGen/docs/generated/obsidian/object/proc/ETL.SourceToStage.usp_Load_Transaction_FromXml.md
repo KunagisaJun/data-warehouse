@@ -24,3 +24,7 @@
 - [[Staging.dbo.transaction.transaction_date]]
 - [[Staging.dbo.transaction.transaction_number]]
 
+## Views
+- [[.views/upstream/ETL.SourceToStage.usp_Load_Transaction_FromXml|Upstream]]
+- [[.views/downstream/ETL.SourceToStage.usp_Load_Transaction_FromXml|Downstream]]
+

@@ -14,3 +14,7 @@
 - [[ODS.dbo.customer.ods_rowid]]
 - [[ODS.dbo.customer.phone]]
 - [[ODS.dbo.customer.row_hash]]
+## Views
+- [[.views/upstream/ODS.dbo.customer|Upstream]]
+- [[.views/downstream/ODS.dbo.customer|Downstream]]
+

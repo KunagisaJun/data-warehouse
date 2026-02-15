@@ -14,3 +14,7 @@
 - [[DWH.dim.Date.month_number]]
 - [[DWH.dim.Date.quarter_number]]
 - [[DWH.dim.Date.year_number]]
+## Views
+- [[.views/upstream/DWH.dim.Date|Upstream]]
+- [[.views/downstream/DWH.dim.Date|Downstream]]
+

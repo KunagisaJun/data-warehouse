@@ -24,3 +24,7 @@
 - [[Staging.dbo.account.source_file_name]]
 - [[Staging.dbo.account.status]]
 
+## Views
+- [[.views/upstream/ETL.SourceToStage.usp_Load_Account_FromXml|Upstream]]
+- [[.views/downstream/ETL.SourceToStage.usp_Load_Account_FromXml|Downstream]]
+

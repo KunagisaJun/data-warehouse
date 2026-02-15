@@ -35,3 +35,7 @@
 - [[ODS.dbo.transaction.transaction_date]]
 - [[ODS.dbo.transaction.transaction_number]]
 
+## Views
+- [[.views/upstream/ETL.StageToODS.usp_StageToODS_Transaction|Upstream]]
+- [[.views/downstream/ETL.StageToODS.usp_StageToODS_Transaction|Downstream]]
+

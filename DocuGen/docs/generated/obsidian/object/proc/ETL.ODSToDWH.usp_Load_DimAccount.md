@@ -28,3 +28,7 @@
 - [[DWH.dim.Account.row_hash]]
 - [[DWH.dim.Account.status]]
 
+## Views
+- [[.views/upstream/ETL.ODSToDWH.usp_Load_DimAccount|Upstream]]
+- [[.views/downstream/ETL.ODSToDWH.usp_Load_DimAccount|Downstream]]
+
