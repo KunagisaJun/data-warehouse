@@ -1,0 +1,218 @@
+{
+  "main": {
+    "id": "b35cd41ecd66e81b",
+    "type": "split",
+    "children": [
+      {
+        "id": "44e89f76ebdccb01",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "950edf575bbeae4b",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ed24d46a3aa71a60",
+    "type": "split",
+    "children": [
+      {
+        "id": "b37fae9704f535b1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "03c3877af6d8ef6b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "29d3fe86c7a053e0",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "676d278ddbb07a45",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "42da1d0904361ad4",
+    "type": "split",
+    "children": [
+      {
+        "id": "c4cdf6de96d7052b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e1b3b3aa22c16856",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "cc5689e3f0a833d0",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "1a1f41c3b3372ca3",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "ab330a64a244b431",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "965ac97df69e2431",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "03c3877af6d8ef6b",
+  "lastOpenFiles": [
+    "obsidian/database/ETL.md",
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Transaction.md",
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Account.md",
+    "obsidian/object/table/Staging.dbo.transaction.md",
+    "obsidian/object/table/Staging.dbo.customer.md",
+    "obsidian/object/table/Staging.dbo.account.md",
+    "obsidian/object/table/ODS.dbo.transaction.md",
+    "obsidian/object/table/ODS.dbo.customer.md",
+    "obsidian/object/table/ODS.dbo.account.md",
+    "obsidian/object/table/DWH.fact.Transaction.md",
+    "obsidian/object/table/DWH.dim.Date.md",
+    "obsidian/object/table/DWH.dim.Account.md",
+    "obsidian/object/table/DWH.dim.Customer.md",
+    "obsidian/object/table",
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Customer.md",
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_All.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Transaction_FromXml.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Customer_FromXml.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Account_FromXml.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_LoadAll_FromVendor.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_FactTransaction.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimDate.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimCustomer.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimAccount.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_LoadAll_ODSToDWH.md",
+    "obsidian/object/proc",
+    "obsidian/column/ODS.dbo.transaction.account_number.md",
+    "obsidian/column/ODS.dbo.customer.row_hash.md",
+    "obsidian/column",
+    "obsidian/object",
+    "obsidian/schema",
+    "obsidian/database",
+    "obsidian/edges/write/ETL",
+    "obsidian/edges/write",
+    "obsidian/edges/call/ETL",
+    "obsidian/edges/call"
+  ]
+}
