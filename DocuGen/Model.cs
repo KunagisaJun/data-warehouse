@@ -8,10 +8,10 @@ namespace DocuGen
 
     internal sealed class Catalog
     {
-        public HashSet<string> Databases { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        public HashSet<(string Db, string Schema)> Schemas { get; } = new HashSet<(string Db, string Schema)>();
-        public Dictionary<string, SqlObject> Objects { get; } = new Dictionary<string, SqlObject>(StringComparer.OrdinalIgnoreCase);   // db.schema.obj
-        public Dictionary<string, SqlColumn> Columns { get; } = new Dictionary<string, SqlColumn>(StringComparer.OrdinalIgnoreCase); // db.schema.table.col
+        public HashSet<string> Databases { get; } = new(StringComparer.OrdinalIgnoreCase);
+        public HashSet<(string Db, string Schema)> Schemas { get; } = new();
+        public Dictionary<string, SqlObject> Objects { get; } = new(StringComparer.OrdinalIgnoreCase);   // db.schema.obj
+        public Dictionary<string, SqlColumn> Columns { get; } = new(StringComparer.OrdinalIgnoreCase); // db.schema.table.col
     }
 
     internal sealed class SqlObject
@@ -20,10 +20,14 @@ namespace DocuGen
         public required string Schema { get; init; }
         public required string Name { get; init; }
         public required SqlObjectType Type { get; init; }
-        public required string Key { get; init; } // db.schema.name
+        public required string Key { get; init; }
 
-        // lineage-first: proc/view/function -> columns referenced anywhere
-        public HashSet<string> ReferencedColumns { get; } = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        public HashSet<string> ReadsObjects { get; } = new(StringComparer.OrdinalIgnoreCase);
+        public HashSet<string> WritesObjects { get; } = new(StringComparer.OrdinalIgnoreCase);
+        public HashSet<string> CallsObjects { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+        public HashSet<string> ReadsColumns { get; } = new(StringComparer.OrdinalIgnoreCase);
+        public HashSet<string> WritesColumns { get; } = new(StringComparer.OrdinalIgnoreCase);
     }
 
     internal sealed class SqlColumn
@@ -32,14 +36,13 @@ namespace DocuGen
         public required string Schema { get; init; }
         public required string Table { get; init; }
         public required string Name { get; init; }
-        public required string Key { get; init; } // db.schema.table.col
+        public required string Key { get; init; }
     }
 
     internal static class NameNorm
     {
         public static string NormalizeDb(string db)
         {
-            // $(ODS) => ODS
             if (db.Length >= 4 && db.StartsWith("$(", StringComparison.Ordinal) && db.EndsWith(")", StringComparison.Ordinal))
                 return db.Substring(2, db.Length - 3);
             return db;

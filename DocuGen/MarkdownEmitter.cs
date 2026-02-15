@@ -22,13 +22,16 @@ namespace DocuGen
             foreach (var db in cat.Databases.OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
                 Write(Path.Combine(dbDir, $"{NameNorm.SafeFile(db)}.md"), RenderDb(db, cat));
 
-            foreach (var s in cat.Schemas.OrderBy(x => x.Db).ThenBy(x => x.Schema))
-                Write(Path.Combine(schemaDir, $"{NameNorm.SafeFile($"{s.Db}.{s.Schema}")}.md"), RenderSchema(s.Db, s.Schema, cat));
+            foreach (var s in cat.Schemas.OrderBy(x => x.Db, StringComparer.OrdinalIgnoreCase)
+                                         .ThenBy(x => x.Schema, StringComparer.OrdinalIgnoreCase))
+                Write(Path.Combine(schemaDir, $"{NameNorm.SafeFile($"{s.Db}.{s.Schema}")}.md"),
+                    RenderSchema(s.Db, s.Schema, cat));
 
             foreach (var c in cat.Columns.Values.OrderBy(x => x.Key, StringComparer.OrdinalIgnoreCase))
                 Write(Path.Combine(colDir, $"{NameNorm.SafeFile(c.Key)}.md"), RenderColumn(c));
 
-            foreach (var o in cat.Objects.Values.OrderBy(x => x.Type).ThenBy(x => x.Key, StringComparer.OrdinalIgnoreCase))
+            foreach (var o in cat.Objects.Values.OrderBy(x => x.Type)
+                                               .ThenBy(x => x.Key, StringComparer.OrdinalIgnoreCase))
             {
                 var folder = Path.Combine(objDir, o.Type.ToString().ToLowerInvariant());
                 Directory.CreateDirectory(folder);
@@ -42,10 +45,15 @@ namespace DocuGen
             sb.AppendLine($"# {db}");
             sb.AppendLine();
             sb.AppendLine("## Schemas");
-            foreach (var s in cat.Schemas.Where(x => x.Db.Equals(db, StringComparison.OrdinalIgnoreCase))
-                                         .Select(x => x.Schema).Distinct(StringComparer.OrdinalIgnoreCase)
+
+            foreach (var s in cat.Schemas.Where(x => string.Equals(x.Db, db, StringComparison.OrdinalIgnoreCase))
+                                         .Select(x => x.Schema)
+                                         .Distinct(StringComparer.OrdinalIgnoreCase)
                                          .OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
+            {
                 sb.AppendLine($"- [[{db}.{s}]]");
+            }
+
             return sb.ToString();
         }
 
@@ -57,10 +65,16 @@ namespace DocuGen
             sb.AppendLine($"- [[{db}]]");
             sb.AppendLine();
             sb.AppendLine("## Objects");
-            foreach (var o in cat.Objects.Values.Where(o => o.Db.Equals(db, StringComparison.OrdinalIgnoreCase) &&
-                                                           o.Schema.Equals(schema, StringComparison.OrdinalIgnoreCase))
-                                               .OrderBy(o => o.Type).ThenBy(o => o.Name, StringComparer.OrdinalIgnoreCase))
+
+            foreach (var o in cat.Objects.Values.Where(o =>
+                         string.Equals(o.Db, db, StringComparison.OrdinalIgnoreCase) &&
+                         string.Equals(o.Schema, schema, StringComparison.OrdinalIgnoreCase))
+                     .OrderBy(o => o.Type)
+                     .ThenBy(o => o.Name, StringComparer.OrdinalIgnoreCase))
+            {
                 sb.AppendLine($"- [[{o.Key}]]");
+            }
+
             return sb.ToString();
         }
 
@@ -76,20 +90,34 @@ namespace DocuGen
             if (o.Type == SqlObjectType.Table)
             {
                 sb.AppendLine("## Columns");
-                foreach (var c in cat.Columns.Values.Where(c => c.Db.Equals(o.Db, StringComparison.OrdinalIgnoreCase) &&
-                                                               c.Schema.Equals(o.Schema, StringComparison.OrdinalIgnoreCase) &&
-                                                               c.Table.Equals(o.Name, StringComparison.OrdinalIgnoreCase))
-                                                   .OrderBy(c => c.Name, StringComparer.OrdinalIgnoreCase))
+                foreach (var c in cat.Columns.Values.Where(c =>
+                             string.Equals(c.Db, o.Db, StringComparison.OrdinalIgnoreCase) &&
+                             string.Equals(c.Schema, o.Schema, StringComparison.OrdinalIgnoreCase) &&
+                             string.Equals(c.Table, o.Name, StringComparison.OrdinalIgnoreCase))
+                         .OrderBy(c => c.Name, StringComparer.OrdinalIgnoreCase))
+                {
                     sb.AppendLine($"- [[{c.Key}]]");
+                }
                 return sb.ToString();
             }
 
-            sb.AppendLine("## Referenced columns");
-            if (o.ReferencedColumns.Count == 0) sb.AppendLine("- _(none detected)_");
-            else foreach (var k in o.ReferencedColumns.OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
-                sb.AppendLine($"- [[{k}]]");
+            WriteSection(sb, "## Reads objects", o.ReadsObjects);
+            WriteSection(sb, "## Writes objects", o.WritesObjects);
+            WriteSection(sb, "## Calls objects", o.CallsObjects);
+
+            WriteSection(sb, "## Reads columns", o.ReadsColumns);
+            WriteSection(sb, "## Writes columns", o.WritesColumns);
 
             return sb.ToString();
+        }
+
+        static void WriteSection(StringBuilder sb, string title, System.Collections.Generic.HashSet<string> items)
+        {
+            sb.AppendLine(title);
+            if (items.Count == 0) { sb.AppendLine("- _(none detected)_"); sb.AppendLine(); return; }
+            foreach (var k in items.OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
+                sb.AppendLine($"- [[{k}]]");
+            sb.AppendLine();
         }
 
         static string RenderColumn(SqlColumn c)
@@ -99,7 +127,7 @@ namespace DocuGen
             sb.AppendLine();
             sb.AppendLine($"- Table: [[{c.Db}.{c.Schema}.{c.Table}]]");
             sb.AppendLine();
-            sb.AppendLine("> Use backlinks to see which procs/views/functions reference this column.");
+            sb.AppendLine("> Use backlinks to see which procs/views/functions read/write this column.");
             return sb.ToString();
         }
 

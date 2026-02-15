@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "f55ef5727252268e",
+        "id": "a2aab811673481f6",
         "type": "tabs",
         "children": [
           {
-            "id": "b3677fa0affcc2b3",
+            "id": "f19535a2aecc3b79",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -176,8 +176,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "b3677fa0affcc2b3",
+  "active": "f19535a2aecc3b79",
   "lastOpenFiles": [
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_All.md",
+    "Untitled 1.canvas",
+    "Untitled.canvas",
+    "Untitled 2.canvas",
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Customer.md",
+    "obsidian/schema/Staging.dbo.md",
     "obsidian/database/DWH.md",
     "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimAccount.md",
     "obsidian/column",
@@ -200,15 +206,11 @@
     "obsidian/object/table/DWH.dim.Account.md",
     "obsidian/object/table/DWH.dim.Customer.md",
     "obsidian/object/table",
-    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Customer.md",
-    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_All.md",
     "obsidian/object/proc/ETL.SourceToStage.usp_Load_Transaction_FromXml.md",
     "obsidian/object/proc/ETL.SourceToStage.usp_Load_Customer_FromXml.md",
     "obsidian/object/proc/ETL.SourceToStage.usp_Load_Account_FromXml.md",
     "obsidian/object/proc/ETL.SourceToStage.usp_LoadAll_FromVendor.md",
     "obsidian/object/proc/ETL.ODSToDWH.usp_Load_FactTransaction.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimDate.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimCustomer.md",
     "obsidian/object/proc",
     "obsidian/edges/write/ETL",
     "obsidian/edges/write",
