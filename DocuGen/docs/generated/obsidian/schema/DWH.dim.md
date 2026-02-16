@@ -1,12 +1,8 @@
 ---
-tags:
-  - sql
-  - db/DWH
-  - type/schema
-  - lineage/object
-docugen_key: DWH.dim
-docugen_type: schema
-docugen_db: DWH
+tags: [sql, db/DWH, type/schema]
+docugen_key: "DWH.dim"
+docugen_type: "schema"
+docugen_db: "DWH"
 ---
 
 # DWH.dim

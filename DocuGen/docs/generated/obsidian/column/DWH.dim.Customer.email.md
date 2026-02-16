@@ -1,13 +1,8 @@
 ---
-tags:
-  - sql
-  - db/DWH
-  - type/column
-  - lineage/data
-  - lineage/object
-docugen_key: DWH.dim.Customer.email
-docugen_type: column
-docugen_db: DWH
+tags: [sql, db/DWH, type/column]
+docugen_key: "DWH.dim.Customer.email"
+docugen_type: "column"
+docugen_db: "DWH"
 ---
 
 # DWH.dim.Customer.email

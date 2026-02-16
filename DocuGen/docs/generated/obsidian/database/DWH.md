@@ -1,12 +1,8 @@
 ---
-tags:
-  - sql
-  - db/DWH
-  - type/database
-  - lineage/object
-docugen_key: DWH
-docugen_type: database
-docugen_db: DWH
+tags: [sql, db/DWH, type/database]
+docugen_key: "DWH"
+docugen_type: "database"
+docugen_db: "DWH"
 ---
 
 # DWH

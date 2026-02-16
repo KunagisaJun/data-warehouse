@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/Staging
-  - type/column
-docugen_key: Staging.dbo.customer.phone
-docugen_type: column
-docugen_db: Staging
+tags: [sql, db/Staging, type/column]
+docugen_key: "Staging.dbo.customer.phone"
+docugen_type: "column"
+docugen_db: "Staging"
 ---
 
 # Staging.dbo.customer.phone

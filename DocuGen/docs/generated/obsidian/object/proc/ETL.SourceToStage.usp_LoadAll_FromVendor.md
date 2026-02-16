@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/ETL
-  - type/proc
-docugen_key: ETL.SourceToStage.usp_LoadAll_FromVendor
-docugen_type: proc
-docugen_db: ETL
+tags: [sql, db/ETL, type/proc]
+docugen_key: "ETL.SourceToStage.usp_LoadAll_FromVendor"
+docugen_type: "proc"
+docugen_db: "ETL"
 ---
 
 # ETL.SourceToStage.usp_LoadAll_FromVendor

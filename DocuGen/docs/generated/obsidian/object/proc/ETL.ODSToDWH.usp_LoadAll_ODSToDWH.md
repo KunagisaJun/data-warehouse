@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/ETL
-  - type/proc
-docugen_key: ETL.ODSToDWH.usp_LoadAll_ODSToDWH
-docugen_type: proc
-docugen_db: ETL
+tags: [sql, db/ETL, type/proc]
+docugen_key: "ETL.ODSToDWH.usp_LoadAll_ODSToDWH"
+docugen_type: "proc"
+docugen_db: "ETL"
 ---
 
 # ETL.ODSToDWH.usp_LoadAll_ODSToDWH

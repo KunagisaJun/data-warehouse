@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/DWH
-  - type/table
-docugen_key: DWH.dim.Account
-docugen_type: table
-docugen_db: DWH
+tags: [sql, db/DWH, type/table]
+docugen_key: "DWH.dim.Account"
+docugen_type: "table"
+docugen_db: "DWH"
 ---
 
 # DWH.dim.Account

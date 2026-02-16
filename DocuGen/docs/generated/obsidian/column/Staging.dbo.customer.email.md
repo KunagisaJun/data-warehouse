@@ -1,13 +1,8 @@
 ---
-tags:
-  - sql
-  - db/Staging
-  - type/column
-  - lineage/data
-  - lineage/object
-docugen_key: Staging.dbo.customer.email
-docugen_type: column
-docugen_db: Staging
+tags: [sql, db/Staging, type/column]
+docugen_key: "Staging.dbo.customer.email"
+docugen_type: "column"
+docugen_db: "Staging"
 ---
 
 # Staging.dbo.customer.email

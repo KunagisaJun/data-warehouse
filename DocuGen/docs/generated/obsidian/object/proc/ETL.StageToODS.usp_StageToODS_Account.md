@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/ETL
-  - type/proc
-docugen_key: ETL.StageToODS.usp_StageToODS_Account
-docugen_type: proc
-docugen_db: ETL
+tags: [sql, db/ETL, type/proc]
+docugen_key: "ETL.StageToODS.usp_StageToODS_Account"
+docugen_type: "proc"
+docugen_db: "ETL"
 ---
 
 # ETL.StageToODS.usp_StageToODS_Account

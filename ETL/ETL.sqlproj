@@ -3,7 +3,7 @@
   <Sdk Name="Microsoft.Build.Sql" Version="2.0.0" />
   <PropertyGroup>
     <AssemblyName>ETL</AssemblyName>
-	<BuildFromSSDT>false</BuildFromSSDT>
+    <BuildFromSSDT>false</BuildFromSSDT>
     <RootNamespace>ETL</RootNamespace>
     <Name>ETL</Name>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql170DatabaseSchemaProvider</DSP>
@@ -14,7 +14,55 @@
     <OutputPath Condition="'$(Configuration)'=='Debug'">bin\Debug\</OutputPath>
     <OutputPath Condition="'$(Configuration)'=='Release'">bin\Release\</OutputPath>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-	<TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <ProjectGuid>{fdc53aa4-5af5-18a4-df0e-1d0fed46d770}</ProjectGuid>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reports\Reports.sqlproj">
+      <Name>Reports</Name>
+      <Project>{82c6bec7-f8ca-42d7-9f44-e35ad1d889d6}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>Reports</DatabaseSqlCmdVariable>
+    </ProjectReference>
+    <ProjectReference Include="..\Staging\Staging.sqlproj">
+      <Name>Staging</Name>
+      <Project>{d77f13a3-be6e-e64e-399b-a45ed38f1551}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>Staging</DatabaseSqlCmdVariable>
+    </ProjectReference>
+    <ProjectReference Include="..\ODS\ODS.sqlproj">
+      <Name>ODS</Name>
+      <Project>{5a60c299-ca39-2e9e-e1f7-d8dfe2d09512}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>ODS</DatabaseSqlCmdVariable>
+    </ProjectReference>
+    <ProjectReference Include="..\DWH\DWH.sqlproj">
+      <Name>DWH</Name>
+      <Project>{06449c33-70d1-070a-4e2a-e0456baf40ca}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>DWH</DatabaseSqlCmdVariable>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="DWH">
+      <DefaultValue>DWH</DefaultValue>
+      <Value>$(SqlCmdVar__4)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="ODS">
+      <DefaultValue>ODS</DefaultValue>
+      <Value>$(SqlCmdVar__3)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="Reports">
+      <DefaultValue>Reports</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="Staging">
+      <DefaultValue>Staging</DefaultValue>
+      <Value>$(SqlCmdVar__2)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
 </Project>

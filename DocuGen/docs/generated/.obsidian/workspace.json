@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "b69c9f8451f2cbfc",
+        "id": "2fbafab4f8b13241",
         "type": "tabs",
         "children": [
           {
-            "id": "95ca508f63bfb1db",
+            "id": "127de1f9537f67ea",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -179,8 +179,24 @@
       "bases:Create new base": false
     }
   },
-  "active": "676d278ddbb07a45",
+  "active": "127de1f9537f67ea",
   "lastOpenFiles": [
+    "obsidian/schema/Reports.dbo.md",
+    "obsidian/object/view/Reports.dbo.v_Customer_Transactions.md",
+    "obsidian/database/Reports.md",
+    "Reports.dbo.md",
+    "obsidian/object/view/Reports.dbo.v_Account_Transactions.md",
+    "obsidian/object/view",
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Customer.md",
+    "obsidian/object/table/Staging.dbo.customer.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Customer_FromXml.md",
+    "obsidian/column/ODS.dbo.customer.customer_name.md",
+    "obsidian/object/table/ODS.dbo.customer.md",
+    "obsidian/column/ODS.dbo.customer.phone.md",
+    "obsidian/column/Staging.dbo.customer.phone.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimCustomer.md",
+    "obsidian/object/table/DWH.dim.Customer.md",
+    "obsidian/column/Staging.dbo.transaction.description.md",
     "obsidian/object/proc/ETL.SourceToStage.usp_Load_Account_FromXml.md",
     "obsidian/database/DWH.md",
     "obsidian/object/table/DWH.dim.Account.md",
@@ -192,21 +208,6 @@
     "obsidian/column/DWH.dim.Account.effective_from.md",
     "obsidian/column/DWH.dim.Account.customer_number.md",
     "obsidian/column/DWH.dim.Account.account_type.md",
-    "obsidian/column/DWH.dim.Account.account_sk.md",
-    "obsidian/column/DWH.dim.Account.account_number.md",
-    "obsidian/column/DWH.dim.Customer.customer_sk.md",
-    "obsidian/column/DWH.fact.Transaction.description.md",
-    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Customer.md",
-    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_All.md",
-    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Account.md",
-    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Transaction_FromXml.md",
-    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Customer_FromXml.md",
-    "obsidian/object/proc/ETL.SourceToStage.usp_LoadAll_FromVendor.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_FactTransaction.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimDate.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimCustomer.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimAccount.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_LoadAll_ODSToDWH.md",
     "obsidian/object/table",
     "obsidian/object/proc",
     "obsidian/column",
@@ -218,7 +219,6 @@
     "obsidian",
     "Untitled 1.canvas",
     "Untitled.canvas",
-    "Untitled 2.canvas",
-    "obsidian/edges/write/ETL"
+    "Untitled 2.canvas"
   ]
 }

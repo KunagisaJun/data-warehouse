@@ -1,13 +1,8 @@
 ---
-tags:
-  - sql
-  - db/ODS
-  - type/table
-  - lineage/data
-  - lineage/object
-docugen_key: ODS.dbo.customer
-docugen_type: table
-docugen_db: ODS
+tags: [sql, db/ODS, type/table]
+docugen_key: "ODS.dbo.customer"
+docugen_type: "table"
+docugen_db: "ODS"
 ---
 
 # ODS.dbo.customer

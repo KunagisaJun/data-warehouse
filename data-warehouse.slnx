@@ -12,6 +12,10 @@
     <Build />
     <Deploy />
   </Project>
+  <Project Path="Reports/Reports.sqlproj" Id="82c6bec7-f8ca-42d7-9f44-e35ad1d889d6">
+    <Build />
+    <Deploy />
+  </Project>
   <Project Path="Staging/Staging.sqlproj">
     <Build />
     <Deploy />

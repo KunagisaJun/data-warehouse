@@ -1,13 +1,8 @@
 ---
-tags:
-  - sql
-  - db/ETL
-  - type/proc
-  - lineage/data
-  - lineage/object
-docugen_key: ETL.StageToODS.usp_StageToODS_Customer
-docugen_type: proc
-docugen_db: ETL
+tags: [sql, db/ETL, type/proc]
+docugen_key: "ETL.StageToODS.usp_StageToODS_Customer"
+docugen_type: "proc"
+docugen_db: "ETL"
 ---
 
 # ETL.StageToODS.usp_StageToODS_Customer

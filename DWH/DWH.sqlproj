@@ -3,7 +3,7 @@
   <Sdk Name="Microsoft.Build.Sql" Version="2.0.0" />
   <PropertyGroup>
     <AssemblyName>DWH</AssemblyName>
-	<BuildFromSSDT>false</BuildFromSSDT>
+    <BuildFromSSDT>false</BuildFromSSDT>
     <RootNamespace>DWH</RootNamespace>
     <Name>DWH</Name>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql170DatabaseSchemaProvider</DSP>
@@ -14,7 +14,7 @@
     <OutputPath Condition="'$(Configuration)'=='Debug'">bin\Debug\</OutputPath>
     <OutputPath Condition="'$(Configuration)'=='Release'">bin\Release\</OutputPath>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-	<TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <ProjectGuid>{06449c33-70d1-070a-4e2a-e0456baf40ca}</ProjectGuid>
   </PropertyGroup>
 </Project>

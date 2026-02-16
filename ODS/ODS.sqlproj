@@ -3,7 +3,7 @@
   <Sdk Name="Microsoft.Build.Sql" Version="2.0.0" />
   <PropertyGroup>
     <AssemblyName>ODS</AssemblyName>
-	<BuildFromSSDT>false</BuildFromSSDT>
+    <BuildFromSSDT>false</BuildFromSSDT>
     <RootNamespace>ODS</RootNamespace>
     <Name>ODS</Name>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql170DatabaseSchemaProvider</DSP>
@@ -14,7 +14,7 @@
     <OutputPath Condition="'$(Configuration)'=='Debug'">bin\Debug\</OutputPath>
     <OutputPath Condition="'$(Configuration)'=='Release'">bin\Release\</OutputPath>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-	<TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <ProjectGuid>{5a60c299-ca39-2e9e-e1f7-d8dfe2d09512}</ProjectGuid>
   </PropertyGroup>
 </Project>

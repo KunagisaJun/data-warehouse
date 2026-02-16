@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/Staging
-  - type/table
-docugen_key: Staging.dbo.account
-docugen_type: table
-docugen_db: Staging
+tags: [sql, db/Staging, type/table]
+docugen_key: "Staging.dbo.account"
+docugen_type: "table"
+docugen_db: "Staging"
 ---
 
 # Staging.dbo.account
@@ -25,8 +22,7 @@ CREATE TABLE [dbo].[account] (
     [account_type]     NVARCHAR (50)  NULL,
     [opened_date]      DATE           NULL,
     [status]           NVARCHAR (20)  NULL,
-    CONSTRAINT [PK_stg_account] PRIMARY KEY CLUSTERED ([account_number] ASC),
-    CONSTRAINT [FK_stg_account_customer] FOREIGN KEY ([customer_number]) REFERENCES [dbo].[customer] ([customer_number])
+    CONSTRAINT [PK_stg_account] PRIMARY KEY CLUSTERED ([account_number] ASC)
 )
 ```
 

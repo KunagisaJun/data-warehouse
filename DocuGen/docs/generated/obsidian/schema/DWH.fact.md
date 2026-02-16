@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/DWH
-  - type/schema
-docugen_key: DWH.fact
-docugen_type: schema
-docugen_db: DWH
+tags: [sql, db/DWH, type/schema]
+docugen_key: "DWH.fact"
+docugen_type: "schema"
+docugen_db: "DWH"
 ---
 
 # DWH.fact

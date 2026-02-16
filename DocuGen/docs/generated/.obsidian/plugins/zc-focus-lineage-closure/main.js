@@ -3,10 +3,8 @@
 
 const { Plugin, Notice, PluginSettingTab, Setting, TFile } = require("obsidian");
 
-// Hardcoded strings
 const SQL_TAG = "sql";
 
-// Two lineage modes (two sections in markdown)
 const LINEAGE_MODES = {
   object: {
     modeId: "object",
@@ -164,6 +162,7 @@ async function addTagToFrontmatter(app, file, tagNoHash) {
 
 /**
  * Build child->parents map (resolved to file paths) for a given mode.
+ * Only considers wikilinks in that mode's dedicated section.
  */
 async function buildChildToParentsMap(app, sqlFiles, mode) {
   const childToParents = new Map(); // Map<childPath, Set<parentPath>>
@@ -189,7 +188,7 @@ async function buildChildToParentsMap(app, sqlFiles, mode) {
 }
 
 /**
- * Data/Object closure:
+ * Full closure (single start):
  * - Upstream: parents only (recursive)
  * - Downstream: children only (recursive), derived by scanning childToParents (cached per parent)
  */
@@ -251,7 +250,7 @@ function computeScopedClosureWithScanningDownstream(startPath, childToParents, m
 }
 
 /**
- * Upstream-only ancestors for a whole seed set, using a child->parents map.
+ * Upstream-only ancestors for a whole seed set, using child->parents map.
  * Includes the seeds themselves.
  */
 function computeUpstreamAncestorsForSet(seedSet, childToParents, maxNodes) {
@@ -296,7 +295,7 @@ class ZcLineageSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("Max nodes cap")
-      .setDesc("Stops traversal if upstream+downstream union reaches this many notes.")
+      .setDesc("Stops traversal if the result reaches this many notes.")
       .addText((t) =>
         t
           .setPlaceholder("5000")
@@ -323,7 +322,7 @@ class ZcLineageSettingTab extends PluginSettingTab {
 
     containerEl.createEl("p", {
       text:
-        "Data mode now tags #lineage/data then also tags upstream object ancestors as #lineage/object."
+        "Data mode: full data closure first, then add upstream object parents for all nodes in the data closure."
     });
   }
 }
@@ -343,12 +342,12 @@ module.exports = class ZcLineagePlugin extends Plugin {
     });
 
     this.addCommand({
-      id: "lineage-track-data-plus-object-ancestors",
-      name: "Track lineage: data (plus object ancestors)",
+      id: "lineage-track-data-then-object-parents",
+      name: "Track lineage: data (then object parents)",
       callback: async () => {
         const start = this.getActiveMarkdownFile();
         if (!start) return new Notice("No active markdown file.");
-        await this.runDataPlusObjectAncestorsFromFile(start);
+        await this.runDataThenObjectParentsFromFile(start);
       }
     });
 
@@ -375,10 +374,10 @@ module.exports = class ZcLineagePlugin extends Plugin {
 
         menu.addItem((item) => {
           item
-            .setTitle("Track lineage: data (plus object ancestors)")
+            .setTitle("Track lineage: data (then object parents)")
             .setIcon("dot-network")
             .onClick(async () => {
-              await this.runDataPlusObjectAncestorsFromFile(file);
+              await this.runDataThenObjectParentsFromFile(file);
             });
         });
 
@@ -425,9 +424,6 @@ module.exports = class ZcLineagePlugin extends Plugin {
     }
   }
 
-  /**
-   * Object-only = normal closure on object parent section
-   */
   async runObjectOnlyFromFile(startFile) {
     if (!(startFile instanceof TFile) || startFile.extension !== "md") {
       new Notice("Target is not a markdown file.");
@@ -440,7 +436,6 @@ module.exports = class ZcLineagePlugin extends Plugin {
 
     const allMd = this.app.vault.getMarkdownFiles();
     const sqlFiles = allMd.filter((f) => isSqlNote(this.app, f));
-
     await this.cleanupTags(sqlFiles);
 
     const objMap = await buildChildToParentsMap(this.app, sqlFiles, LINEAGE_MODES.object);
@@ -469,11 +464,11 @@ module.exports = class ZcLineagePlugin extends Plugin {
   }
 
   /**
-   * Data mode (new requested behavior):
-   * 1) tag #lineage/data on data-closure (up+down on data graph)
-   * 2) then tag #lineage/object on ALL upstream object ancestors of every node in that data closure
+   * Requested behavior:
+   * 1) Full DATA closure (up+down) using only DATA parent section
+   * 2) THEN add upstream OBJECT parents for every node in the data closure
    */
-  async runDataPlusObjectAncestorsFromFile(startFile) {
+  async runDataThenObjectParentsFromFile(startFile) {
     if (!(startFile instanceof TFile) || startFile.extension !== "md") {
       new Notice("Target is not a markdown file.");
       return;
@@ -485,14 +480,13 @@ module.exports = class ZcLineagePlugin extends Plugin {
 
     const allMd = this.app.vault.getMarkdownFiles();
     const sqlFiles = allMd.filter((f) => isSqlNote(this.app, f));
-
     await this.cleanupTags(sqlFiles);
 
-    // Build both graphs once
+    // Build maps for each graph
     const dataMap = await buildChildToParentsMap(this.app, sqlFiles, LINEAGE_MODES.data);
     const objMap = await buildChildToParentsMap(this.app, sqlFiles, LINEAGE_MODES.object);
 
-    // Phase 1: data closure
+    // Phase 1: Full data closure from the start node (upstream+downstream)
     const dataRes =
       computeScopedClosureWithScanningDownstream(startFile.path, dataMap, this.settings.maxNodes);
 
@@ -504,7 +498,7 @@ module.exports = class ZcLineagePlugin extends Plugin {
       }
     }
 
-    // Phase 2: object ancestors upstream for every data node in scope
+    // Phase 2: Add upstream object parents for every node in the data closure
     const ancRes =
       computeUpstreamAncestorsForSet(dataRes.closure, objMap, this.settings.maxNodes);
 
@@ -515,15 +509,16 @@ module.exports = class ZcLineagePlugin extends Plugin {
       }
     }
 
-    // Graph filter: show BOTH tags. (If OR isn't supported on your build, set manually.)
-    const combinedFilter = `${tagToGraphFilter(LINEAGE_MODES.data.resultTag)} OR ${tagToGraphFilter(LINEAGE_MODES.object.resultTag)}`;
+    // Graph filter: show BOTH tags (best-effort). If OR doesn't work in your build, set manually.
+    const combinedFilter =
+      `${tagToGraphFilter(LINEAGE_MODES.data.resultTag)} OR ${tagToGraphFilter(LINEAGE_MODES.object.resultTag)}`;
     const graphSet = await this.trySetNativeGraphFilter(combinedFilter);
 
-    const detail = `Data(U:${dataRes.upstreamCount} D:${dataRes.downstreamCount} T:${dataRes.closure.size}) + ObjAnc:${ancRes.ancestors.size}`;
+    const detail = `Data(U:${dataRes.upstreamCount} D:${dataRes.downstreamCount} T:${dataRes.closure.size}) + ObjAnc(T:${ancRes.ancestors.size})`;
     new Notice(
       graphSet
-        ? `Tagged data scope + object ancestors (${detail}) and set Graph filter.`
-        : `Tagged data scope + object ancestors (${detail}). Set Graph filter to: ${combinedFilter}`
+        ? `Tagged data closure + object parents (${detail}) and set Graph filter.`
+        : `Tagged data closure + object parents (${detail}). Set Graph filter to: ${combinedFilter}`
     );
 
     if (dataRes.capped || ancRes.capped) {
@@ -568,10 +563,7 @@ module.exports = class ZcLineagePlugin extends Plugin {
       if (typeof leaf.getViewState === "function" && typeof leaf.setViewState === "function") {
         const cur = leaf.getViewState();
         const curState = (cur && cur.state) ? cur.state : {};
-        const next = {
-          ...cur,
-          state: { ...curState, filter, query: filter, searchQuery: filter }
-        };
+        const next = { ...cur, state: { ...curState, filter, query: filter, searchQuery: filter } };
         await leaf.setViewState(next, { focus: true });
         return true;
       }

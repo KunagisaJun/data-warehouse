@@ -1,12 +1,8 @@
 ---
-tags:
-  - sql
-  - db/ETL
-  - type/schema
-  - lineage/object
-docugen_key: ETL.SourceToStage
-docugen_type: schema
-docugen_db: ETL
+tags: [sql, db/ETL, type/schema]
+docugen_key: "ETL.SourceToStage"
+docugen_type: "schema"
+docugen_db: "ETL"
 ---
 
 # ETL.SourceToStage

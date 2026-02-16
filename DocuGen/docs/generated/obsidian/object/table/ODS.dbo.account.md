@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/ODS
-  - type/table
-docugen_key: ODS.dbo.account
-docugen_type: table
-docugen_db: ODS
+tags: [sql, db/ODS, type/table]
+docugen_key: "ODS.dbo.account"
+docugen_type: "table"
+docugen_db: "ODS"
 ---
 
 # ODS.dbo.account

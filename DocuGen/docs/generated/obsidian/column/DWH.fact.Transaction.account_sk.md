@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/DWH
-  - type/column
-docugen_key: DWH.fact.Transaction.account_sk
-docugen_type: column
-docugen_db: DWH
+tags: [sql, db/DWH, type/column]
+docugen_key: "DWH.fact.Transaction.account_sk"
+docugen_type: "column"
+docugen_db: "DWH"
 ---
 
 # DWH.fact.Transaction.account_sk

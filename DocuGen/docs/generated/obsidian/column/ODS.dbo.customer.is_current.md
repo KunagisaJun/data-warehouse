@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/ODS
-  - type/column
-docugen_key: ODS.dbo.customer.is_current
-docugen_type: column
-docugen_db: ODS
+tags: [sql, db/ODS, type/column]
+docugen_key: "ODS.dbo.customer.is_current"
+docugen_type: "column"
+docugen_db: "ODS"
 ---
 
 # ODS.dbo.customer.is_current

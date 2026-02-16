@@ -1,13 +1,8 @@
 ---
-tags:
-  - sql
-  - db/ETL
-  - type/proc
-  - lineage/data
-  - lineage/object
-docugen_key: ETL.SourceToStage.usp_Load_Customer_FromXml
-docugen_type: proc
-docugen_db: ETL
+tags: [sql, db/ETL, type/proc]
+docugen_key: "ETL.SourceToStage.usp_Load_Customer_FromXml"
+docugen_type: "proc"
+docugen_db: "ETL"
 ---
 
 # ETL.SourceToStage.usp_Load_Customer_FromXml

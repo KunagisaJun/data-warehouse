@@ -1,11 +1,8 @@
 ---
-tags:
-  - sql
-  - db/Staging
-  - type/column
-docugen_key: Staging.dbo.account.load_dts
-docugen_type: column
-docugen_db: Staging
+tags: [sql, db/Staging, type/column]
+docugen_key: "Staging.dbo.account.load_dts"
+docugen_type: "column"
+docugen_db: "Staging"
 ---
 
 # Staging.dbo.account.load_dts
