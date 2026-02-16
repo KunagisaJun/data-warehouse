@@ -45,3 +45,5 @@ CREATE TABLE [dim].[Date] (
 ## zc-plugin-parent-node
 - [[DWH.dim]]
 
+## zc-plugin-parent-node-data
+

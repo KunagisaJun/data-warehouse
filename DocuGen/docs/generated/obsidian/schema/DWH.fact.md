@@ -16,3 +16,5 @@ docugen_db: DWH
 ## zc-plugin-parent-node
 - [[DWH]]
 
+## zc-plugin-parent-node-data
+

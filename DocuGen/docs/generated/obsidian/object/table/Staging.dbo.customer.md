@@ -3,6 +3,8 @@ tags:
   - sql
   - db/Staging
   - type/table
+  - lineage/data
+  - lineage/object
 docugen_key: Staging.dbo.customer
 docugen_type: table
 docugen_db: Staging
@@ -40,4 +42,7 @@ CREATE TABLE [dbo].[customer] (
 
 ## zc-plugin-parent-node
 - [[Staging.dbo]]
+
+## zc-plugin-parent-node-data
+- [[ETL.SourceToStage.usp_Load_Customer_FromXml]]
 

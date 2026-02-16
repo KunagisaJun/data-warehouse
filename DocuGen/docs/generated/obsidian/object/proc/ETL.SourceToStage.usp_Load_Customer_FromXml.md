@@ -3,6 +3,8 @@ tags:
   - sql
   - db/ETL
   - type/proc
+  - lineage/data
+  - lineage/object
 docugen_key: ETL.SourceToStage.usp_Load_Customer_FromXml
 docugen_type: proc
 docugen_db: ETL
@@ -42,10 +44,6 @@ END
 ## zc-plugin-parent-node
 - [[ETL.SourceToStage]]
 - [[Staging.dbo.customer]]
-- [[Staging.dbo.customer.customer_name]]
-- [[Staging.dbo.customer.customer_number]]
-- [[Staging.dbo.customer.email]]
-- [[Staging.dbo.customer.phone]]
-- [[Staging.dbo.customer.row_hash]]
-- [[Staging.dbo.customer.source_file_name]]
+
+## zc-plugin-parent-node-data
 

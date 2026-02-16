@@ -110,15 +110,8 @@ END
 ## zc-plugin-parent-node
 - [[ETL.StageToODS]]
 - [[ODS.dbo.transaction]]
-- [[ODS.dbo.transaction.account_number]]
-- [[ODS.dbo.transaction.amount]]
-- [[ODS.dbo.transaction.description]]
-- [[ODS.dbo.transaction.effective_from]]
-- [[ODS.dbo.transaction.effective_to]]
-- [[ODS.dbo.transaction.is_current]]
-- [[ODS.dbo.transaction.is_deleted]]
-- [[ODS.dbo.transaction.row_hash]]
-- [[ODS.dbo.transaction.transaction_date]]
-- [[ODS.dbo.transaction.transaction_number]]
+- [[Staging.dbo.transaction]]
+
+## zc-plugin-parent-node-data
 - [[Staging.dbo.transaction]]
 

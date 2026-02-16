@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "d0c593ec3d0ed993",
+        "id": "b69c9f8451f2cbfc",
         "type": "tabs",
         "children": [
           {
-            "id": "bc65805d389a6832",
+            "id": "95ca508f63bfb1db",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -49,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "focus",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -71,12 +71,11 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "42da1d0904361ad4",
@@ -180,35 +179,35 @@
       "bases:Create new base": false
     }
   },
-  "active": "bc65805d389a6832",
+  "active": "676d278ddbb07a45",
   "lastOpenFiles": [
-    "obsidian/database/Staging.md",
-    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Account.md",
-    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Transaction_FromXml.md",
-    "obsidian/object/proc/ETL.SourceToStage.usp_LoadAll_FromVendor.md",
-    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Customer_FromXml.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_LoadAll_ODSToDWH.md",
-    "obsidian/schema/Staging.dbo.md",
-    "obsidian/database/ETL.md",
-    "obsidian/schema/ETL.ODSToDWH.md",
-    "obsidian/object/table/Staging.dbo.transaction.md",
-    "obsidian/object/table/Staging.dbo.customer.md",
-    "obsidian/object/table/Staging.dbo.account.md",
-    "obsidian/object/table/ODS.dbo.transaction.md",
-    "obsidian/object/table/ODS.dbo.customer.md",
-    "obsidian/object/table/ODS.dbo.account.md",
-    "obsidian/object/table/DWH.fact.Transaction.md",
-    "obsidian/object/table/DWH.dim.Date.md",
-    "obsidian/object/table/DWH.dim.Customer.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Account_FromXml.md",
+    "obsidian/database/DWH.md",
     "obsidian/object/table/DWH.dim.Account.md",
-    "obsidian/object/table",
+    "obsidian/column/DWH.fact.Transaction.amount.md",
+    "obsidian/column/DWH.dim.Date.is_weekend.md",
     "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Transaction.md",
+    "obsidian/column/ODS.dbo.account.is_deleted.md",
+    "obsidian/object/table/DWH.fact.Transaction.md",
+    "obsidian/column/DWH.dim.Account.effective_from.md",
+    "obsidian/column/DWH.dim.Account.customer_number.md",
+    "obsidian/column/DWH.dim.Account.account_type.md",
+    "obsidian/column/DWH.dim.Account.account_sk.md",
+    "obsidian/column/DWH.dim.Account.account_number.md",
+    "obsidian/column/DWH.dim.Customer.customer_sk.md",
+    "obsidian/column/DWH.fact.Transaction.description.md",
     "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Customer.md",
     "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_All.md",
-    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Account_FromXml.md",
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Account.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Transaction_FromXml.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Customer_FromXml.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_LoadAll_FromVendor.md",
     "obsidian/object/proc/ETL.ODSToDWH.usp_Load_FactTransaction.md",
     "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimDate.md",
     "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimCustomer.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimAccount.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_LoadAll_ODSToDWH.md",
+    "obsidian/object/table",
     "obsidian/object/proc",
     "obsidian/column",
     "obsidian/object",

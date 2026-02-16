@@ -3,6 +3,8 @@ tags:
   - sql
   - db/ETL
   - type/proc
+  - lineage/data
+  - lineage/object
 docugen_key: ETL.ODSToDWH.usp_Load_DimCustomer
 docugen_type: proc
 docugen_db: ETL
@@ -40,15 +42,9 @@ END
 
 ## zc-plugin-parent-node
 - [[DWH.dim.Customer]]
-- [[DWH.dim.Customer.customer_name]]
-- [[DWH.dim.Customer.customer_number]]
-- [[DWH.dim.Customer.effective_from]]
-- [[DWH.dim.Customer.effective_to]]
-- [[DWH.dim.Customer.email]]
-- [[DWH.dim.Customer.is_current]]
-- [[DWH.dim.Customer.is_deleted]]
-- [[DWH.dim.Customer.phone]]
-- [[DWH.dim.Customer.row_hash]]
 - [[ETL.ODSToDWH]]
+- [[ODS.dbo.customer]]
+
+## zc-plugin-parent-node-data
 - [[ODS.dbo.customer]]
 

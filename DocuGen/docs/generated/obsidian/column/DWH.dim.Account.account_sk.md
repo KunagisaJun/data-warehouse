@@ -15,4 +15,5 @@ docugen_db: DWH
 ## zc-plugin-parent-node
 - [[DWH.dim.Account]]
 
-> Use backlinks to see which procs/views/functions reference this column.
+## zc-plugin-parent-node-data
+

@@ -15,4 +15,8 @@ docugen_db: DWH
 ## zc-plugin-parent-node
 - [[DWH.dim.Customer]]
 
-> Use backlinks to see which procs/views/functions reference this column.
+## zc-plugin-parent-node-data
+- [[DWH.dim.Customer]]
+- [[ETL.ODSToDWH.usp_Load_DimCustomer]]
+- [[ODS.dbo.customer.effective_from]]
+

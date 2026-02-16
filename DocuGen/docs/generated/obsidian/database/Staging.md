@@ -3,7 +3,7 @@ tags:
   - sql
   - db/Staging
   - type/database
-  - focus
+  - lineage/object
 docugen_key: Staging
 docugen_type: database
 docugen_db: Staging
@@ -15,4 +15,6 @@ docugen_db: Staging
 - [[Staging.dbo]]
 
 ## zc-plugin-parent-node
+
+## zc-plugin-parent-node-data
 

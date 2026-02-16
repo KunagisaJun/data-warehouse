@@ -3,6 +3,7 @@ tags:
   - sql
   - db/ODS
   - type/schema
+  - lineage/object
 docugen_key: ODS.dbo
 docugen_type: schema
 docugen_db: ODS
@@ -17,4 +18,6 @@ docugen_db: ODS
 
 ## zc-plugin-parent-node
 - [[ODS]]
+
+## zc-plugin-parent-node-data
 

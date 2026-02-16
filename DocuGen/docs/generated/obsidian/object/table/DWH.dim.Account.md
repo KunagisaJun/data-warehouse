@@ -47,3 +47,7 @@ CREATE TABLE [dim].[Account] (
 ## zc-plugin-parent-node
 - [[DWH.dim]]
 
+## zc-plugin-parent-node-data
+- [[ETL.ODSToDWH.usp_Load_DimAccount]]
+- [[ODS.dbo.account]]
+

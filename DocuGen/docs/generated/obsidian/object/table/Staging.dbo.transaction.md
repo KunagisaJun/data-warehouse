@@ -3,7 +3,6 @@ tags:
   - sql
   - db/Staging
   - type/table
-  - focus
 docugen_key: Staging.dbo.transaction
 docugen_type: table
 docugen_db: Staging
@@ -44,4 +43,7 @@ CREATE TABLE [dbo].[transaction] (
 
 ## zc-plugin-parent-node
 - [[Staging.dbo]]
+
+## zc-plugin-parent-node-data
+- [[ETL.SourceToStage.usp_Load_Transaction_FromXml]]
 

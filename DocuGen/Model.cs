@@ -29,12 +29,18 @@ namespace DocuGen
         // This is embedded into the generated markdown note body.
         public string? DefinitionSql { get; set; }
 
+        // Object lineage signals (dependency/consumption)
         public HashSet<string> ReadsObjects { get; } = new(StringComparer.OrdinalIgnoreCase);
         public HashSet<string> WritesObjects { get; } = new(StringComparer.OrdinalIgnoreCase);
         public HashSet<string> CallsObjects { get; } = new(StringComparer.OrdinalIgnoreCase);
 
         public HashSet<string> ReadsColumns { get; } = new(StringComparer.OrdinalIgnoreCase);
         public HashSet<string> WritesColumns { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+        // Data-lineage parents for this object (table/proc/view/function) in the data graph.
+        // For tables this typically includes: upstream tables and the proc(s) that load it.
+        // For procs this typically includes: upstream tables it reads.
+        public HashSet<string> DataParents { get; } = new(StringComparer.OrdinalIgnoreCase);
     }
 
     internal sealed class SqlColumn
@@ -44,6 +50,10 @@ namespace DocuGen
         public required string Table { get; init; }
         public required string Name { get; init; }
         public required string Key { get; init; }
+
+        // Column-level DATA lineage: upstream columns that flow into this column.
+        // Populated from INSERT/UPDATE/MERGE mappings.
+        public HashSet<string> DataParents { get; } = new(StringComparer.OrdinalIgnoreCase);
     }
 
     internal static class NameNorm

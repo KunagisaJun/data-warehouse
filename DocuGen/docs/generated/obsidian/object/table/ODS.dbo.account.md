@@ -47,3 +47,7 @@ CREATE TABLE [dbo].[account] (
 ## zc-plugin-parent-node
 - [[ODS.dbo]]
 
+## zc-plugin-parent-node-data
+- [[ETL.StageToODS.usp_StageToODS_Account]]
+- [[Staging.dbo.account]]
+

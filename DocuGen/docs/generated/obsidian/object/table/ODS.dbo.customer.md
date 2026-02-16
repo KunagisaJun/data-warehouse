@@ -3,6 +3,8 @@ tags:
   - sql
   - db/ODS
   - type/table
+  - lineage/data
+  - lineage/object
 docugen_key: ODS.dbo.customer
 docugen_type: table
 docugen_db: ODS
@@ -44,4 +46,8 @@ CREATE TABLE [dbo].[customer] (
 
 ## zc-plugin-parent-node
 - [[ODS.dbo]]
+
+## zc-plugin-parent-node-data
+- [[ETL.StageToODS.usp_StageToODS_Customer]]
+- [[Staging.dbo.customer]]
 

@@ -3,6 +3,8 @@ tags:
   - sql
   - db/ETL
   - type/proc
+  - lineage/data
+  - lineage/object
 docugen_key: ETL.StageToODS.usp_StageToODS_Customer
 docugen_type: proc
 docugen_db: ETL
@@ -106,14 +108,8 @@ END
 ## zc-plugin-parent-node
 - [[ETL.StageToODS]]
 - [[ODS.dbo.customer]]
-- [[ODS.dbo.customer.customer_name]]
-- [[ODS.dbo.customer.customer_number]]
-- [[ODS.dbo.customer.effective_from]]
-- [[ODS.dbo.customer.effective_to]]
-- [[ODS.dbo.customer.email]]
-- [[ODS.dbo.customer.is_current]]
-- [[ODS.dbo.customer.is_deleted]]
-- [[ODS.dbo.customer.phone]]
-- [[ODS.dbo.customer.row_hash]]
+- [[Staging.dbo.customer]]
+
+## zc-plugin-parent-node-data
 - [[Staging.dbo.customer]]
 

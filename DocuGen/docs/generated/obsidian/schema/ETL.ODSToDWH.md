@@ -3,6 +3,7 @@ tags:
   - sql
   - db/ETL
   - type/schema
+  - lineage/object
 docugen_key: ETL.ODSToDWH
 docugen_type: schema
 docugen_db: ETL
@@ -19,4 +20,6 @@ docugen_db: ETL
 
 ## zc-plugin-parent-node
 - [[ETL]]
+
+## zc-plugin-parent-node-data
 

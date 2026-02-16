@@ -44,3 +44,6 @@ CREATE TABLE [dbo].[account] (
 ## zc-plugin-parent-node
 - [[Staging.dbo]]
 
+## zc-plugin-parent-node-data
+- [[ETL.SourceToStage.usp_Load_Account_FromXml]]
+

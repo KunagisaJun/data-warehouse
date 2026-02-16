@@ -3,6 +3,8 @@ tags:
   - sql
   - db/DWH
   - type/column
+  - lineage/data
+  - lineage/object
 docugen_key: DWH.dim.Customer.email
 docugen_type: column
 docugen_db: DWH
@@ -15,4 +17,8 @@ docugen_db: DWH
 ## zc-plugin-parent-node
 - [[DWH.dim.Customer]]
 
-> Use backlinks to see which procs/views/functions reference this column.
+## zc-plugin-parent-node-data
+- [[DWH.dim.Customer]]
+- [[ETL.ODSToDWH.usp_Load_DimCustomer]]
+- [[ODS.dbo.customer.email]]
+

@@ -39,3 +39,6 @@ CREATE TABLE [fact].[Transaction] (
 ## zc-plugin-parent-node
 - [[DWH.fact]]
 
+## zc-plugin-parent-node-data
+- [[ETL.ODSToDWH.usp_Load_FactTransaction]]
+

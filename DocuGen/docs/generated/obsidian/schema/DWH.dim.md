@@ -3,6 +3,7 @@ tags:
   - sql
   - db/DWH
   - type/schema
+  - lineage/object
 docugen_key: DWH.dim
 docugen_type: schema
 docugen_db: DWH
@@ -17,4 +18,6 @@ docugen_db: DWH
 
 ## zc-plugin-parent-node
 - [[DWH]]
+
+## zc-plugin-parent-node-data
 

@@ -15,4 +15,5 @@ docugen_db: Staging
 ## zc-plugin-parent-node
 - [[Staging.dbo.customer]]
 
-> Use backlinks to see which procs/views/functions reference this column.
+## zc-plugin-parent-node-data
+

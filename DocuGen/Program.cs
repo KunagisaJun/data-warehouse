@@ -22,8 +22,11 @@ namespace DocuGen
                 var sqlprojs = SqlProjScanner.FindSqlProjects(root);
                 var sqlFilesByDb = SqlProjScanner.ReadSqlFiles(sqlprojs);
 
-                // Only enrich with direct parent refs (objects + columns). No closure.
+                // Object-level direct parent refs (objects + referenced columns)
                 ScriptDomColumnRefExtractor.Enrich(catalog, sqlFilesByDb);
+
+                // NEW: column-to-column data lineage (target column parents = source columns)
+                ScriptDomColumnDataflowExtractor.Enrich(catalog, sqlFilesByDb);
 
                 if (Directory.Exists(outRoot))
                     Directory.Delete(outRoot, recursive: true);

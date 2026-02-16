@@ -3,6 +3,8 @@ tags:
   - sql
   - db/Staging
   - type/column
+  - lineage/data
+  - lineage/object
 docugen_key: Staging.dbo.customer.email
 docugen_type: column
 docugen_db: Staging
@@ -15,4 +17,7 @@ docugen_db: Staging
 ## zc-plugin-parent-node
 - [[Staging.dbo.customer]]
 
-> Use backlinks to see which procs/views/functions reference this column.
+## zc-plugin-parent-node-data
+- [[ETL.SourceToStage.usp_Load_Customer_FromXml]]
+- [[Staging.dbo.customer]]
+

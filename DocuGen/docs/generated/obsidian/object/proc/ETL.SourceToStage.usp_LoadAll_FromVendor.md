@@ -3,7 +3,6 @@ tags:
   - sql
   - db/ETL
   - type/proc
-  - focus
 docugen_key: ETL.SourceToStage.usp_LoadAll_FromVendor
 docugen_type: proc
 docugen_db: ETL
@@ -52,4 +51,6 @@ END
 - [[Staging.dbo.account]]
 - [[Staging.dbo.customer]]
 - [[Staging.dbo.transaction]]
+
+## zc-plugin-parent-node-data
 

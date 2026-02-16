@@ -5,8 +5,22 @@ const { Plugin, Notice, PluginSettingTab, Setting, TFile } = require("obsidian")
 
 // Hardcoded strings
 const SQL_TAG = "sql";
-const PARENT_SECTION_HEADING = "zc-plugin-parent-node";
-const FOCUS_TAG = "focus"; // fixed focus tag
+
+// Two lineage modes (two sections in markdown)
+const LINEAGE_MODES = {
+  object: {
+    modeId: "object",
+    title: "Object lineage",
+    resultTag: "lineage/object",
+    parentSectionHeading: "zc-plugin-parent-node"
+  },
+  data: {
+    modeId: "data",
+    title: "Data lineage",
+    resultTag: "lineage/data",
+    parentSectionHeading: "zc-plugin-parent-node-data"
+  }
+};
 
 const DEFAULT_SETTINGS = {
   maxNodes: 5000,
@@ -18,15 +32,10 @@ function normalizeTagValue(tag) {
   return t.startsWith("#") ? t.slice(1) : t;
 }
 
-function focusTagToFilterQuery(tagNoHash) {
+function tagToGraphFilter(tagNoHash) {
   return `tag:#${tagNoHash}`;
 }
 
-/**
- * SQL note detection:
- * - YAML frontmatter tags includes sql (or #sql)
- * - OR inline tags contain #sql
- */
 function isSqlNote(app, file) {
   const cache = app.metadataCache.getFileCache(file);
   if (!cache) return false;
@@ -56,20 +65,22 @@ function isSqlNote(app, file) {
 
 /**
  * Extract ONLY wikilink targets from:
- * ## zc-plugin-parent-node
+ * ## <heading>
  * - [[A]]
  * * [[B|alias]]
  *
- * - Stop at ANY heading level (#, ##, ###, ####, ...)
- * - Only parse list item lines ("- " or "* ")
+ * Rules:
+ * - Header must match exactly "## <heading>"
+ * - Stop at ANY heading level (#, ##, ###, ...)
+ * - Only parse list item lines "- " or "* "
  */
-function extractParentLinkTargetsFromMarkdown(markdown) {
+function extractParentLinkTargetsFromMarkdown(markdown, heading) {
   const lines = String(markdown || "").split(/\r?\n/);
   let startIdx = -1;
 
+  const headerLine = `## ${heading}`;
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (line === `## ${PARENT_SECTION_HEADING}`) {
+    if (lines[i].trim() === headerLine) {
       startIdx = i + 1;
       break;
     }
@@ -83,7 +94,6 @@ function extractParentLinkTargetsFromMarkdown(markdown) {
     const trimmed = raw.trim();
 
     if (trimmed.startsWith("#")) break;
-
     if (!(trimmed.startsWith("- ") || trimmed.startsWith("* "))) continue;
 
     let idx = 0;
@@ -96,8 +106,8 @@ function extractParentLinkTargetsFromMarkdown(markdown) {
       const inner = raw.substring(open + 2, close).trim();
       const beforePipe = inner.split("|")[0].trim();
       const targetNoHeading = beforePipe.split("#")[0].trim();
-
       if (targetNoHeading) parents.push(targetNoHeading);
+
       idx = close + 2;
     }
   }
@@ -113,9 +123,6 @@ function extractParentLinkTargetsFromMarkdown(markdown) {
   return out;
 }
 
-/**
- * Frontmatter tag helpers using processFrontMatter (safe YAML editing).
- */
 async function removeTagFromFrontmatter(app, file, tagNoHash) {
   const target = normalizeTagValue(tagNoHash);
 
@@ -124,14 +131,9 @@ async function removeTagFromFrontmatter(app, file, tagNoHash) {
     const existing = fm.tags;
 
     if (Array.isArray(existing)) {
-      tags = existing
-        .filter((x) => typeof x === "string")
-        .map((x) => normalizeTagValue(x));
+      tags = existing.filter((x) => typeof x === "string").map((x) => normalizeTagValue(x));
     } else if (typeof existing === "string") {
-      tags = existing
-        .split(",")
-        .map((s) => normalizeTagValue(s.trim()))
-        .filter(Boolean);
+      tags = existing.split(",").map((s) => normalizeTagValue(s.trim())).filter(Boolean);
     } else {
       tags = [];
     }
@@ -148,14 +150,9 @@ async function addTagToFrontmatter(app, file, tagNoHash) {
     const existing = fm.tags;
 
     if (Array.isArray(existing)) {
-      tags = existing
-        .filter((x) => typeof x === "string")
-        .map((x) => normalizeTagValue(x));
+      tags = existing.filter((x) => typeof x === "string").map((x) => normalizeTagValue(x));
     } else if (typeof existing === "string") {
-      tags = existing
-        .split(",")
-        .map((s) => normalizeTagValue(s.trim()))
-        .filter(Boolean);
+      tags = existing.split(",").map((s) => normalizeTagValue(s.trim())).filter(Boolean);
     } else {
       tags = [];
     }
@@ -166,28 +163,23 @@ async function addTagToFrontmatter(app, file, tagNoHash) {
 }
 
 /**
- * Build ONLY child->parents map (resolved to file paths).
- * We intentionally DO NOT build parent->children here;
- * downstream will be derived by scanning child->parents with caching.
+ * Build child->parents map (resolved to file paths) for a given mode.
  */
-async function buildChildToParentsMap(app, sqlFiles) {
+async function buildChildToParentsMap(app, sqlFiles, mode) {
   const childToParents = new Map(); // Map<childPath, Set<parentPath>>
 
   for (const child of sqlFiles) {
     const md = await app.vault.cachedRead(child);
-    const parentTargets = extractParentLinkTargetsFromMarkdown(md);
+    const parentTargets = extractParentLinkTargetsFromMarkdown(md, mode.parentSectionHeading);
 
     if (!childToParents.has(child.path)) childToParents.set(child.path, new Set());
 
     for (const linktext of parentTargets) {
-      // resolve in the child's context
       const dest = app.metadataCache.getFirstLinkpathDest(linktext, child.path);
       if (!dest) continue;
       if (!(dest instanceof TFile)) continue;
       if (dest.extension !== "md") continue;
-
-      // SQL-only scope (per your cleanup rules)
-      if (!isSqlNote(app, dest)) continue;
+      if (!isSqlNote(app, dest)) continue; // SQL-only scope
 
       childToParents.get(child.path).add(dest.path);
     }
@@ -197,23 +189,15 @@ async function buildChildToParentsMap(app, sqlFiles) {
 }
 
 /**
- * Correct scope closure:
- * - Upstream: follow parents ONLY recursively
- * - Downstream: follow children ONLY recursively
- *
- * Downstream derivation:
- * - children(P) = all SQL notes C where childToParents[C] contains P
- * - Implemented as scan + memoized cache so each parent is scanned once per run.
+ * Data/Object closure:
+ * - Upstream: parents only (recursive)
+ * - Downstream: children only (recursive), derived by scanning childToParents (cached per parent)
  */
 function computeScopedClosureWithScanningDownstream(startPath, childToParents, maxNodes) {
   const upstream = new Set();
   const downstream = new Set();
-
   const budget = { count: 1 };
-  let capped = false;
-
-  // Cache: parentPath -> array of childPaths
-  const childrenCache = new Map();
+  const childrenCache = new Map(); // parentPath -> Array<childPath>
 
   function getParents(nodePath) {
     return childToParents.get(nodePath);
@@ -221,7 +205,6 @@ function computeScopedClosureWithScanningDownstream(startPath, childToParents, m
 
   function getChildren(parentPath) {
     if (childrenCache.has(parentPath)) return childrenCache.get(parentPath);
-
     const children = [];
     for (const [childPath, parentsSet] of childToParents.entries()) {
       if (parentsSet && parentsSet.has(parentPath)) children.push(childPath);
@@ -236,8 +219,6 @@ function computeScopedClosureWithScanningDownstream(startPath, childToParents, m
       const cur = q.shift();
       const neigh = neighborFn(cur);
       if (!neigh) continue;
-
-      // neigh can be Set or Array
       const iter = Array.isArray(neigh) ? neigh : Array.from(neigh);
 
       for (const n of iter) {
@@ -248,20 +229,18 @@ function computeScopedClosureWithScanningDownstream(startPath, childToParents, m
         q.push(n);
 
         budget.count++;
-        if (budget.count >= maxNodes) return true; // capped
+        if (budget.count >= maxNodes) return true;
       }
     }
     return false;
   }
 
-  // Upstream only
-  capped = bfs(startPath, getParents, upstream);
+  let capped = bfs(startPath, getParents, upstream);
   if (capped) {
     const closure = new Set([startPath, ...upstream]);
     return { closure, capped: true, upstreamCount: upstream.size, downstreamCount: 0 };
   }
 
-  // Downstream only (scan-based)
   capped = bfs(startPath, getChildren, downstream);
 
   const closure = new Set([startPath]);
@@ -271,7 +250,39 @@ function computeScopedClosureWithScanningDownstream(startPath, childToParents, m
   return { closure, capped, upstreamCount: upstream.size, downstreamCount: downstream.size };
 }
 
-class ZcFocusSettingTab extends PluginSettingTab {
+/**
+ * Upstream-only ancestors for a whole seed set, using a child->parents map.
+ * Includes the seeds themselves.
+ */
+function computeUpstreamAncestorsForSet(seedSet, childToParents, maxNodes) {
+  const result = new Set();
+  const q = [];
+
+  for (const s of seedSet) {
+    if (!result.has(s)) {
+      result.add(s);
+      q.push(s);
+      if (result.size >= maxNodes) return { ancestors: result, capped: true };
+    }
+  }
+
+  while (q.length) {
+    const cur = q.shift();
+    const parents = childToParents.get(cur);
+    if (!parents) continue;
+
+    for (const p of parents) {
+      if (result.has(p)) continue;
+      result.add(p);
+      q.push(p);
+      if (result.size >= maxNodes) return { ancestors: result, capped: true };
+    }
+  }
+
+  return { ancestors: result, capped: false };
+}
+
+class ZcLineageSettingTab extends PluginSettingTab {
   constructor(app, plugin) {
     super(app, plugin);
     this.plugin = plugin;
@@ -281,11 +292,11 @@ class ZcFocusSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Focus Lineage Closure" });
+    containerEl.createEl("h2", { text: "Lineage Tracking" });
 
     new Setting(containerEl)
       .setName("Max nodes cap")
-      .setDesc("Stops traversal if the upstream+downstream union reaches this many notes.")
+      .setDesc("Stops traversal if upstream+downstream union reaches this many notes.")
       .addText((t) =>
         t
           .setPlaceholder("5000")
@@ -310,31 +321,41 @@ class ZcFocusSettingTab extends PluginSettingTab {
           })
       );
 
-    containerEl.createEl("p", { text: `Focus tag used: #${FOCUS_TAG} (fixed)` });
+    containerEl.createEl("p", {
+      text:
+        "Data mode now tags #lineage/data then also tags upstream object ancestors as #lineage/object."
+    });
   }
 }
 
-module.exports = class ZcFocusLineageClosurePlugin extends Plugin {
+module.exports = class ZcLineagePlugin extends Plugin {
   async onload() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 
     this.addCommand({
-      id: "focus-lineage-closure",
-      name: "Focus lineage closure",
+      id: "lineage-track-object",
+      name: "Track lineage: object",
       callback: async () => {
         const start = this.getActiveMarkdownFile();
-        if (!start) {
-          new Notice("No active markdown file.");
-          return;
-        }
-        await this.focusLineageClosureFromFile(start);
+        if (!start) return new Notice("No active markdown file.");
+        await this.runObjectOnlyFromFile(start);
       }
     });
 
     this.addCommand({
-      id: "clear-lineage-focus",
-      name: "Clear lineage focus",
-      callback: async () => this.clearLineageFocus()
+      id: "lineage-track-data-plus-object-ancestors",
+      name: "Track lineage: data (plus object ancestors)",
+      callback: async () => {
+        const start = this.getActiveMarkdownFile();
+        if (!start) return new Notice("No active markdown file.");
+        await this.runDataPlusObjectAncestorsFromFile(start);
+      }
+    });
+
+    this.addCommand({
+      id: "lineage-clear-all",
+      name: "Clear lineage tracking tags",
+      callback: async () => this.clearAllLineageTags()
     });
 
     // Right-click in File Explorer
@@ -345,25 +366,34 @@ module.exports = class ZcFocusLineageClosurePlugin extends Plugin {
 
         menu.addItem((item) => {
           item
-            .setTitle("Focus lineage closure")
+            .setTitle("Track lineage: object")
             .setIcon("dot-network")
             .onClick(async () => {
-              await this.focusLineageClosureFromFile(file);
+              await this.runObjectOnlyFromFile(file);
             });
         });
 
         menu.addItem((item) => {
           item
-            .setTitle("Clear lineage focus")
+            .setTitle("Track lineage: data (plus object ancestors)")
+            .setIcon("dot-network")
+            .onClick(async () => {
+              await this.runDataPlusObjectAncestorsFromFile(file);
+            });
+        });
+
+        menu.addItem((item) => {
+          item
+            .setTitle("Clear lineage tracking tags")
             .setIcon("trash")
             .onClick(async () => {
-              await this.clearLineageFocus();
+              await this.clearAllLineageTags();
             });
         });
       })
     );
 
-    this.addSettingTab(new ZcFocusSettingTab(this.app, this));
+    this.addSettingTab(new ZcLineageSettingTab(this.app, this));
   }
 
   getActiveMarkdownFile() {
@@ -373,12 +403,36 @@ module.exports = class ZcFocusLineageClosurePlugin extends Plugin {
     return f;
   }
 
-  async focusLineageClosureFromFile(startFile) {
+  async clearAllLineageTags() {
+    const allMd = this.app.vault.getMarkdownFiles();
+    const sqlFiles = allMd.filter((f) => isSqlNote(this.app, f));
+
+    for (const f of sqlFiles) {
+      await removeTagFromFrontmatter(this.app, f, LINEAGE_MODES.object.resultTag);
+      await removeTagFromFrontmatter(this.app, f, LINEAGE_MODES.data.resultTag);
+    }
+
+    const desired = this.settings.resetGraphFilterToSql ? "tag:#sql" : "";
+    const ok = await this.trySetNativeGraphFilter(desired);
+
+    new Notice(ok ? "Cleared lineage tracking tags and reset Graph filter." : "Cleared lineage tracking tags. Graph filter not changed.");
+  }
+
+  async cleanupTags(sqlFiles) {
+    for (const f of sqlFiles) {
+      await removeTagFromFrontmatter(this.app, f, LINEAGE_MODES.object.resultTag);
+      await removeTagFromFrontmatter(this.app, f, LINEAGE_MODES.data.resultTag);
+    }
+  }
+
+  /**
+   * Object-only = normal closure on object parent section
+   */
+  async runObjectOnlyFromFile(startFile) {
     if (!(startFile instanceof TFile) || startFile.extension !== "md") {
       new Notice("Target is not a markdown file.");
       return;
     }
-
     if (!isSqlNote(this.app, startFile)) {
       new Notice("Target note is not tagged #sql. No action taken.");
       return;
@@ -387,64 +441,98 @@ module.exports = class ZcFocusLineageClosurePlugin extends Plugin {
     const allMd = this.app.vault.getMarkdownFiles();
     const sqlFiles = allMd.filter((f) => isSqlNote(this.app, f));
 
-    // Remove fixed focus tag first from ALL #sql notes
-    for (const f of sqlFiles) {
-      await removeTagFromFrontmatter(this.app, f, FOCUS_TAG);
-    }
+    await this.cleanupTags(sqlFiles);
 
-    // Build child->parents map once (resolved to file paths)
-    const childToParents = await buildChildToParentsMap(this.app, sqlFiles);
+    const objMap = await buildChildToParentsMap(this.app, sqlFiles, LINEAGE_MODES.object);
 
-    // Compute correct scope with downstream scan+cache
     const { closure, capped, upstreamCount, downstreamCount } =
-      computeScopedClosureWithScanningDownstream(startFile.path, childToParents, this.settings.maxNodes);
+      computeScopedClosureWithScanningDownstream(startFile.path, objMap, this.settings.maxNodes);
 
-    if (capped) {
-      new Notice(`Warning: scope hit max cap (${this.settings.maxNodes}). Tagged partial set.`);
-    }
-
-    // Apply focus tag to closure nodes (SQL-only)
     for (const p of closure) {
       const f = this.app.vault.getAbstractFileByPath(p);
-      if (!(f instanceof TFile)) continue;
-      if (f.extension !== "md") continue;
-      if (!isSqlNote(this.app, f)) continue;
-      await addTagToFrontmatter(this.app, f, FOCUS_TAG);
+      if (f instanceof TFile && f.extension === "md" && isSqlNote(this.app, f)) {
+        await addTagToFrontmatter(this.app, f, LINEAGE_MODES.object.resultTag);
+      }
     }
 
-    // Auto-filter graph
-    // If you want to also require sql, change to: const filter = "tag:#sql tag:#focus";
-    const filter = focusTagToFilterQuery(FOCUS_TAG);
+    const filter = tagToGraphFilter(LINEAGE_MODES.object.resultTag);
     const graphSet = await this.trySetNativeGraphFilter(filter);
 
     const detail = `U:${upstreamCount} D:${downstreamCount} Total:${closure.size}`;
-    if (graphSet) {
-      new Notice(`Tagged ${closure.size} notes with #${FOCUS_TAG} (${detail}) and set Graph filter.`);
-    } else {
-      new Notice(`Tagged ${closure.size} notes with #${FOCUS_TAG} (${detail}). Set Graph filter to: ${filter}`);
-    }
-  }
+    new Notice(
+      graphSet
+        ? `Tagged ${closure.size} notes with #${LINEAGE_MODES.object.resultTag} (${detail}) and set Graph filter.`
+        : `Tagged ${closure.size} notes with #${LINEAGE_MODES.object.resultTag} (${detail}). Set Graph filter to: ${filter}`
+    );
 
-  async clearLineageFocus() {
-    const allMd = this.app.vault.getMarkdownFiles();
-    const sqlFiles = allMd.filter((f) => isSqlNote(this.app, f));
-
-    for (const f of sqlFiles) {
-      await removeTagFromFrontmatter(this.app, f, FOCUS_TAG);
-    }
-
-    const desired = this.settings.resetGraphFilterToSql ? "tag:#sql" : "";
-    const ok = await this.trySetNativeGraphFilter(desired);
-
-    new Notice(ok ? "Cleared lineage focus and reset Graph filter." : "Cleared lineage focus. Graph filter not changed.");
+    if (capped) new Notice(`Warning: hit max cap (${this.settings.maxNodes}).`);
   }
 
   /**
-   * Best-effort Graph filter setter (no stable public API exists).
-   * 1) ensure graph leaf exists & is active
-   * 2) try leaf.setViewState with common keys
-   * 3) try internal setters
-   * 4) DOM fallback inside the leaf
+   * Data mode (new requested behavior):
+   * 1) tag #lineage/data on data-closure (up+down on data graph)
+   * 2) then tag #lineage/object on ALL upstream object ancestors of every node in that data closure
+   */
+  async runDataPlusObjectAncestorsFromFile(startFile) {
+    if (!(startFile instanceof TFile) || startFile.extension !== "md") {
+      new Notice("Target is not a markdown file.");
+      return;
+    }
+    if (!isSqlNote(this.app, startFile)) {
+      new Notice("Target note is not tagged #sql. No action taken.");
+      return;
+    }
+
+    const allMd = this.app.vault.getMarkdownFiles();
+    const sqlFiles = allMd.filter((f) => isSqlNote(this.app, f));
+
+    await this.cleanupTags(sqlFiles);
+
+    // Build both graphs once
+    const dataMap = await buildChildToParentsMap(this.app, sqlFiles, LINEAGE_MODES.data);
+    const objMap = await buildChildToParentsMap(this.app, sqlFiles, LINEAGE_MODES.object);
+
+    // Phase 1: data closure
+    const dataRes =
+      computeScopedClosureWithScanningDownstream(startFile.path, dataMap, this.settings.maxNodes);
+
+    // Tag lineage/data for data closure nodes
+    for (const p of dataRes.closure) {
+      const f = this.app.vault.getAbstractFileByPath(p);
+      if (f instanceof TFile && f.extension === "md" && isSqlNote(this.app, f)) {
+        await addTagToFrontmatter(this.app, f, LINEAGE_MODES.data.resultTag);
+      }
+    }
+
+    // Phase 2: object ancestors upstream for every data node in scope
+    const ancRes =
+      computeUpstreamAncestorsForSet(dataRes.closure, objMap, this.settings.maxNodes);
+
+    for (const p of ancRes.ancestors) {
+      const f = this.app.vault.getAbstractFileByPath(p);
+      if (f instanceof TFile && f.extension === "md" && isSqlNote(this.app, f)) {
+        await addTagToFrontmatter(this.app, f, LINEAGE_MODES.object.resultTag);
+      }
+    }
+
+    // Graph filter: show BOTH tags. (If OR isn't supported on your build, set manually.)
+    const combinedFilter = `${tagToGraphFilter(LINEAGE_MODES.data.resultTag)} OR ${tagToGraphFilter(LINEAGE_MODES.object.resultTag)}`;
+    const graphSet = await this.trySetNativeGraphFilter(combinedFilter);
+
+    const detail = `Data(U:${dataRes.upstreamCount} D:${dataRes.downstreamCount} T:${dataRes.closure.size}) + ObjAnc:${ancRes.ancestors.size}`;
+    new Notice(
+      graphSet
+        ? `Tagged data scope + object ancestors (${detail}) and set Graph filter.`
+        : `Tagged data scope + object ancestors (${detail}). Set Graph filter to: ${combinedFilter}`
+    );
+
+    if (dataRes.capped || ancRes.capped) {
+      new Notice(`Warning: hit max cap (${this.settings.maxNodes}).`);
+    }
+  }
+
+  /**
+   * Best-effort graph filter setter (Obsidian has no stable public API for this).
    */
   async trySetNativeGraphFilter(filter) {
     const getGraphLeaf = () => {
@@ -482,12 +570,7 @@ module.exports = class ZcFocusLineageClosurePlugin extends Plugin {
         const curState = (cur && cur.state) ? cur.state : {};
         const next = {
           ...cur,
-          state: {
-            ...curState,
-            filter: filter,
-            query: filter,
-            searchQuery: filter
-          }
+          state: { ...curState, filter, query: filter, searchQuery: filter }
         };
         await leaf.setViewState(next, { focus: true });
         return true;
@@ -496,27 +579,11 @@ module.exports = class ZcFocusLineageClosurePlugin extends Plugin {
 
     // 2) Internal setters
     try {
-      if (typeof view.setFilter === "function") {
-        view.setFilter(filter);
-        return true;
-      }
-      if (typeof view.setQuery === "function") {
-        view.setQuery(filter);
-        return true;
-      }
-      if (view.dataEngine && typeof view.dataEngine.setQuery === "function") {
-        view.dataEngine.setQuery(filter);
-        return true;
-      }
-      if (view.graph && typeof view.graph.setQuery === "function") {
-        view.graph.setQuery(filter);
-        return true;
-      }
-      if (view.data && typeof view.onChangeFilter === "function") {
-        view.data.filter = filter;
-        view.onChangeFilter();
-        return true;
-      }
+      if (typeof view.setFilter === "function") { view.setFilter(filter); return true; }
+      if (typeof view.setQuery === "function") { view.setQuery(filter); return true; }
+      if (view.dataEngine && typeof view.dataEngine.setQuery === "function") { view.dataEngine.setQuery(filter); return true; }
+      if (view.graph && typeof view.graph.setQuery === "function") { view.graph.setQuery(filter); return true; }
+      if (view.data && typeof view.onChangeFilter === "function") { view.data.filter = filter; view.onChangeFilter(); return true; }
     } catch (_) {}
 
     // 3) DOM fallback
@@ -553,10 +620,7 @@ module.exports = class ZcFocusLineageClosurePlugin extends Plugin {
         const st = window.getComputedStyle(inp);
         if (st.display === "none" || st.visibility === "hidden") continue;
         const sc = score(inp);
-        if (sc > bestScore) {
-          bestScore = sc;
-          best = inp;
-        }
+        if (sc > bestScore) { bestScore = sc; best = inp; }
       }
 
       if (!best) {

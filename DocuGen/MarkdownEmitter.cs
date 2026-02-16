@@ -8,9 +8,10 @@ namespace DocuGen
 {
     internal static class MarkdownEmitter
     {
-        const string ParentSectionTitle = "## zc-plugin-parent-node";
+        const string ParentSectionObject = "## zc-plugin-parent-node";
+        const string ParentSectionData = "## zc-plugin-parent-node-data";
 
-        // IMPORTANT: no BOM. Many simple frontmatter scanners fail if file starts with \uFEFF---.
+        // IMPORTANT: no BOM.
         static readonly Encoding Utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 
         public static void Emit(string outRoot, Catalog cat)
@@ -48,6 +49,7 @@ namespace DocuGen
 
         static string Yaml(string key, string type, string db)
         {
+            // Generator-owned stable tags only. Plugin adds lineage/* tags at runtime.
             var tags = new[] { "sql", $"db/{db}", $"type/{type}" };
 
             var sb = new StringBuilder();
@@ -63,24 +65,21 @@ namespace DocuGen
 
         static string EscapeYamlTag(string t)
         {
-            // YAML inline list: quote only when necessary
             if (t.Any(ch => char.IsWhiteSpace(ch) || ch == ':' || ch == '[' || ch == ']' || ch == ',' || ch == '"' || ch == '\''))
                 return $"\"{t.Replace("\"", "\\\"")}\"";
             return t;
         }
 
-        static void EmitParentSection(StringBuilder sb, IEnumerable<string> parents)
+        static void EmitParentSection(StringBuilder sb, string header, IEnumerable<string> parents)
         {
-            sb.AppendLine(ParentSectionTitle);
-
-            // Parent section must contain ONLY wikilinks. If there are no parents, emit nothing after the header.
+            // Always emit headings even when empty.
+            sb.AppendLine(header);
             foreach (var p in parents.Where(x => !string.IsNullOrWhiteSpace(x))
                                      .Distinct(StringComparer.OrdinalIgnoreCase)
                                      .OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
             {
                 sb.AppendLine($"- [[{p}]]");
             }
-
             sb.AppendLine();
         }
 
@@ -90,18 +89,17 @@ namespace DocuGen
             sb.Append(Yaml(db, "database", db));
             sb.AppendLine($"# {db}");
             sb.AppendLine();
-            sb.AppendLine("## Schemas");
 
+            sb.AppendLine("## Schemas");
             foreach (var s in cat.Schemas.Where(x => db.Equals(x.Db, StringComparison.OrdinalIgnoreCase))
                                          .Select(x => x.Schema)
                                          .Distinct(StringComparer.OrdinalIgnoreCase)
                                          .OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
                 sb.AppendLine($"- [[{db}.{s}]]");
-
             sb.AppendLine();
 
-            // DB has no containment parent.
-            EmitParentSection(sb, Array.Empty<string>());
+            EmitParentSection(sb, ParentSectionObject, Array.Empty<string>());
+            EmitParentSection(sb, ParentSectionData, Array.Empty<string>());
 
             return sb.ToString();
         }
@@ -121,11 +119,13 @@ namespace DocuGen
                      .OrderBy(o => o.Type)
                      .ThenBy(o => o.Name, StringComparer.OrdinalIgnoreCase))
                 sb.AppendLine($"- [[{o.Key}]]");
-
             sb.AppendLine();
 
-            // IMPORTANT FIX: schema containment parent belongs in plugin parent section.
-            EmitParentSection(sb, new[] { db });
+            // Object graph containment
+            EmitParentSection(sb, ParentSectionObject, new[] { db });
+
+            // Data graph: schema has no data parents
+            EmitParentSection(sb, ParentSectionData, Array.Empty<string>());
 
             return sb.ToString();
         }
@@ -144,7 +144,6 @@ namespace DocuGen
             sb.AppendLine($"- Type: `{o.Type}`");
             sb.AppendLine();
 
-            // Embed defining SQL (canonical script) when available.
             if (!string.IsNullOrWhiteSpace(o.DefinitionSql))
             {
                 sb.AppendLine("## Definition");
@@ -163,28 +162,24 @@ namespace DocuGen
                              o.Name.Equals(c.Table, StringComparison.OrdinalIgnoreCase))
                          .OrderBy(c => c.Name, StringComparer.OrdinalIgnoreCase))
                     sb.AppendLine($"- [[{c.Key}]]");
-
                 sb.AppendLine();
 
-                // IMPORTANT FIX: table containment parent belongs in plugin parent section.
-                EmitParentSection(sb, new[] { schemaKey });
-
+                EmitParentSection(sb, ParentSectionObject, new[] { schemaKey });
+                // Data graph: include upstream tables/cols and loader procs when populated.
+                EmitParentSection(sb, ParentSectionData, o.DataParents);
                 return sb.ToString();
             }
 
-            // For non-tables, include containment parent + lineage parents.
-            var parents = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-            {
-                schemaKey // IMPORTANT FIX: object containment parent
-            };
+            // Object lineage parents: containment + object deps (keep columns out to avoid wide closure)
+            var objParents = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { schemaKey };
+            objParents.UnionWith(o.ReadsObjects);
+            objParents.UnionWith(o.WritesObjects);
+            objParents.UnionWith(o.CallsObjects);
 
-            parents.UnionWith(o.ReadsObjects);
-            parents.UnionWith(o.WritesObjects);
-            parents.UnionWith(o.CallsObjects);
-            parents.UnionWith(o.ReadsColumns);
-            parents.UnionWith(o.WritesColumns);
+            EmitParentSection(sb, ParentSectionObject, objParents);
 
-            EmitParentSection(sb, parents);
+            // Data lineage: include upstream tables/cols when populated.
+            EmitParentSection(sb, ParentSectionData, o.DataParents);
 
             return sb.ToString();
         }
@@ -198,10 +193,12 @@ namespace DocuGen
             sb.AppendLine($"- Table: [[{c.Db}.{c.Schema}.{c.Table}]]");
             sb.AppendLine();
 
-            // Column containment parent: table.
-            EmitParentSection(sb, new[] { $"{c.Db}.{c.Schema}.{c.Table}" });
+            // Object graph: containment
+            EmitParentSection(sb, ParentSectionObject, new[] { $"{c.Db}.{c.Schema}.{c.Table}" });
 
-            sb.AppendLine("> Use backlinks to see which procs/views/functions reference this column.");
+            // Data graph: true column lineage parents (upstream columns)
+            EmitParentSection(sb, ParentSectionData, c.DataParents);
+
             return sb.ToString();
         }
 

@@ -3,7 +3,6 @@ tags:
   - sql
   - db/Staging
   - type/column
-  - focus
 docugen_key: Staging.dbo.transaction.amount
 docugen_type: column
 docugen_db: Staging
@@ -16,4 +15,7 @@ docugen_db: Staging
 ## zc-plugin-parent-node
 - [[Staging.dbo.transaction]]
 
-> Use backlinks to see which procs/views/functions reference this column.
+## zc-plugin-parent-node-data
+- [[ETL.SourceToStage.usp_Load_Transaction_FromXml]]
+- [[Staging.dbo.transaction]]
+

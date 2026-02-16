@@ -3,7 +3,6 @@ tags:
   - sql
   - db/ETL
   - type/proc
-  - focus
 docugen_key: ETL.SourceToStage.usp_Load_Transaction_FromXml
 docugen_type: proc
 docugen_db: ETL
@@ -44,11 +43,6 @@ END
 ## zc-plugin-parent-node
 - [[ETL.SourceToStage]]
 - [[Staging.dbo.transaction]]
-- [[Staging.dbo.transaction.account_number]]
-- [[Staging.dbo.transaction.amount]]
-- [[Staging.dbo.transaction.description]]
-- [[Staging.dbo.transaction.row_hash]]
-- [[Staging.dbo.transaction.source_file_name]]
-- [[Staging.dbo.transaction.transaction_date]]
-- [[Staging.dbo.transaction.transaction_number]]
+
+## zc-plugin-parent-node-data
 

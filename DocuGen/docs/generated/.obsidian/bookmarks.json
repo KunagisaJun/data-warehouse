@@ -1,0 +1,74 @@
+{
+  "items": [
+    {
+      "type": "graph",
+      "ctime": 1771251257047,
+      "title": "DefaultView",
+      "options": {
+        "collapse-filter": true,
+        "search": "",
+        "showTags": false,
+        "showAttachments": false,
+        "hideUnresolved": false,
+        "showOrphans": true,
+        "collapse-color-groups": true,
+        "colorGroups": [
+          {
+            "query": "tag:#type/database  ",
+            "color": {
+              "a": 1,
+              "rgb": 16711680
+            }
+          },
+          {
+            "query": "tag:#type/schema  ",
+            "color": {
+              "a": 1,
+              "rgb": 16744192
+            }
+          },
+          {
+            "query": "tag:#type/table",
+            "color": {
+              "a": 1,
+              "rgb": 16776960
+            }
+          },
+          {
+            "query": "tag:#type/views",
+            "color": {
+              "a": 1,
+              "rgb": 8388352
+            }
+          },
+          {
+            "query": "tag:#type/proc",
+            "color": {
+              "a": 1,
+              "rgb": 65280
+            }
+          },
+          {
+            "query": "tag:#type/column",
+            "color": {
+              "a": 1,
+              "rgb": 65535
+            }
+          }
+        ],
+        "collapse-display": true,
+        "showArrow": false,
+        "textFadeMultiplier": 0,
+        "nodeSizeMultiplier": 1,
+        "lineSizeMultiplier": 1,
+        "collapse-forces": true,
+        "centerStrength": 0.425155925155925,
+        "repelStrength": 12.4116424116424,
+        "linkStrength": 1,
+        "linkDistance": 250,
+        "scale": 0.2579747140332364,
+        "close": false
+      }
+    }
+  ]
+}

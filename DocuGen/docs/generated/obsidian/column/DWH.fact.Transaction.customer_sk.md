@@ -15,4 +15,7 @@ docugen_db: DWH
 ## zc-plugin-parent-node
 - [[DWH.fact.Transaction]]
 
-> Use backlinks to see which procs/views/functions reference this column.
+## zc-plugin-parent-node-data
+- [[DWH.fact.Transaction]]
+- [[ETL.ODSToDWH.usp_Load_FactTransaction]]
+

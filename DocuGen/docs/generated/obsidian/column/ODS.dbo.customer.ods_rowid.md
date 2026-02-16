@@ -15,4 +15,5 @@ docugen_db: ODS
 ## zc-plugin-parent-node
 - [[ODS.dbo.customer]]
 
-> Use backlinks to see which procs/views/functions reference this column.
+## zc-plugin-parent-node-data
+

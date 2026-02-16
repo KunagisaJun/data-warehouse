@@ -3,6 +3,8 @@ tags:
   - sql
   - db/DWH
   - type/table
+  - lineage/data
+  - lineage/object
 docugen_key: DWH.dim.Customer
 docugen_type: table
 docugen_db: DWH
@@ -44,4 +46,8 @@ CREATE TABLE [dim].[Customer] (
 
 ## zc-plugin-parent-node
 - [[DWH.dim]]
+
+## zc-plugin-parent-node-data
+- [[ETL.ODSToDWH.usp_Load_DimCustomer]]
+- [[ODS.dbo.customer]]
 

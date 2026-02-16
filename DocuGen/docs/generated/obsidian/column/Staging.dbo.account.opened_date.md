@@ -15,4 +15,7 @@ docugen_db: Staging
 ## zc-plugin-parent-node
 - [[Staging.dbo.account]]
 
-> Use backlinks to see which procs/views/functions reference this column.
+## zc-plugin-parent-node-data
+- [[ETL.SourceToStage.usp_Load_Account_FromXml]]
+- [[Staging.dbo.account]]
+
