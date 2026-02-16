@@ -10,6 +10,9 @@ namespace DocuGen
     {
         const string ParentSectionTitle = "## zc-plugin-parent-node";
 
+        // IMPORTANT: no BOM. Many simple frontmatter scanners fail if file starts with \uFEFF---.
+        static readonly Encoding Utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+
         public static void Emit(string outRoot, Catalog cat)
         {
             var dbDir = Path.Combine(outRoot, "database");
@@ -25,8 +28,9 @@ namespace DocuGen
             foreach (var db in cat.Databases.OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
                 Write(Path.Combine(dbDir, $"{NameNorm.SafeFile(db)}.md"), RenderDb(db, cat));
 
-            foreach (var s in cat.Schemas.OrderBy(x => x.Db, StringComparer.OrdinalIgnoreCase)
-                                         .ThenBy(x => x.Schema, StringComparer.OrdinalIgnoreCase))
+            foreach (var s in cat.Schemas
+                                 .OrderBy(x => x.Db, StringComparer.OrdinalIgnoreCase)
+                                 .ThenBy(x => x.Schema, StringComparer.OrdinalIgnoreCase))
                 Write(Path.Combine(schemaDir, $"{NameNorm.SafeFile($"{s.Db}.{s.Schema}")}.md"),
                     RenderSchema(s.Db, s.Schema, cat));
 
@@ -59,10 +63,25 @@ namespace DocuGen
 
         static string EscapeYamlTag(string t)
         {
-            // YAML inline list: safest to quote if special chars exist.
+            // YAML inline list: quote only when necessary
             if (t.Any(ch => char.IsWhiteSpace(ch) || ch == ':' || ch == '[' || ch == ']' || ch == ',' || ch == '"' || ch == '\''))
                 return $"\"{t.Replace("\"", "\\\"")}\"";
             return t;
+        }
+
+        static void EmitParentSection(StringBuilder sb, IEnumerable<string> parents)
+        {
+            sb.AppendLine(ParentSectionTitle);
+
+            // Parent section must contain ONLY wikilinks. If there are no parents, emit nothing after the header.
+            foreach (var p in parents.Where(x => !string.IsNullOrWhiteSpace(x))
+                                     .Distinct(StringComparer.OrdinalIgnoreCase)
+                                     .OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
+            {
+                sb.AppendLine($"- [[{p}]]");
+            }
+
+            sb.AppendLine();
         }
 
         static string RenderDb(string db, Catalog cat)
@@ -80,9 +99,9 @@ namespace DocuGen
                 sb.AppendLine($"- [[{db}.{s}]]");
 
             sb.AppendLine();
-            sb.AppendLine(ParentSectionTitle);
-            sb.AppendLine("- _(none)_");
-            sb.AppendLine();
+
+            // DB has no containment parent.
+            EmitParentSection(sb, Array.Empty<string>());
 
             return sb.ToString();
         }
@@ -94,10 +113,8 @@ namespace DocuGen
             sb.Append(Yaml(key, "schema", db));
             sb.AppendLine($"# {db}.{schema}");
             sb.AppendLine();
-            sb.AppendLine($"- [[{db}]]");
-            sb.AppendLine();
-            sb.AppendLine("## Objects");
 
+            sb.AppendLine("## Objects");
             foreach (var o in cat.Objects.Values.Where(o =>
                          db.Equals(o.Db, StringComparison.OrdinalIgnoreCase) &&
                          schema.Equals(o.Schema, StringComparison.OrdinalIgnoreCase))
@@ -106,9 +123,9 @@ namespace DocuGen
                 sb.AppendLine($"- [[{o.Key}]]");
 
             sb.AppendLine();
-            sb.AppendLine(ParentSectionTitle);
-            sb.AppendLine("- _(none)_");
-            sb.AppendLine();
+
+            // IMPORTANT FIX: schema containment parent belongs in plugin parent section.
+            EmitParentSection(sb, new[] { db });
 
             return sb.ToString();
         }
@@ -116,13 +133,26 @@ namespace DocuGen
         static string RenderObject(SqlObject o, Catalog cat)
         {
             var typeTag = o.Type.ToString().ToLowerInvariant();
+            var schemaKey = $"{o.Db}.{o.Schema}";
+
             var sb = new StringBuilder();
             sb.Append(Yaml(o.Key, typeTag, o.Db));
             sb.AppendLine($"# {o.Key}");
             sb.AppendLine();
-            sb.AppendLine($"- Schema: [[{o.Db}.{o.Schema}]]");
+
+            sb.AppendLine($"- Schema: [[{schemaKey}]]");
             sb.AppendLine($"- Type: `{o.Type}`");
             sb.AppendLine();
+
+            // Embed defining SQL (canonical script) when available.
+            if (!string.IsNullOrWhiteSpace(o.DefinitionSql))
+            {
+                sb.AppendLine("## Definition");
+                sb.AppendLine("```sql");
+                sb.AppendLine(o.DefinitionSql.TrimEnd());
+                sb.AppendLine("```");
+                sb.AppendLine();
+            }
 
             if (o.Type == SqlObjectType.Table)
             {
@@ -135,32 +165,26 @@ namespace DocuGen
                     sb.AppendLine($"- [[{c.Key}]]");
 
                 sb.AppendLine();
-                sb.AppendLine(ParentSectionTitle);
-                sb.AppendLine("- _(none)_");
-                sb.AppendLine();
+
+                // IMPORTANT FIX: table containment parent belongs in plugin parent section.
+                EmitParentSection(sb, new[] { schemaKey });
 
                 return sb.ToString();
             }
 
-            // Parent lineage = everything this object references directly.
-            var parents = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            // For non-tables, include containment parent + lineage parents.
+            var parents = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                schemaKey // IMPORTANT FIX: object containment parent
+            };
+
             parents.UnionWith(o.ReadsObjects);
             parents.UnionWith(o.WritesObjects);
             parents.UnionWith(o.CallsObjects);
             parents.UnionWith(o.ReadsColumns);
             parents.UnionWith(o.WritesColumns);
 
-            sb.AppendLine(ParentSectionTitle);
-            if (parents.Count == 0)
-            {
-                sb.AppendLine("- _(none detected)_");
-            }
-            else
-            {
-                foreach (var k in parents.OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
-                    sb.AppendLine($"- [[{k}]]");
-            }
-            sb.AppendLine();
+            EmitParentSection(sb, parents);
 
             return sb.ToString();
         }
@@ -174,15 +198,14 @@ namespace DocuGen
             sb.AppendLine($"- Table: [[{c.Db}.{c.Schema}.{c.Table}]]");
             sb.AppendLine();
 
-            // Critical: make column -> table a "parent" edge so closure includes columns.
-            sb.AppendLine(ParentSectionTitle);
-            sb.AppendLine($"- [[{c.Db}.{c.Schema}.{c.Table}]]");
-            sb.AppendLine();
+            // Column containment parent: table.
+            EmitParentSection(sb, new[] { $"{c.Db}.{c.Schema}.{c.Table}" });
 
             sb.AppendLine("> Use backlinks to see which procs/views/functions reference this column.");
             return sb.ToString();
         }
 
-        static void Write(string path, string content) => File.WriteAllText(path, content, Encoding.UTF8);
+        static void Write(string path, string content) =>
+            File.WriteAllText(path, content, Utf8NoBom);
     }
 }

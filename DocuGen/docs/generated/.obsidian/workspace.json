@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "a42dace1050edd03",
+        "id": "d0c593ec3d0ed993",
         "type": "tabs",
         "children": [
           {
-            "id": "ee9f558d20c0849f",
+            "id": "bc65805d389a6832",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -49,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "focus",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -70,11 +70,13 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "42da1d0904361ad4",
@@ -164,7 +166,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -177,46 +180,46 @@
       "bases:Create new base": false
     }
   },
-  "active": "ee9f558d20c0849f",
+  "active": "bc65805d389a6832",
   "lastOpenFiles": [
-    "obsidian/object/table/Staging.dbo.customer.md",
-    "obsidian/column/Staging.dbo.customer.load_dts.md",
-    "2026-02-15.md",
-    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_All.md",
-    "Untitled 1.canvas",
-    "Untitled.canvas",
-    "Untitled 2.canvas",
-    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Customer.md",
-    "obsidian/schema/Staging.dbo.md",
-    "obsidian/database/DWH.md",
-    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimAccount.md",
-    "obsidian/column",
-    "obsidian/object",
-    "obsidian/schema",
     "obsidian/database/Staging.md",
-    "obsidian/database/ODS.md",
-    "obsidian/database/ETL.md",
-    "obsidian/database",
-    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Transaction.md",
     "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Account.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Transaction_FromXml.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_LoadAll_FromVendor.md",
+    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Customer_FromXml.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_LoadAll_ODSToDWH.md",
+    "obsidian/schema/Staging.dbo.md",
+    "obsidian/database/ETL.md",
+    "obsidian/schema/ETL.ODSToDWH.md",
     "obsidian/object/table/Staging.dbo.transaction.md",
+    "obsidian/object/table/Staging.dbo.customer.md",
     "obsidian/object/table/Staging.dbo.account.md",
     "obsidian/object/table/ODS.dbo.transaction.md",
     "obsidian/object/table/ODS.dbo.customer.md",
     "obsidian/object/table/ODS.dbo.account.md",
     "obsidian/object/table/DWH.fact.Transaction.md",
     "obsidian/object/table/DWH.dim.Date.md",
-    "obsidian/object/table/DWH.dim.Account.md",
     "obsidian/object/table/DWH.dim.Customer.md",
+    "obsidian/object/table/DWH.dim.Account.md",
     "obsidian/object/table",
-    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Transaction_FromXml.md",
-    "obsidian/object/proc/ETL.SourceToStage.usp_Load_Customer_FromXml.md",
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Transaction.md",
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_Customer.md",
+    "obsidian/object/proc/ETL.StageToODS.usp_StageToODS_All.md",
     "obsidian/object/proc/ETL.SourceToStage.usp_Load_Account_FromXml.md",
-    "obsidian/object/proc/ETL.SourceToStage.usp_LoadAll_FromVendor.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_FactTransaction.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimDate.md",
+    "obsidian/object/proc/ETL.ODSToDWH.usp_Load_DimCustomer.md",
     "obsidian/object/proc",
-    "obsidian/edges/write/ETL",
-    "obsidian/edges/write",
-    "obsidian/edges/call/ETL",
-    "obsidian/edges/call"
+    "obsidian/column",
+    "obsidian/object",
+    "obsidian/schema",
+    "obsidian/database",
+    "obsidian/md.zip",
+    "obsidian/database.zip",
+    "obsidian",
+    "Untitled 1.canvas",
+    "Untitled.canvas",
+    "Untitled 2.canvas",
+    "obsidian/edges/write/ETL"
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "id": "zc-focus-lineage-closure",
+  "name": "Focus Lineage Closure (Native Graph)",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Focus the native global Graph to the upstream+downstream lineage closure of the active SQL note using only the zc-plugin-parent-node section and YAML tags.",
+  "author": "You",
+  "isDesktopOnly": true
+}

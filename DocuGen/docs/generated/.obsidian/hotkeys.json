@@ -1,0 +1,22 @@
+{
+  "zc-focus-lineage-closure:focus-lineage-closure": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod",
+        "Shift"
+      ],
+      "key": "F"
+    }
+  ],
+  "zc-focus-lineage-closure:clear-lineage-focus": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod",
+        "Shift"
+      ],
+      "key": "C"
+    }
+  ]
+}

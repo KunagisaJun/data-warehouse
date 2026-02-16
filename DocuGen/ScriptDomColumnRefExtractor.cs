@@ -18,17 +18,24 @@ namespace DocuGen
                     var frag = Parse(file);
                     if (frag == null) continue;
 
+                    // Identify definitions in the file. We keep a pointer to the statement node so that
+                    // if a file defines multiple objects, we attribute references to the correct one.
                     var defs = new DefinitionVisitor(currentDb);
                     frag.Accept(defs);
-                    if (defs.DefinedKeys.Count == 0) continue;
+                    if (defs.Definitions.Count == 0) continue;
 
-                    var edges = new EdgeVisitor(cat, currentDb);
-                    frag.Accept(edges);
-
-                    foreach (var defKey in defs.DefinedKeys)
+                    foreach (var def in defs.Definitions)
                     {
-                        if (!cat.Objects.TryGetValue(defKey, out var obj)) continue;
+                        if (!cat.Objects.TryGetValue(def.Key, out var obj)) continue;
+
+                        // Capture canonical definition SQL for defined objects.
+                        obj.DefinitionSql ??= def.DefinitionSql;
+
+                        // Tables don't reference upstream nodes (by design), but still get DefinitionSql.
                         if (obj.Type == SqlObjectType.Table) continue;
+
+                        var edges = new EdgeVisitor(cat, currentDb);
+                        def.Statement.Accept(edges);
 
                         obj.ReadsObjects.UnionWith(edges.ReadObjects);
                         obj.WritesObjects.UnionWith(edges.WriteObjects);
@@ -45,28 +52,62 @@ namespace DocuGen
         {
             var parser = new TSql150Parser(true);
             var frag = parser.Parse(new StringReader(File.ReadAllText(path)), out var errors);
-            return errors.Count == 0 ? frag : null;
+            if (errors.Count == 0) return frag;
+
+            // Fail soft per-file, but make the failure visible.
+            try
+            {
+                Console.Error.WriteLine($"[DocuGen] ScriptDom parse errors in {path}:");
+                var n = Math.Min(errors.Count, 5);
+                for (var i = 0; i < n; i++)
+                    Console.Error.WriteLine($"  - {errors[i].Message} (line {errors[i].Line}, col {errors[i].Column})");
+                if (errors.Count > n) Console.Error.WriteLine($"  - ... and {errors.Count - n} more");
+            }
+            catch { /* avoid secondary failures in error reporting */ }
+
+            return null;
         }
 
         sealed class DefinitionVisitor : TSqlFragmentVisitor
         {
             readonly string _db;
-            public HashSet<string> DefinedKeys { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+            public List<(string Key, TSqlStatement Statement, string DefinitionSql)> Definitions { get; } = new();
+
+            static readonly Sql150ScriptGenerator ScriptGen = new(new SqlScriptGeneratorOptions
+            {
+                KeywordCasing = KeywordCasing.Uppercase,
+                IncludeSemicolons = true
+            });
 
             public DefinitionVisitor(string db) => _db = db;
 
-            public override void Visit(CreateProcedureStatement node) => Add(node.ProcedureReference?.Name);
-            public override void Visit(CreateViewStatement node) => Add(node.SchemaObjectName);
-            public override void Visit(CreateFunctionStatement node) => Add(node.Name);
-            public override void Visit(CreateTableStatement node) => Add(node.SchemaObjectName);
+            public override void Visit(CreateProcedureStatement node) => Add(node.ProcedureReference?.Name, node);
+            public override void Visit(CreateViewStatement node) => Add(node.SchemaObjectName, node);
+            public override void Visit(CreateFunctionStatement node) => Add(node.Name, node);
+            public override void Visit(CreateTableStatement node) => Add(node.SchemaObjectName, node);
 
-            void Add(SchemaObjectName? n)
+            void Add(SchemaObjectName? n, TSqlStatement stmt)
             {
                 if (n == null) return;
                 var schema = n.SchemaIdentifier?.Value ?? "dbo";
                 var name = n.BaseIdentifier?.Value ?? "";
                 if (name.Length == 0) return;
-                DefinedKeys.Add($"{_db}.{schema}.{name}");
+
+                var key = $"{_db}.{schema}.{name}";
+
+                // Generate a canonical script for just the defining statement.
+                string defSql;
+                try
+                {
+                    ScriptGen.GenerateScript(stmt, out defSql);
+                }
+                catch
+                {
+                    defSql = string.Empty;
+                }
+
+                Definitions.Add((key, stmt, defSql ?? string.Empty));
             }
         }
 
@@ -217,6 +258,18 @@ namespace DocuGen
                     return;
                 }
 
+                // Unqualified column: resolve conservatively using the current alias scope and catalog.
+                // Only emit a reference if there is exactly one catalog-known candidate.
+                if (ids.Count == 1)
+                {
+                    var col = ids[0].Value;
+                    if (!col.StartsWith("@", StringComparison.Ordinal) && TryResolveUnqualifiedColumn(col, out var resolved))
+                        AddCol(ReadColumns, resolved.Db, resolved.Schema, resolved.Table, col);
+
+                    base.Visit(node);
+                    return;
+                }
+
                 base.Visit(node);
             }
 
@@ -312,6 +365,10 @@ namespace DocuGen
                 if (parts.Count == 2)
                     return (_currentDb, parts[0].Value, parts[1].Value);
 
+                // Unqualified table name: assume dbo.<name> in current database.
+                if (parts.Count == 1)
+                    return (_currentDb, "dbo", parts[0].Value);
+
                 return null;
             }
 
@@ -326,7 +383,45 @@ namespace DocuGen
                 if (parts.Count == 2)
                     return (_currentDb, parts[0].Value, parts[1].Value);
 
+                // Unqualified object name: assume dbo.<name> in current database.
+                if (parts.Count == 1)
+                    return (_currentDb, "dbo", parts[0].Value);
+
                 return null;
+            }
+
+            bool TryResolveUnqualifiedColumn(string col, out (string Db, string Schema, string Table) resolved)
+            {
+                resolved = default;
+
+                // Collect candidate tables in the current nested alias scopes (innermost first).
+                var candidates = new List<(string Db, string Schema, string Table)>();
+                foreach (var scope in _aliasScopes)
+                {
+                    foreach (var t in scope.Values)
+                        candidates.Add(t);
+                }
+
+                // De-dup.
+                var uniq = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                var hits = new List<(string Db, string Schema, string Table)>();
+
+                foreach (var t in candidates)
+                {
+                    var k = $"{t.Db}.{t.Schema}.{t.Table}";
+                    if (!uniq.Add(k)) continue;
+
+                    if (_cat.Columns.ContainsKey($"{t.Db}.{t.Schema}.{t.Table}.{col}"))
+                        hits.Add(t);
+                }
+
+                if (hits.Count == 1)
+                {
+                    resolved = hits[0];
+                    return true;
+                }
+
+                return false;
             }
         }
 
@@ -346,13 +441,7 @@ namespace DocuGen
                 var alias = node.Alias?.Value;
                 var son = node.SchemaObject;
 
-                if (string.IsNullOrWhiteSpace(alias) || son?.Identifiers == null)
-                {
-                    base.Visit(node);
-                    return;
-                }
-
-                if (alias.StartsWith("@", StringComparison.Ordinal))
+                if (son?.Identifiers == null)
                 {
                     base.Visit(node);
                     return;
@@ -360,10 +449,27 @@ namespace DocuGen
 
                 var parts = son.Identifiers;
 
+                // Resolve the underlying table reference to (db,schema,table)
+                (string Db, string Schema, string Table)? resolved = null;
+
                 if (parts.Count == 3)
-                    _map[alias] = (NameNorm.NormalizeDb(parts[0].Value), parts[1].Value, parts[2].Value);
+                    resolved = (NameNorm.NormalizeDb(parts[0].Value), parts[1].Value, parts[2].Value);
                 else if (parts.Count == 2)
-                    _map[alias] = (_currentDb, parts[0].Value, parts[1].Value);
+                    resolved = (_currentDb, parts[0].Value, parts[1].Value);
+                else if (parts.Count == 1)
+                    resolved = (_currentDb, "dbo", parts[0].Value);
+
+                if (resolved != null)
+                {
+                    // Map explicit alias if present.
+                    if (!string.IsNullOrWhiteSpace(alias) && !alias.StartsWith("@", StringComparison.Ordinal))
+                        _map[alias] = resolved.Value;
+
+                    // Also map the base table name so `Table.Col` qualifies even without an alias.
+                    var baseName = parts[^1].Value;
+                    if (!string.IsNullOrWhiteSpace(baseName) && !_map.ContainsKey(baseName))
+                        _map[baseName] = resolved.Value;
+                }
 
                 base.Visit(node);
             }
