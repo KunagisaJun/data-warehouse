@@ -1,8 +1,11 @@
 ---
-tags: [sql, db/ODS, type/database]
-docugen_key: "ODS"
-docugen_type: "database"
-docugen_db: "ODS"
+tags:
+  - sql
+  - db/ODS
+  - type/database
+docugen_key: ODS
+docugen_type: database
+docugen_db: ODS
 ---
 
 # ODS

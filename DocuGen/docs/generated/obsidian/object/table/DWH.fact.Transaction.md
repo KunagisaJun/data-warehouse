@@ -1,8 +1,12 @@
 ---
-tags: [sql, db/DWH, type/table]
-docugen_key: "DWH.fact.Transaction"
-docugen_type: "table"
-docugen_db: "DWH"
+tags:
+  - sql
+  - db/DWH
+  - type/table
+  - lineage/object
+docugen_key: DWH.fact.Transaction
+docugen_type: table
+docugen_db: DWH
 ---
 
 # DWH.fact.Transaction

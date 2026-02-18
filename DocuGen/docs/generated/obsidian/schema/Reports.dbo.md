@@ -1,8 +1,12 @@
 ---
-tags: [sql, db/Reports, type/schema]
-docugen_key: "Reports.dbo"
-docugen_type: "schema"
-docugen_db: "Reports"
+tags:
+  - sql
+  - db/Reports
+  - type/schema
+  - lineage/object
+docugen_key: Reports.dbo
+docugen_type: schema
+docugen_db: Reports
 ---
 
 # Reports.dbo

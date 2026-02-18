@@ -1,8 +1,11 @@
 ---
-tags: [sql, db/ETL, type/schema]
-docugen_key: "ETL.StageToODS"
-docugen_type: "schema"
-docugen_db: "ETL"
+tags:
+  - sql
+  - db/ETL
+  - type/schema
+docugen_key: ETL.StageToODS
+docugen_type: schema
+docugen_db: ETL
 ---
 
 # ETL.StageToODS

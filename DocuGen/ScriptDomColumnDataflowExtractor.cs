@@ -91,6 +91,12 @@ namespace DocuGen
                 base.Visit(node);
             }
 
+            public override void Visit(SelectStatement node)
+            {
+                HandleSelect(node);
+                base.Visit(node);
+            }
+
             // -------------------------
             // INSERT ... SELECT support
             // -------------------------
@@ -318,6 +324,35 @@ namespace DocuGen
             void AddIfObjectExists(HashSet<string> set, string key)
             {
                 if (_cat.Objects.ContainsKey(key)) set.Add(key);
+            }
+
+            // -------------------------
+            // SELECT-only support
+            // -------------------------
+            // Enrich *object-level* data lineage for any SELECT found inside the owner object
+            // (views, functions, procs). This does not attempt column-to-column mapping (that
+            // requires a modeled target column set, which we only have for tables).
+            void HandleSelect(SelectStatement node)
+            {
+                // Build alias scope for resolving [alias].[col] -> db.schema.table.col.
+                var aliases = AliasScope.Build(node, _currentDb);
+
+                // Collect all referenced source columns anywhere in the SELECT (projection, joins, predicates, etc.).
+                var srcCols = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                node.Accept(new ExprColumnCollector(_cat, aliases, _currentDb, srcCols));
+
+                if (srcCols.Count == 0) return;
+
+                foreach (var c in srcCols)
+                {
+                    // Include upstream columns.
+                    _ownerObject.DataParents.Add(c);
+
+                    // And upstream table objects (keeps data-graph traversals useful).
+                    var tableKey = ColumnKeyToTableKey(c);
+                    if (tableKey != null && _cat.Objects.ContainsKey(tableKey))
+                        _ownerObject.DataParents.Add(tableKey);
+                }
             }
 
             // ---------------------------------------

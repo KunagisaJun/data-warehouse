@@ -1,8 +1,11 @@
 ---
-tags: [sql, db/Staging, type/column]
-docugen_key: "Staging.dbo.transaction.transaction_date"
-docugen_type: "column"
-docugen_db: "Staging"
+tags:
+  - sql
+  - db/Staging
+  - type/column
+docugen_key: Staging.dbo.transaction.transaction_date
+docugen_type: column
+docugen_db: Staging
 ---
 
 # Staging.dbo.transaction.transaction_date

@@ -1,8 +1,11 @@
 ---
-tags: [sql, db/Staging, type/database]
-docugen_key: "Staging"
-docugen_type: "database"
-docugen_db: "Staging"
+tags:
+  - sql
+  - db/Staging
+  - type/database
+docugen_key: Staging
+docugen_type: database
+docugen_db: Staging
 ---
 
 # Staging

@@ -1,8 +1,11 @@
 ---
-tags: [sql, db/Staging, type/table]
-docugen_key: "Staging.dbo.transaction"
-docugen_type: "table"
-docugen_db: "Staging"
+tags:
+  - sql
+  - db/Staging
+  - type/table
+docugen_key: Staging.dbo.transaction
+docugen_type: table
+docugen_db: Staging
 ---
 
 # Staging.dbo.transaction

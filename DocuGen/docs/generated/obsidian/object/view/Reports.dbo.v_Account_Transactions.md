@@ -1,8 +1,12 @@
 ---
-tags: [sql, db/Reports, type/view]
-docugen_key: "Reports.dbo.v_Account_Transactions"
-docugen_type: "view"
-docugen_db: "Reports"
+tags:
+  - sql
+  - db/Reports
+  - type/view
+  - lineage/object
+docugen_key: Reports.dbo.v_Account_Transactions
+docugen_type: view
+docugen_db: Reports
 ---
 
 # Reports.dbo.v_Account_Transactions
@@ -58,4 +62,35 @@ FROM   [$(DWH)].[dim].[Account] AS [dwh_dim_account]
 - [[Reports.dbo]]
 
 ## zc-plugin-parent-node-data
+- [[DWH.dim.Account]]
+- [[DWH.dim.Account.account_number]]
+- [[DWH.dim.Account.account_sk]]
+- [[DWH.dim.Account.account_type]]
+- [[DWH.dim.Account.customer_number]]
+- [[DWH.dim.Account.effective_from]]
+- [[DWH.dim.Account.effective_to]]
+- [[DWH.dim.Account.is_current]]
+- [[DWH.dim.Account.is_deleted]]
+- [[DWH.dim.Account.opened_date]]
+- [[DWH.dim.Account.row_hash]]
+- [[DWH.dim.Account.status]]
+- [[DWH.dim.Date]]
+- [[DWH.dim.Date.date_sk]]
+- [[DWH.dim.Date.date_value]]
+- [[DWH.dim.Date.day_name]]
+- [[DWH.dim.Date.day_number]]
+- [[DWH.dim.Date.day_of_week]]
+- [[DWH.dim.Date.is_weekend]]
+- [[DWH.dim.Date.month_name]]
+- [[DWH.dim.Date.month_number]]
+- [[DWH.dim.Date.quarter_number]]
+- [[DWH.dim.Date.year_number]]
+- [[DWH.fact.Transaction]]
+- [[DWH.fact.Transaction.account_sk]]
+- [[DWH.fact.Transaction.amount]]
+- [[DWH.fact.Transaction.customer_sk]]
+- [[DWH.fact.Transaction.description]]
+- [[DWH.fact.Transaction.row_hash]]
+- [[DWH.fact.Transaction.transaction_date_sk]]
+- [[DWH.fact.Transaction.transaction_number]]
 

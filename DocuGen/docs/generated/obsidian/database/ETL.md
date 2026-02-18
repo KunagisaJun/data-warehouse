@@ -1,8 +1,11 @@
 ---
-tags: [sql, db/ETL, type/database]
-docugen_key: "ETL"
-docugen_type: "database"
-docugen_db: "ETL"
+tags:
+  - sql
+  - db/ETL
+  - type/database
+docugen_key: ETL
+docugen_type: database
+docugen_db: ETL
 ---
 
 # ETL

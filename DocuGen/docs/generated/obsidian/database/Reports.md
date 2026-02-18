@@ -1,8 +1,12 @@
 ---
-tags: [sql, db/Reports, type/database]
-docugen_key: "Reports"
-docugen_type: "database"
-docugen_db: "Reports"
+tags:
+  - sql
+  - db/Reports
+  - type/database
+  - lineage/object
+docugen_key: Reports
+docugen_type: database
+docugen_db: Reports
 ---
 
 # Reports

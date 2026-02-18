@@ -1,8 +1,11 @@
 ---
-tags: [sql, db/ETL, type/proc]
-docugen_key: "ETL.ODSToDWH.usp_Load_DimAccount"
-docugen_type: "proc"
-docugen_db: "ETL"
+tags:
+  - sql
+  - db/ETL
+  - type/proc
+docugen_key: ETL.ODSToDWH.usp_Load_DimAccount
+docugen_type: proc
+docugen_db: ETL
 ---
 
 # ETL.ODSToDWH.usp_Load_DimAccount
